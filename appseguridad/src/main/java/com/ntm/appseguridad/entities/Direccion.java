@@ -1,11 +1,9 @@
-package com.ntm.appseguridad.business.domain;
-
-import java.io.Serializable;
+package com.ntm.appseguridad.entities;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -16,12 +14,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @Data
-public class Direccion implements Serializable {
-    @Id
-    private String id;
+@EqualsAndHashCode(callSuper=false)
+public class Direccion extends Base {
     private String calle;
     private String numeracion;
-    private String eliminado;
     private String latitud;
     private String longitud;
     @ManyToOne

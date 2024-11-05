@@ -1,11 +1,9 @@
-package com.ntm.appseguridad.business.domain;
-
-import java.io.Serializable;
+package com.ntm.appseguridad.entities;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -16,11 +14,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @Data
-public class Localidad implements Serializable{
-    @Id
-    private String id;
+@EqualsAndHashCode(callSuper=false)
+public class Localidad extends Base {
     private String nombre;
-    private String eliminado;
     @ManyToOne
     private Localidad localidad;
 }

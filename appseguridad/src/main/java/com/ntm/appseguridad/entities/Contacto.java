@@ -1,10 +1,8 @@
-package com.ntm.appseguridad.business.domain;
-
-import java.io.Serializable;
+package com.ntm.appseguridad.entities;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
@@ -16,11 +14,9 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper=false)
 @SuperBuilder
-public class Contacto implements Serializable {
-    @Id
-    private String id;
+public class Contacto extends Base {
     private String observacion;
-    private Contacto tipoContacto;
-    private String eliminado;
+    private TipoContactos tipoContacto;
 }

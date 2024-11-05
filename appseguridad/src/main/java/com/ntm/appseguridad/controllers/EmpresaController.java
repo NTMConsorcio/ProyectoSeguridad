@@ -1,19 +1,19 @@
 package com.ntm.appseguridad.controllers;
 
-import com.ntm.appseguridad.entities.UnidadDeNegocio;
-import com.ntm.appseguridad.services.UnidadDeNegocioServiceImpl;
+import com.ntm.appseguridad.entities.Empresa;
+import com.ntm.appseguridad.services.EmpresaServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(path = "api/v1/unidadDeNegocio")
-public class UnidadDeNegocioController extends BaseControllerImpl<UnidadDeNegocio, UnidadDeNegocioServiceImpl>{
-    public UnidadDeNegocioController(UnidadDeNegocioServiceImpl service) {super(service);}
+@RequestMapping(path = "api/v1/empresa")
+public class EmpresaController extends BaseControllerImpl<Empresa, EmpresaServiceImpl>{
+    public EmpresaController(EmpresaServiceImpl service) {super(service);}
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchPersona(@RequestParam String nombre) {
+    public ResponseEntity<?> searchEmpresa(@RequestParam String nombre) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.search(nombre));
         } catch (Exception e) {

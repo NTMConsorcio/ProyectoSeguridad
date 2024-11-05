@@ -1,6 +1,7 @@
 package com.ntm.appseguridad.services;
 
-import com.ntm.appseguridad.business.domain.UnidadDeNegocio;
+import com.ntm.appseguridad.entities.UnidadDeNegocio;
+import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.UnidadDeNegocioRepository;
 
 import org.springframework.stereotype.Service;
@@ -9,11 +10,11 @@ import java.util.List;
 
 
 @Service
-public class UnidadDeNegocioServiceImpl extends BaseServiceImpl<UnidadDeNegocio,Long> implements UnidadDeNegocioService {
+public class UnidadDeNegocioServiceImpl extends BaseServiceImpl<UnidadDeNegocio,String> implements UnidadDeNegocioService {
 
     private final UnidadDeNegocioRepository unidadDeNegocioRepository;
 
-    public UnidadDeNegocioServiceImpl(UnidadDeNegocioRepository baserepository, UnidadDeNegocioRepository unidadDeNegocioRepository) {super(baserepository);
+    public UnidadDeNegocioServiceImpl(BaseRepository<UnidadDeNegocio, String> baserepository, UnidadDeNegocioRepository unidadDeNegocioRepository) {super(baserepository);
         this.unidadDeNegocioRepository = unidadDeNegocioRepository;
     }
 

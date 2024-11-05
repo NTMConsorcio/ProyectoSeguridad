@@ -1,6 +1,6 @@
 package com.ntm.appseguridad.services;
 
-import com.ntm.appseguridad.business.domain.Base;
+import com.ntm.appseguridad.entities.Base;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -23,20 +23,20 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
     @Transactional
     public List<E> findAll() throws Exception {
         try {
-            List<E> entities = repository.findAll();
+            List<E> entities = repository.findByEliminadoFalse();
             return entities;
         }catch (Exception e) {
-            throw new Exception(e.getMessage());
+            throw new Exception("Error al obtener la lista de elementos");
         }
     }
     @Override
     @Transactional
     public Page<E> findAll(Pageable pageable) throws Exception{
         try {
-            Page<E> entities = repository.findAll(pageable);
+            Page<E> entities = repository.findByEliminadoFalse(pageable);
             return entities;
         }catch (Exception e) {
-            throw new Exception(e.getMessage());
+            throw new Exception("Error al buscar los resultados");
         }
     }
 
@@ -44,10 +44,10 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
     @Transactional
     public E findById(ID id) throws Exception {
         try {
-            Optional<E> entity = repository.findById(id);
+            Optional<E> entity = repository.findByIdAndEliminadoFalse(id);
             return entity.get();
         }catch (Exception e) {
-            throw new Exception(e.getMessage());
+            throw new Exception("La entidad con el id no existe");
         }
     }
 
@@ -58,7 +58,7 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
             entity = repository.save(entity);
             return entity;
         }catch (Exception e) {
-            throw new Exception(e.getMessage());
+            throw new Exception("Error al guardar la entidad");
         }
     }
 
@@ -66,12 +66,12 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
     @Transactional
     public E update(ID id, E entity) throws Exception {
         try {
-            Optional<E> entityOptional = repository.findById(id);
+            Optional<E> entityOptional = repository.findByIdAndEliminadoFalse(id);
             E entityUpdate= entityOptional.get();
             entityUpdate = repository.save(entity);
             return entityUpdate;
-        }catch (Exception e) {
-            throw new Exception(e.getMessage());
+        } catch (Exception e) {
+            throw new Exception("La entidad con el id ingresado no existe");
         }
     }
 
@@ -79,14 +79,17 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
     @Transactional
     public boolean delete(ID id) throws Exception {
         try {
-            if (repository.existsById(id)) {
-                repository.deleteById(id);
+            if (repository.existsByIdAndEliminadoFalse(id)) {
+                Optional<E> optional = repository.findByIdAndEliminadoFalse(id);
+                E entity = optional.get();
+                entity.setEliminado(true);
+                repository.save(entity);
                 return true;
             } else {
-                throw new Exception();
+                throw new Exception("El objeto ya fue eliminado o no existe");
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }

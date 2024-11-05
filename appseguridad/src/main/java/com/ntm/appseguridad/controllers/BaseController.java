@@ -1,6 +1,6 @@
 package com.ntm.appseguridad.controllers;
 
-import com.ntm.appseguridad.business.domain.Base;
+import com.ntm.appseguridad.entities.Base;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
