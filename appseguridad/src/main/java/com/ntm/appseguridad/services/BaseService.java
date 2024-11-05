@@ -1,6 +1,6 @@
 package com.ntm.appseguridad.services;
 
-import com.ntm.appseguridad.business.domain.Base;
+import com.ntm.appseguridad.entities.Base;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -1,10 +1,11 @@
-package com.ntm.appseguridad.business.domain;
+package com.ntm.appseguridad.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.envers.Audited;
 
 import java.io.Serializable;
 
@@ -13,12 +14,12 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Audited
 public class Base implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected String id;
     ///
     ///No sale en el video pero probar si funciona.
     @Column
-    private boolean eliminado;
+    protected boolean eliminado;
 }

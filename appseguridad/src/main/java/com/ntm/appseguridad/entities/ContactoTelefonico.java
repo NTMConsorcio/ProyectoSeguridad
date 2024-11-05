@@ -1,4 +1,4 @@
-package com.ntm.appseguridad.business.domain;
+package com.ntm.appseguridad.entities;
 
 import jakarta.persistence.Entity;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 /**
  * Clase que representa un contacto telefónico. Hereda de la clase Contacto.
  * @version 1.0.0
- * @autor Tomás Rando
+ * @author Tomás Rando
  */
 @Entity
 @NoArgsConstructor
@@ -17,6 +17,6 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper=true)
 @SuperBuilder
 public class ContactoTelefonico extends Contacto {
-    private String id;
-    private TipoTelefono tipoTelefono;    
+    private TipoTelefono tipoTelefono;
+    private String telefono;
 }

@@ -1,15 +1,13 @@
 package com.ntm.appseguridad.controllers;
 
-import com.ntm.appseguridad.business.domain.Base;
+import com.ntm.appseguridad.entities.Base;
 import com.ntm.appseguridad.services.BaseServiceImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Serializable;
-
-public abstract class BaseControllerImpl<E extends Base ,S extends BaseServiceImpl<E, Long>> implements BaseController<E, Long> {
+public abstract class BaseControllerImpl<E extends Base ,S extends BaseServiceImpl<E, String>> implements BaseController<E, String> {
 
     protected S service;
 
@@ -36,7 +34,7 @@ public abstract class BaseControllerImpl<E extends Base ,S extends BaseServiceIm
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getOne(@PathVariable Long id) {
+    public ResponseEntity<?> getOne(@PathVariable String id) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
         }catch (Exception e) {
@@ -53,7 +51,7 @@ public abstract class BaseControllerImpl<E extends Base ,S extends BaseServiceIm
         }
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id,@RequestBody E entity) {
+    public ResponseEntity<?> update(@PathVariable String id,@RequestBody E entity) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.update(id,entity));
         }catch (Exception e) {
@@ -63,7 +61,7 @@ public abstract class BaseControllerImpl<E extends Base ,S extends BaseServiceIm
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable String id) {
         try {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(service.delete(id));
         }catch (Exception e) {
