@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 
 public class Persona extends Base {
     protected String id;
+    protected int documento;
     protected String nombre;
     protected String apellido;
 }

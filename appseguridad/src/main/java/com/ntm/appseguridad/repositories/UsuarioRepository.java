@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UsuarioRepository extends BaseRepository<Usuario, String>{
-    public Usuario findByEmailAndEliminadoFalse(String email);
-    public Usuario findByEmailAndClaveAndEliminadoFalse(String email, String clave);
-    
+    Usuario findByEmailAndEliminadoFalse(String email);
+    Usuario findByEmailAndClaveAndEliminadoFalse(String email, String clave);
 }
