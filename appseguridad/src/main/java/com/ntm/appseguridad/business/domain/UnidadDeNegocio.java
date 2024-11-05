@@ -10,6 +10,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper=false)
 public class UnidadDeNegocio extends Base {
 
     @Column(unique=true)
