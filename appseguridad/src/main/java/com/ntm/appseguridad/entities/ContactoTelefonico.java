@@ -1,5 +1,6 @@
 package com.ntm.appseguridad.entities;
 
+import com.ntm.appseguridad.entities.enums.TipoTelefono;
 import jakarta.persistence.Entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
