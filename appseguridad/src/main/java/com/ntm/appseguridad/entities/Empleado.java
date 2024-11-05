@@ -1,23 +1,21 @@
 package com.ntm.appseguridad.entities;
 
-import com.ntm.appseguridad.entities.enums.TipoContactos;
+import com.ntm.appseguridad.entities.enums.TipoEmpleado;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-/**
- * Entidad de contacto
- * @version 1.0.0
- * @author Tomás Rando
- */
 @Entity
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper=false)
-@SuperBuilder
-public class Contacto extends Base {
-    private String observacion;
-    private TipoContactos tipoContacto;
+
+public class Empleado extends Persona{
+    public String legajo;
+    public TipoEmpleado tipoEmpleado;
+    @ManyToOne
+    public UnidadDeNegocio unidadDeNegocio;
 }
