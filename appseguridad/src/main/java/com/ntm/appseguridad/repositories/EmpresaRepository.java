@@ -10,4 +10,6 @@ public interface EmpresaRepository extends BaseRepository<Empresa, String> {
     Empresa findByNombreAndEliminadoFalse(String nombre);
 
     List<Empresa> findByNombreContainingAndEliminadoFalse(String nombre);
+
+    boolean existsByNombreAndEliminadoFalse(String nombre);
 }

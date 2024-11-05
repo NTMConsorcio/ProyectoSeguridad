@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.envers.Audited;
 
 import java.io.Serializable;
@@ -17,6 +18,8 @@ import java.io.Serializable;
 @Audited
 public class Base implements Serializable {
     @Id
+    @GeneratedValue
+    @UuidGenerator
     protected String id;
     ///
     ///No sale en el video pero probar si funciona.

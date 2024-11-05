@@ -1,9 +1,11 @@
 package com.ntm.appseguridad.services;
 
+import com.ntm.appseguridad.entities.CuentaCorreo;
 import com.ntm.appseguridad.entities.Empresa;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.EmpresaRepository;
-import com.ntm.appseguridad.repositories.UnidadDeNegocioRepository;
+import com.ntm.appseguridad.services.error.ErrorServiceException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,5 +29,10 @@ public class EmpresaServiceImpl extends BaseServiceImpl<Empresa,String> implemen
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
+    }
+
+    @Override
+    public boolean validar(Empresa entity) {
+        return true;
     }
 }
