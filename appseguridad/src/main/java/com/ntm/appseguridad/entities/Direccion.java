@@ -21,5 +21,5 @@ public class Direccion extends Base {
     private String latitud;
     private String longitud;
     @ManyToOne
-    private Localidad provincia;
+    private Localidad localidad;
 }

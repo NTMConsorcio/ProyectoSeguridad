@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ServicioRepository extends BaseRepository<Servicio, String> {
     Servicio findByNombreAndEliminadoFalse(String nombre);
+    boolean existsByNombreAndEliminadoFalse(String nombre);
 }

@@ -64,7 +64,7 @@ public class ImagenServiceImpl extends BaseServiceImpl<Imagen,String> implements
     }
 
     @Override
-    public boolean validar(Imagen imagen) {
+    public boolean validar(Imagen imagen, String caso) {
         return true;
     }
 
@@ -72,7 +72,7 @@ public class ImagenServiceImpl extends BaseServiceImpl<Imagen,String> implements
 
         try {
 
-            if(archivo == null || archivo.isEmpty()){
+            if (archivo == null || archivo.isEmpty()){
                 throw new ErrorServiceException("Debe indicar el nombre");
             }
 

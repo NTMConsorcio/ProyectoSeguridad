@@ -32,7 +32,37 @@ public class EmpresaServiceImpl extends BaseServiceImpl<Empresa,String> implemen
     }
 
     @Override
-    public boolean validar(Empresa entity) {
-        return true;
+    public boolean validar(Empresa entity, String caso) throws ErrorServiceException {
+        try {
+            if (entity.getNombre() == null || entity.getNombre().isEmpty()) {
+                throw new ErrorServiceException("Debe indicar el nombre");
+            }
+
+            if (caso.equals("SAVE")) {
+                if (empresaRepository.existsByNombreAndEliminadoFalse(entity.getNombre())) {
+                    throw new ErrorServiceException("El objeto ya existe en el sistema");
+                }
+            } else {
+                Empresa cc = empresaRepository.findByNombreAndEliminadoFalse(entity.getNombre());
+                if (cc != null) {
+                    if (!cc.getId().equals(entity.getId())) {
+                        throw new ErrorServiceException("El objeto especificado ya existe en el sistema");
+                    }
+                }
+            }
+
+            if (entity.getDireccion() == null) {
+                throw new ErrorServiceException("Debe indicar una direccion");
+            }
+
+            if (entity.getEmpresa() == null) {
+                throw new ErrorServiceException("Debe indicar una empresa");
+            }
+            return true;
+        } catch (ErrorServiceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new ErrorServiceException("Error de sistemas");
+        }
     }
 }
