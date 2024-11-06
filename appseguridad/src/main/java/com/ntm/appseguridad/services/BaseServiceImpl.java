@@ -54,7 +54,7 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
     @Transactional
     public E save(E entity) throws Exception {
         try {
-            validar(entity);
+            validar(entity, "SAVE");
             entity = repository.save(entity);
             return entity;
         }catch (Exception e) {
@@ -66,7 +66,7 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
     @Transactional
     public E update(ID id, E entity) throws Exception {
         try {
-            validar(entity);
+            validar(entity, "UPDATE");
             Optional<E> entityOptional = repository.findByIdAndEliminadoFalse(id);
             E entityUpdate= entityOptional.get();
             entityUpdate = repository.save(entity);
