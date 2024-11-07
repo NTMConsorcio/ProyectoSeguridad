@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PaisDTO extends BaseDTO {
+public class DepartamentoDTO extends BaseDTO {
     private String nombre;
+    private ProvinciaDTO provincia;
+
 }
