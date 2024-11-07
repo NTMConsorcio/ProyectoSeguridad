@@ -1,11 +1,14 @@
 package com.ntm.appseguridad.services;
 
+import com.ntm.appseguridad.entities.Departamento;
 import com.ntm.appseguridad.entities.Empleado;
 import com.ntm.appseguridad.entities.enums.TipoEmpleado;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.EmpleadoRepository;
+import com.ntm.appseguridad.services.error.ErrorServiceException;
 
 import java.util.List;
+import java.util.Optional;
 
 public class EmpleadoServiceImpl extends BaseServiceImpl<Empleado,String> implements EmpleadoService {
 
@@ -30,6 +33,46 @@ public class EmpleadoServiceImpl extends BaseServiceImpl<Empleado,String> implem
             return empleados;
         }catch (Exception e){
             throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public boolean validar(Empleado entity, String caso) throws Exception {
+        try {
+            if (entity.getNombre() == null || entity.getNombre().isEmpty()) {
+                throw new ErrorServiceException("Debe indicar el nombre");
+            }
+
+            if (entity.getApellido() == null || entity.getApellido().isEmpty()) {
+                throw new ErrorServiceException("Debe indicar el nombre");
+            }
+
+            if (entity.getContactos() == null || entity.getApellido().isEmpty()) {
+                throw new ErrorServiceException("Debe indicar los contactos");
+            }
+
+
+            if (caso.equals("SAVE")) {
+                if (empleadoRepository.findByIdAndEliminadoFalse(entity.getId()).isPresent()) {
+                    throw new ErrorServiceException("El empleado ya existe en el sistema");
+                }
+                if (empleadoRepository.findByLegajoAndEliminadoFalse(entity.getLegajo()) != null) {
+                    throw new ErrorServiceException("El empleado ya existe en el sistema");
+                }
+            } else {
+                Optional<Empleado> ee = empleadoRepository.findByIdAndEliminadoFalse(entity.getId());
+                if (ee.isPresent()) {
+                    Empleado e = ee.get();
+                    if (!e.getId().equals(entity.getId())) {
+                        throw new ErrorServiceException("El empleado especificado no existe en el sistema");
+                    }
+                }
+            }
+            return true;
+        } catch (ErrorServiceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new ErrorServiceException("Error de sistemas");
         }
     }
 }
