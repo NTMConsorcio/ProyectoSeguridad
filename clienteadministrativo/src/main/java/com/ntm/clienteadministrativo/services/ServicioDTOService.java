@@ -1,7 +1,9 @@
 package com.ntm.clienteadministrativo.services;
 
-import com.ntm.clienteadministrativo.dto.PaisDTO;
-import com.ntm.clienteadministrativo.rest.PaisDAORest;
+import com.ntm.clienteadministrativo.dto.EmpresaDTO;
+import com.ntm.clienteadministrativo.dto.ImagenDTO;
+import com.ntm.clienteadministrativo.dto.ServicioDTO;
+import com.ntm.clienteadministrativo.rest.ServicioDAORest;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,17 +11,28 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PaisDTOService {
+public class ServicioDTOService {
     @Autowired
-    PaisDAORest dao;
+    ServicioDAORest dao;
 
-    public void crear(String nombre) throws ErrorServiceException {
+    @Autowired
+    ImagenDTOService serviceImagen;
+
+    @Autowired
+    EmpresaDTOService serviceEmpresa;
+
+    public void crear(String nombre, String idImagen, String idEmpresa) throws ErrorServiceException {
 
         try {
-            PaisDTO pais = new PaisDTO();
-            pais.setNombre(nombre);
-            pais.setEliminado(false);
-            dao.crear(PaisDTO.class, pais);
+            ServicioDTO servicio = new ServicioDTO();
+            servicio.setNombre(nombre);
+
+            ImagenDTO imagen = serviceImagen.buscar(idImagen);
+            servicio.setImagen(imagen);
+
+            EmpresaDTO empresa = serviceEmpresa.buscar(idEmpresa);
+            servicio.setEmpresa(empresa);
+            dao.crear(ServicioDTO.class, servicio);
 
         } catch (ErrorServiceException e) {
             throw e;
@@ -29,15 +42,20 @@ public class PaisDTOService {
         }
     }
 
-    public void modificar(String id, String nombre) throws ErrorServiceException {
+    public void modificar(String id, String nombre, String idImagen, String idEmpresa) throws ErrorServiceException {
 
         try {
 
-            PaisDTO pais = new PaisDTO();
-            pais.setId(id);
-            pais.setNombre(nombre);
-            pais.setEliminado(false);
-            dao.actualizar(pais);
+            ServicioDTO servicio = new ServicioDTO();
+            servicio.setId(id);
+            servicio.setNombre(nombre);
+
+            ImagenDTO imagen = serviceImagen.buscar(idImagen);
+            servicio.setImagen(imagen);
+
+            EmpresaDTO empresa = serviceEmpresa.buscar(idEmpresa);
+            servicio.setEmpresa(empresa);
+            dao.actualizar(servicio);
 
         } catch (ErrorServiceException e) {
             throw e;
@@ -47,7 +65,7 @@ public class PaisDTOService {
         }
     }
 
-    public PaisDTO buscar (String id) throws ErrorServiceException {
+    public ServicioDTO buscar (String id) throws ErrorServiceException {
 
         try {
 
@@ -55,7 +73,7 @@ public class PaisDTOService {
                 throw new ErrorServiceException("Debe indicar el id");
             }
 
-            PaisDTO obj = dao.buscar(PaisDTO.class, id);
+            ServicioDTO obj = dao.buscar(ServicioDTO.class, id);
 
             return obj;
 
@@ -86,9 +104,9 @@ public class PaisDTOService {
 
     }
 
-    public List<PaisDTO> listar() throws ErrorServiceException {
+    public List<ServicioDTO> listar() throws ErrorServiceException {
         try {
-            return dao.listar(PaisDTO[].class);
+            return dao.listar(ServicioDTO[].class);
         } catch (ErrorServiceException ex) {
             throw ex;
         } catch (Exception ex) {

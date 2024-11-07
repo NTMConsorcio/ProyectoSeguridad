@@ -1,25 +1,29 @@
 package com.ntm.clienteadministrativo.services;
 
-import com.ntm.clienteadministrativo.dto.PaisDTO;
-import com.ntm.clienteadministrativo.rest.PaisDAORest;
+import com.ntm.clienteadministrativo.dto.ImagenDTO;
+import com.ntm.clienteadministrativo.rest.ImagenDAORest;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Service
-public class PaisDTOService {
+public class ImagenDTOService {
     @Autowired
-    PaisDAORest dao;
+    ImagenDAORest dao;
 
-    public void crear(String nombre) throws ErrorServiceException {
+    public void crear(MultipartFile archivo) throws ErrorServiceException {
 
         try {
-            PaisDTO pais = new PaisDTO();
-            pais.setNombre(nombre);
-            pais.setEliminado(false);
-            dao.crear(PaisDTO.class, pais);
+            ImagenDTO imagen = new ImagenDTO();
+            imagen.setMime(archivo.getContentType());
+            imagen.setNombre(archivo.getName());
+            imagen.setContenido(archivo.getBytes());
+            imagen.setEliminado(false);
+
+            dao.crear(ImagenDTO.class, imagen);
 
         } catch (ErrorServiceException e) {
             throw e;
@@ -29,15 +33,16 @@ public class PaisDTOService {
         }
     }
 
-    public void modificar(String id, String nombre) throws ErrorServiceException {
+    public void modificar(String id, MultipartFile archivo) throws ErrorServiceException {
 
         try {
 
-            PaisDTO pais = new PaisDTO();
-            pais.setId(id);
-            pais.setNombre(nombre);
-            pais.setEliminado(false);
-            dao.actualizar(pais);
+            ImagenDTO imagen = new ImagenDTO();
+            imagen.setId(id);
+            imagen.setMime(archivo.getContentType());
+            imagen.setNombre(archivo.getName());
+            imagen.setContenido(archivo.getBytes());
+            dao.actualizar(imagen);
 
         } catch (ErrorServiceException e) {
             throw e;
@@ -47,7 +52,7 @@ public class PaisDTOService {
         }
     }
 
-    public PaisDTO buscar (String id) throws ErrorServiceException {
+    public ImagenDTO buscar (String id) throws ErrorServiceException {
 
         try {
 
@@ -55,7 +60,7 @@ public class PaisDTOService {
                 throw new ErrorServiceException("Debe indicar el id");
             }
 
-            PaisDTO obj = dao.buscar(PaisDTO.class, id);
+            ImagenDTO obj = dao.buscar(ImagenDTO.class, id);
 
             return obj;
 
@@ -86,9 +91,9 @@ public class PaisDTOService {
 
     }
 
-    public List<PaisDTO> listar() throws ErrorServiceException {
+    public List<ImagenDTO> listar() throws ErrorServiceException {
         try {
-            return dao.listar(PaisDTO[].class);
+            return dao.listar(ImagenDTO[].class);
         } catch (ErrorServiceException ex) {
             throw ex;
         } catch (Exception ex) {

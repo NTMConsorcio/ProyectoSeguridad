@@ -1,7 +1,8 @@
 package com.ntm.clienteadministrativo.services;
 
 import com.ntm.clienteadministrativo.dto.PaisDTO;
-import com.ntm.clienteadministrativo.rest.PaisDAORest;
+import com.ntm.clienteadministrativo.dto.ProvinciaDTO;
+import com.ntm.clienteadministrativo.rest.ProvinciaDAORest;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,17 +10,22 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PaisDTOService {
+public class ProvinciaDTOService {
     @Autowired
-    PaisDAORest dao;
+    ProvinciaDAORest dao;
 
-    public void crear(String nombre) throws ErrorServiceException {
+    @Autowired
+    PaisDTOService service;
+
+    public void crear(String nombre, String idPais) throws ErrorServiceException {
 
         try {
-            PaisDTO pais = new PaisDTO();
-            pais.setNombre(nombre);
-            pais.setEliminado(false);
-            dao.crear(PaisDTO.class, pais);
+            ProvinciaDTO provincia = new ProvinciaDTO();
+            provincia.setNombre(nombre);
+            provincia.setEliminado(false);
+            PaisDTO pais = service.buscar(idPais);
+            provincia.setPais(pais);
+            dao.crear(ProvinciaDTO.class, provincia);
 
         } catch (ErrorServiceException e) {
             throw e;
@@ -29,15 +35,17 @@ public class PaisDTOService {
         }
     }
 
-    public void modificar(String id, String nombre) throws ErrorServiceException {
+    public void modificar(String id, String nombre, String idPais) throws ErrorServiceException {
 
         try {
 
-            PaisDTO pais = new PaisDTO();
-            pais.setId(id);
-            pais.setNombre(nombre);
-            pais.setEliminado(false);
-            dao.actualizar(pais);
+            ProvinciaDTO provincia = new ProvinciaDTO();
+            provincia.setId(id);
+            provincia.setNombre(nombre);
+            provincia.setEliminado(false);
+            PaisDTO pais = service.buscar(idPais);
+            provincia.setPais(pais);
+            dao.actualizar(provincia);
 
         } catch (ErrorServiceException e) {
             throw e;
@@ -47,7 +55,7 @@ public class PaisDTOService {
         }
     }
 
-    public PaisDTO buscar (String id) throws ErrorServiceException {
+    public ProvinciaDTO buscar (String id) throws ErrorServiceException {
 
         try {
 
@@ -55,7 +63,7 @@ public class PaisDTOService {
                 throw new ErrorServiceException("Debe indicar el id");
             }
 
-            PaisDTO obj = dao.buscar(PaisDTO.class, id);
+            ProvinciaDTO obj = dao.buscar(ProvinciaDTO.class, id);
 
             return obj;
 
@@ -86,9 +94,9 @@ public class PaisDTOService {
 
     }
 
-    public List<PaisDTO> listar() throws ErrorServiceException {
+    public List<ProvinciaDTO> listar() throws ErrorServiceException {
         try {
-            return dao.listar(PaisDTO[].class);
+            return dao.listar(ProvinciaDTO[].class);
         } catch (ErrorServiceException ex) {
             throw ex;
         } catch (Exception ex) {

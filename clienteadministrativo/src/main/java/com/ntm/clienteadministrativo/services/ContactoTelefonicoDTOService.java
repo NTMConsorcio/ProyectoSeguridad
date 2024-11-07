@@ -1,7 +1,9 @@
 package com.ntm.clienteadministrativo.services;
 
-import com.ntm.clienteadministrativo.dto.PaisDTO;
-import com.ntm.clienteadministrativo.rest.PaisDAORest;
+import com.ntm.clienteadministrativo.dto.ContactoTelefonicoDTO;
+import com.ntm.clienteadministrativo.dto.enums.TipoContactos;
+import com.ntm.clienteadministrativo.dto.enums.TipoTelefono;
+import com.ntm.clienteadministrativo.rest.ContactoTelefonicoDAORest;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,17 +11,20 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PaisDTOService {
+public class ContactoTelefonicoDTOService {
     @Autowired
-    PaisDAORest dao;
+    ContactoTelefonicoDAORest dao;
 
-    public void crear(String nombre) throws ErrorServiceException {
+    public void crear(String observacion, TipoContactos tipoContacto, String telefono, TipoTelefono tipoTelefono) throws ErrorServiceException {
 
         try {
-            PaisDTO pais = new PaisDTO();
-            pais.setNombre(nombre);
-            pais.setEliminado(false);
-            dao.crear(PaisDTO.class, pais);
+            ContactoTelefonicoDTO contacto = new ContactoTelefonicoDTO();
+            contacto.setObservacion(observacion);
+            contacto.setTipoContacto(tipoContacto);
+            contacto.setTelefono(telefono);
+            contacto.setTipoTelefono(tipoTelefono);
+            contacto.setEliminado(false);
+            dao.crear(ContactoTelefonicoDTO.class, contacto);
 
         } catch (ErrorServiceException e) {
             throw e;
@@ -29,15 +34,18 @@ public class PaisDTOService {
         }
     }
 
-    public void modificar(String id, String nombre) throws ErrorServiceException {
+    public void modificar(String id, String observacion, TipoContactos tipoContacto, String telefono, TipoTelefono tipoTelefono) throws ErrorServiceException {
 
         try {
 
-            PaisDTO pais = new PaisDTO();
-            pais.setId(id);
-            pais.setNombre(nombre);
-            pais.setEliminado(false);
-            dao.actualizar(pais);
+            ContactoTelefonicoDTO contacto = new ContactoTelefonicoDTO();
+            contacto.setId(id);
+            contacto.setObservacion(observacion);
+            contacto.setTipoContacto(tipoContacto);
+            contacto.setTelefono(telefono);
+            contacto.setTipoTelefono(tipoTelefono);
+            contacto.setEliminado(false);
+            dao.actualizar(contacto);
 
         } catch (ErrorServiceException e) {
             throw e;
@@ -47,7 +55,7 @@ public class PaisDTOService {
         }
     }
 
-    public PaisDTO buscar (String id) throws ErrorServiceException {
+    public ContactoTelefonicoDTO buscar (String id) throws ErrorServiceException {
 
         try {
 
@@ -55,7 +63,7 @@ public class PaisDTOService {
                 throw new ErrorServiceException("Debe indicar el id");
             }
 
-            PaisDTO obj = dao.buscar(PaisDTO.class, id);
+            ContactoTelefonicoDTO obj = dao.buscar(ContactoTelefonicoDTO.class, id);
 
             return obj;
 
@@ -86,9 +94,9 @@ public class PaisDTOService {
 
     }
 
-    public List<PaisDTO> listar() throws ErrorServiceException {
+    public List<ContactoTelefonicoDTO> listar() throws ErrorServiceException {
         try {
-            return dao.listar(PaisDTO[].class);
+            return dao.listar(ContactoTelefonicoDTO[].class);
         } catch (ErrorServiceException ex) {
             throw ex;
         } catch (Exception ex) {
