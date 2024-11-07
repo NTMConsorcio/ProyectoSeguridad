@@ -1,4 +1,4 @@
-package com.ntm.clienteadministrativo.dto;
+package com.ntm.appseguridad.dto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

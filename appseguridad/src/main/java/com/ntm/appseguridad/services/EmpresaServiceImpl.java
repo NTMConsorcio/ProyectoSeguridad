@@ -50,7 +50,7 @@ public class EmpresaServiceImpl extends BaseServiceImpl<Empresa,String> implemen
                     }
                 }
             }
-
+            /*
             if (entity.getDireccion() == null) {
                 throw new ErrorServiceException("Debe indicar una direccion");
             }
@@ -58,6 +58,7 @@ public class EmpresaServiceImpl extends BaseServiceImpl<Empresa,String> implemen
             if (entity.getEmpresa() == null) {
                 throw new ErrorServiceException("Debe indicar una empresa");
             }
+            */
             return true;
         } catch (ErrorServiceException ex) {
             throw ex;
