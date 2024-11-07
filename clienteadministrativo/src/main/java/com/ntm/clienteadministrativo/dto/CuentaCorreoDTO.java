@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CuentaCorreo extends BaseDTO {
+public class CuentaCorreoDTO extends BaseDTO {
     private String correo;
     private String clave;
     private String puerto;
