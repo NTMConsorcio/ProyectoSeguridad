@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper=true)
-@SuperBuilder
+//@SuperBuilder
 public class ContactoTelefonico extends Contacto {
     private TipoTelefono tipoTelefono;
     private String telefono;

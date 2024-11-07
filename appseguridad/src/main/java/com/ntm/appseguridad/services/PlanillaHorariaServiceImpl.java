@@ -2,6 +2,7 @@ package com.ntm.appseguridad.services;
 
 
 
+import com.ntm.appseguridad.entities.Empleado;
 import com.ntm.appseguridad.entities.PlanillaHoraria;
 import com.ntm.appseguridad.entities.Usuario;
 import com.ntm.appseguridad.entities.enums.EstadoAsistencia;
@@ -25,7 +26,7 @@ public class PlanillaHorariaServiceImpl extends BaseServiceImpl<PlanillaHoraria,
 
 
     @Override
-    public List<PlanillaHoraria> ListByEmpleado(String empleado) throws Exception {
+    public List<PlanillaHoraria> ListByEmpleado(Empleado empleado) throws Exception {
         try {
             List<PlanillaHoraria> planillas = planillaHorariaRepository.findByEmpleadoAndEliminadoFalse(empleado);
             return planillas;
@@ -34,7 +35,7 @@ public class PlanillaHorariaServiceImpl extends BaseServiceImpl<PlanillaHoraria,
         }
     }
     @Override
-    public List<PlanillaHoraria> ListByEstadoAndEmpleado(EstadoAsistencia estado, String empleado) throws Exception {
+    public List<PlanillaHoraria> ListByEstadoAndEmpleado(EstadoAsistencia estado, Empleado empleado) throws Exception {
         try {
             List<PlanillaHoraria> planillas = planillaHorariaRepository.findByEstadoAsistenciaAndEmpleadoAndEliminadoFalse(estado, empleado);
             return planillas;

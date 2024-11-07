@@ -19,18 +19,18 @@ public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, String> impleme
         this.repository = usuarioRepository;
     }
     @Override
-    public Usuario searchByEmail(String email) throws Exception {
+    public Usuario searchByCuenta(String cuenta) throws Exception {
         try {
-            Usuario usuario = repository.findByEmailAndEliminadoFalse(email);
+            Usuario usuario = repository.findByCuentaAndEliminadoFalse(cuenta);
             return usuario;
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
     }
     @Override
-    public Usuario searchByEmailAndClave(String email, String clave) throws Exception {
+    public Usuario searchByCuentaAndClave(String cuenta, String clave) throws Exception {
         try {
-            Usuario usuario = repository.findByEmailAndClaveAndEliminadoFalse(email, clave);
+            Usuario usuario = repository.findByCuentaAndClaveAndEliminadoFalse(cuenta, clave);
             return usuario;
         }catch (Exception e){
             throw new Exception(e.getMessage());
@@ -56,7 +56,7 @@ public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, String> impleme
                 if (repository.findByIdAndEliminadoFalse(entity.getId()).isPresent()) {
                     throw new ErrorServiceException("El usuario ya existe en el sistema");
                 }
-                if (repository.findByEmailAndClaveAndEliminadoFalse(entity.getCuenta(),entity.getClave()) != null) {
+                if (repository.findByCuentaAndClaveAndEliminadoFalse(entity.getCuenta(),entity.getClave()) != null) {
                     throw new ErrorServiceException("El usuario ya existe en el sistema");
                 }
             } else {
