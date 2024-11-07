@@ -16,7 +16,7 @@ public class ImagenServiceImpl extends BaseServiceImpl<Imagen,String> implements
         super(baseRepository);
         this.imagenRepository = imagenRepository;
     }
-
+    /*
     @Override
     @Transactional
     public Imagen save(MultipartFile archivo) throws ErrorServiceException {
@@ -68,12 +68,18 @@ public class ImagenServiceImpl extends BaseServiceImpl<Imagen,String> implements
         return true;
     }
 
-    public void validar(MultipartFile archivo) throws ErrorServiceException{
+    */
+    public boolean validar(Imagen archivo, String caso) throws ErrorServiceException{
 
         try {
-
-            if (archivo == null || archivo.isEmpty()){
-                throw new ErrorServiceException("Debe indicar el nombre");
+            if (archivo.getContenido() == null) {
+                throw new ErrorServiceException("La imagen no posee contenido");
+            }
+            if (archivo.getNombre() == null || archivo.getNombre().isEmpty()) {
+                throw new ErrorServiceException("La imagen no posee nombre");
+            }
+            if (archivo.getMime() == null || archivo.getMime().isEmpty()) {
+                throw new ErrorServiceException("La imagen no posee mime");
             }
 
         } catch (ErrorServiceException e) {
@@ -81,5 +87,6 @@ public class ImagenServiceImpl extends BaseServiceImpl<Imagen,String> implements
         } catch (Exception ex){
             throw new ErrorServiceException("Error de Sistemas");
         }
+        return true;
     }
 }

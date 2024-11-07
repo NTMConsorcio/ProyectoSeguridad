@@ -1,7 +1,8 @@
 package com.ntm.clienteadministrativo.services;
 
-import com.ntm.clienteadministrativo.dto.PaisDTO;
-import com.ntm.clienteadministrativo.rest.PaisDAORest;
+import com.ntm.clienteadministrativo.dto.LocalidadDTO;
+import com.ntm.clienteadministrativo.dto.DireccionDTO;
+import com.ntm.clienteadministrativo.rest.DireccionDAORest;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,17 +10,26 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PaisDTOService {
+public class DireccionDTOService {
     @Autowired
-    PaisDAORest dao;
+    DireccionDAORest dao;
 
-    public void crear(String nombre) throws ErrorServiceException {
+    @Autowired
+    LocalidadDTOService service;
+
+    public void crear(String calle, String numeracion, String latitud, String longitud, String idLocalidad) throws ErrorServiceException {
 
         try {
-            PaisDTO pais = new PaisDTO();
-            pais.setNombre(nombre);
-            pais.setEliminado(false);
-            dao.crear(PaisDTO.class, pais);
+            DireccionDTO direccion = new DireccionDTO();
+            direccion.setCalle(calle);
+            direccion.setNumeracion(numeracion);
+            direccion.setLatitud(latitud);
+            direccion.setLongitud(longitud);
+            direccion.setEliminado(false);
+
+            LocalidadDTO localidad = service.buscar(idLocalidad);
+            direccion.setLocalidad(localidad);
+            dao.crear(DireccionDTO.class, direccion);
 
         } catch (ErrorServiceException e) {
             throw e;
@@ -29,15 +39,21 @@ public class PaisDTOService {
         }
     }
 
-    public void modificar(String id, String nombre) throws ErrorServiceException {
+    public void modificar(String id, String calle, String numeracion, String latitud, String longitud, String idLocalidad) throws ErrorServiceException {
 
         try {
 
-            PaisDTO pais = new PaisDTO();
-            pais.setId(id);
-            pais.setNombre(nombre);
-            pais.setEliminado(false);
-            dao.actualizar(pais);
+            DireccionDTO direccion = new DireccionDTO();
+            direccion.setId(id);
+            direccion.setCalle(calle);
+            direccion.setNumeracion(numeracion);
+            direccion.setLatitud(latitud);
+            direccion.setLongitud(longitud);
+            direccion.setEliminado(false);
+
+            LocalidadDTO localidad = service.buscar(idLocalidad);
+            direccion.setLocalidad(localidad);
+            dao.actualizar(direccion);
 
         } catch (ErrorServiceException e) {
             throw e;
@@ -47,7 +63,7 @@ public class PaisDTOService {
         }
     }
 
-    public PaisDTO buscar (String id) throws ErrorServiceException {
+    public DireccionDTO buscar (String id) throws ErrorServiceException {
 
         try {
 
@@ -55,7 +71,7 @@ public class PaisDTOService {
                 throw new ErrorServiceException("Debe indicar el id");
             }
 
-            PaisDTO obj = dao.buscar(PaisDTO.class, id);
+            DireccionDTO obj = dao.buscar(DireccionDTO.class, id);
 
             return obj;
 
@@ -86,9 +102,9 @@ public class PaisDTOService {
 
     }
 
-    public List<PaisDTO> listar() throws ErrorServiceException {
+    public List<DireccionDTO> listar() throws ErrorServiceException {
         try {
-            return dao.listar(PaisDTO[].class);
+            return dao.listar(DireccionDTO[].class);
         } catch (ErrorServiceException ex) {
             throw ex;
         } catch (Exception ex) {

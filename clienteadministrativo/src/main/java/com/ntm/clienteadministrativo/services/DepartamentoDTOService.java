@@ -1,7 +1,8 @@
 package com.ntm.clienteadministrativo.services;
 
-import com.ntm.clienteadministrativo.dto.PaisDTO;
-import com.ntm.clienteadministrativo.rest.PaisDAORest;
+import com.ntm.clienteadministrativo.dto.ProvinciaDTO;
+import com.ntm.clienteadministrativo.dto.DepartamentoDTO;
+import com.ntm.clienteadministrativo.rest.DepartamentoDAORest;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,17 +10,22 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PaisDTOService {
+public class DepartamentoDTOService {
     @Autowired
-    PaisDAORest dao;
+    DepartamentoDAORest dao;
 
-    public void crear(String nombre) throws ErrorServiceException {
+    @Autowired
+    ProvinciaDTOService service;
+
+    public void crear(String nombre, String idProvincia) throws ErrorServiceException {
 
         try {
-            PaisDTO pais = new PaisDTO();
-            pais.setNombre(nombre);
-            pais.setEliminado(false);
-            dao.crear(PaisDTO.class, pais);
+            DepartamentoDTO departamento = new DepartamentoDTO();
+            departamento.setNombre(nombre);
+            departamento.setEliminado(false);
+            ProvinciaDTO provincia = service.buscar(idProvincia);
+            departamento.setProvincia(provincia);
+            dao.crear(DepartamentoDTO.class, departamento);
 
         } catch (ErrorServiceException e) {
             throw e;
@@ -29,15 +35,18 @@ public class PaisDTOService {
         }
     }
 
-    public void modificar(String id, String nombre) throws ErrorServiceException {
+    public void modificar(String id, String nombre, String idProvincia) throws ErrorServiceException {
 
         try {
 
-            PaisDTO pais = new PaisDTO();
-            pais.setId(id);
-            pais.setNombre(nombre);
-            pais.setEliminado(false);
-            dao.actualizar(pais);
+            DepartamentoDTO departamento = new DepartamentoDTO();
+            departamento.setId(id);
+            departamento.setNombre(nombre);
+            departamento.setEliminado(false);
+
+            ProvinciaDTO provincia = service.buscar(idProvincia);
+            departamento.setProvincia(provincia);
+            dao.actualizar(departamento);
 
         } catch (ErrorServiceException e) {
             throw e;
@@ -47,7 +56,7 @@ public class PaisDTOService {
         }
     }
 
-    public PaisDTO buscar (String id) throws ErrorServiceException {
+    public DepartamentoDTO buscar (String id) throws ErrorServiceException {
 
         try {
 
@@ -55,7 +64,7 @@ public class PaisDTOService {
                 throw new ErrorServiceException("Debe indicar el id");
             }
 
-            PaisDTO obj = dao.buscar(PaisDTO.class, id);
+            DepartamentoDTO obj = dao.buscar(DepartamentoDTO.class, id);
 
             return obj;
 
@@ -86,9 +95,9 @@ public class PaisDTOService {
 
     }
 
-    public List<PaisDTO> listar() throws ErrorServiceException {
+    public List<DepartamentoDTO> listar() throws ErrorServiceException {
         try {
-            return dao.listar(PaisDTO[].class);
+            return dao.listar(DepartamentoDTO[].class);
         } catch (ErrorServiceException ex) {
             throw ex;
         } catch (Exception ex) {
