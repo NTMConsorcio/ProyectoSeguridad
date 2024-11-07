@@ -1,5 +1,6 @@
 package com.ntm.clienteadministrativo.dto;
 
+import com.ntm.clienteadministrativo.dto.enums.Rol;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -10,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class UsuarioDTO extends BaseDTO{
     public String cuenta;
     public String clave;
-    public String rol;
+    public Rol rol;
 }

@@ -1,5 +1,6 @@
 package com.ntm.clienteadministrativo.dto;
 
+import com.ntm.clienteadministrativo.dto.enums.TipoEmpleado;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper=false)
 public class EmpleadoDTO extends PersonaDTO{
     public String legajo;
-    public String tipoEmpleado;
+    public TipoEmpleado tipoEmpleado;
     public String idUnidadDeNegocio;
 }
 

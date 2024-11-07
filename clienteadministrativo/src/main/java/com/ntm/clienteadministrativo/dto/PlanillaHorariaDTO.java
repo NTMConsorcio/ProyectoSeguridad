@@ -1,5 +1,6 @@
 package com.ntm.clienteadministrativo.dto;
 
+import com.ntm.clienteadministrativo.dto.enums.EstadoAsistencia;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,6 @@ import java.util.List;
 public class PlanillaHorariaDTO extends BaseDTO {
     private Date entrada;
     private Date salida;
-    private String estadoAsistencia;
+    private EstadoAsistencia estadoAsistencia;
     private String idEmpleado;
 }
