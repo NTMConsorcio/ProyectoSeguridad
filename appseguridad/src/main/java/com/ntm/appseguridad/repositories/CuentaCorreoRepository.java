@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 public interface CuentaCorreoRepository extends BaseRepository<CuentaCorreo, String> {
     CuentaCorreo findByCorreoAndEliminadoFalse(String correo);
 
+    boolean existsByCorreoAndEliminadoFalse(String correo);
 }

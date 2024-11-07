@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DepartamentoRepository extends BaseRepository<Departamento, String> {
     Departamento findByNombreAndEliminadoFalse(String nombre);
+    boolean existsByNombreAndEliminadoFalse(String nombre);
 }

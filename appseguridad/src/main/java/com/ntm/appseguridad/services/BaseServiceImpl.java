@@ -12,7 +12,6 @@ import java.util.Optional;
 
 public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> implements BaseService<E, ID> {
 
-
     protected BaseRepository<E, ID> repository;
 
     public BaseServiceImpl(BaseRepository<E, ID> repository) {
@@ -55,6 +54,7 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
     @Transactional
     public E save(E entity) throws Exception {
         try {
+            validar(entity, "SAVE");
             entity = repository.save(entity);
             return entity;
         }catch (Exception e) {
@@ -66,6 +66,7 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
     @Transactional
     public E update(ID id, E entity) throws Exception {
         try {
+            validar(entity, "UPDATE");
             Optional<E> entityOptional = repository.findByIdAndEliminadoFalse(id);
             E entityUpdate= entityOptional.get();
             entityUpdate = repository.save(entity);

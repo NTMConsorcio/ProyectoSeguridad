@@ -18,5 +18,5 @@ import lombok.NoArgsConstructor;
 public class Localidad extends Base {
     private String nombre;
     @ManyToOne
-    private Localidad localidad;
+    private Departamento departamento;
 }

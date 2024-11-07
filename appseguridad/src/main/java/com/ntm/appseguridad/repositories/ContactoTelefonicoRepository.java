@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ContactoTelefonicoRepository extends BaseRepository<ContactoTelefonico, String> {
     ContactoTelefonico findByTelefonoAndEliminadoFalse(String telefono);
+    boolean existsByTelefonoAndEliminadoFalse(String telefono);
 }

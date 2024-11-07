@@ -20,5 +20,5 @@ public class Empresa extends Base {
     @OneToOne
     private Direccion direccion;
     @OneToOne
-    private Empresa empresa;
+    private Contacto contacto;
 }

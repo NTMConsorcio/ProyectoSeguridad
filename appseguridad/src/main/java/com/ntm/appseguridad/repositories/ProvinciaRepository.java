@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProvinciaRepository extends BaseRepository<Provincia, String> {
     Provincia findByNombreAndEliminadoFalse(String nombre);
+    boolean existsByNombreAndEliminadoFalse(String nombre);
+
 }

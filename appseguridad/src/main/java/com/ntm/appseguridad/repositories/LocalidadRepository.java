@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LocalidadRepository extends BaseRepository<Localidad, String> {
     Localidad findByNombreAndEliminadoFalse(String nombre);
+    boolean existsByNombreAndEliminadoFalse(String nombre);
+
 }
