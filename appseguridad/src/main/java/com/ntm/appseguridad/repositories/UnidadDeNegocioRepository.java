@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface UnidadDeNegocioRepository extends BaseRepository<UnidadDeNegocio, String> {
     List<UnidadDeNegocio> findByNombreContaining(String nombre);
+    UnidadDeNegocio findByNombreAndEliminadoIsFalse(String nombre);
 }

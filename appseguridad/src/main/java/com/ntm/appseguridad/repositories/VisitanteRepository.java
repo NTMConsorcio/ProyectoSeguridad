@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VisitanteRepository extends BaseRepository<Visitante, String> {
+    Visitante findByNumeroDeDocumentoAndEliminadoIsFalse(int numeroDeDocumento);
 }

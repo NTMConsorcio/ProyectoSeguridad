@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InmuebleRepository extends BaseRepository<Inmueble, String> {
-
+    Inmueble findByNumeracionAndPisoAndAndDptoAndEliminadoIsFalse(String nombre,String piso,String dpto);
 }

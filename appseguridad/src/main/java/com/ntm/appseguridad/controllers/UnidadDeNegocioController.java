@@ -15,9 +15,10 @@ public class UnidadDeNegocioController extends BaseControllerImpl<UnidadDeNegoci
     @GetMapping("/search")
     public ResponseEntity<?> searchPersona(@RequestParam String nombre) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.search(nombre));
+            return ResponseEntity.status(HttpStatus.OK).body(service.searchByNombreContaining(nombre));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\""+e.getMessage()+"\"}");
         }
     }
+
 }
