@@ -32,6 +32,11 @@ public class EmpresaServiceImpl extends BaseServiceImpl<Empresa,String> implemen
     }
 
     @Override
+    public <D> List<D> convertToDtoList(List<Empresa> entities) {
+        return List.of();
+    }
+
+    @Override
     public boolean validar(Empresa entity, String caso) throws ErrorServiceException {
         try {
             if (entity.getNombre() == null || entity.getNombre().isEmpty()) {
@@ -50,7 +55,7 @@ public class EmpresaServiceImpl extends BaseServiceImpl<Empresa,String> implemen
                     }
                 }
             }
-
+            /*
             if (entity.getDireccion() == null) {
                 throw new ErrorServiceException("Debe indicar una direccion");
             }
@@ -58,6 +63,7 @@ public class EmpresaServiceImpl extends BaseServiceImpl<Empresa,String> implemen
             if (entity.getContacto() == null) {
                 throw new ErrorServiceException("Debe indicar una dirección");
             }
+            */
             return true;
         } catch (ErrorServiceException ex) {
             throw ex;

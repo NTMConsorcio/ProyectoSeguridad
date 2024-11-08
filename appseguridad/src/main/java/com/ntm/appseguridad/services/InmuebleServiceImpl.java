@@ -7,6 +7,7 @@ import com.ntm.appseguridad.repositories.InmuebleRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,8 +20,10 @@ public class InmuebleServiceImpl extends BaseServiceImpl<Inmueble,String> implem
     }
 
 
-
-
+    @Override
+    public <D> List<D> convertToDtoList(List<Inmueble> entities) {
+        return List.of();
+    }
 
     @Override
     public boolean validar(Inmueble entity, String caso) throws Exception {

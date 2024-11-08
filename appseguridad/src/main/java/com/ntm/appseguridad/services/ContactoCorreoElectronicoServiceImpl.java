@@ -5,6 +5,8 @@ import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.ContactoCorreoElectronicoRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class ContactoCorreoElectronicoServiceImpl extends BaseServiceImpl<ContactoCorreoElectronico,String> implements ContactoCorreoElectronicoService {
@@ -13,6 +15,11 @@ public class ContactoCorreoElectronicoServiceImpl extends BaseServiceImpl<Contac
 
     public ContactoCorreoElectronicoServiceImpl(BaseRepository<ContactoCorreoElectronico, String> baserepository, ContactoCorreoElectronicoRepository contactoCorreoElectronicoRepository) {super(baserepository);
         this.contactoCorreoElectronicoRepository = contactoCorreoElectronicoRepository;
+    }
+
+    @Override
+    public <D> List<D> convertToDtoList(List<ContactoCorreoElectronico> entities) {
+        return List.of();
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.ntm.appseguridad.repositories.VisitanteRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +19,11 @@ public class VisitanteServiceImpl extends BaseServiceImpl<Visitante,String> impl
         this.visitanteRepository = visitanteRepository;
     }
 
+
+    @Override
+    public <D> List<D> convertToDtoList(List<Visitante> entities) {
+        return List.of();
+    }
 
     @Override
     public boolean validar(Visitante entity, String caso) throws Exception {

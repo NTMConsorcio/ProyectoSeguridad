@@ -8,6 +8,8 @@ import com.ntm.appseguridad.services.error.ErrorServiceException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class ServicioServiceImpl extends BaseServiceImpl<Servicio,String> implements ServicioService {
@@ -16,6 +18,11 @@ public class ServicioServiceImpl extends BaseServiceImpl<Servicio,String> implem
 
     public ServicioServiceImpl(BaseRepository<Servicio, String> baserepository, ServicioRepository servicioRepository) {super(baserepository);
         this.servicioRepository = servicioRepository;
+    }
+
+    @Override
+    public <D> List<D> convertToDtoList(List<Servicio> entities) {
+        return List.of();
     }
 
     @Override

@@ -39,6 +39,11 @@ public class EmpleadoServiceImpl extends BaseServiceImpl<Empleado,String> implem
     }
 
     @Override
+    public <D> List<D> convertToDtoList(List<Empleado> entities) {
+        return List.of();
+    }
+
+    @Override
     public boolean validar(Empleado entity, String caso) throws Exception {
         try {
             if (entity.getNombre() == null || entity.getNombre().isEmpty()) {

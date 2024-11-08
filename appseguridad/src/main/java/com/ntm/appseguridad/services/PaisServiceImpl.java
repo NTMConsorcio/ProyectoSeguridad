@@ -6,6 +6,8 @@ import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.PaisRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class PaisServiceImpl extends BaseServiceImpl<Pais,String> implements PaisService {
@@ -14,6 +16,11 @@ public class PaisServiceImpl extends BaseServiceImpl<Pais,String> implements Pai
 
     public PaisServiceImpl(BaseRepository<Pais, String> baserepository, PaisRepository paisRepository) {super(baserepository);
         this.paisRepository = paisRepository;
+    }
+
+    @Override
+    public <D> List<D> convertToDtoList(List<Pais> entities) {
+        return List.of();
     }
 
     @Override

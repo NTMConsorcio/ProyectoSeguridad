@@ -7,6 +7,8 @@ import com.ntm.appseguridad.services.error.ErrorServiceException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class CuentaCorreoServiceImpl extends BaseServiceImpl<CuentaCorreo,String> implements CuentaCorreoService {
@@ -15,6 +17,11 @@ public class CuentaCorreoServiceImpl extends BaseServiceImpl<CuentaCorreo,String
 
     public CuentaCorreoServiceImpl(BaseRepository<CuentaCorreo, String> baserepository, CuentaCorreoRepository cuentacorreoRepository) {super(baserepository);
         this.cuentacorreoRepository = cuentacorreoRepository;
+    }
+
+    @Override
+    public <D> List<D> convertToDtoList(List<CuentaCorreo> entities) {
+        return List.of();
     }
 
     @Override
