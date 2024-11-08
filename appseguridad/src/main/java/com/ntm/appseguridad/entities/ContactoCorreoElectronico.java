@@ -15,7 +15,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper=true)
-//@SuperBuilder
 public class ContactoCorreoElectronico extends Contacto {
     private String email;    
 }
