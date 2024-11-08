@@ -6,6 +6,8 @@ import com.ntm.appseguridad.repositories.DepartamentoRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class DepartamentoServiceImpl extends BaseServiceImpl<Departamento,String> implements DepartamentoService {
@@ -14,6 +16,11 @@ public class DepartamentoServiceImpl extends BaseServiceImpl<Departamento,String
 
     public DepartamentoServiceImpl(BaseRepository<Departamento, String> baserepository, DepartamentoRepository departamentoRepository) {super(baserepository);
         this.departamentoRepository = departamentoRepository;
+    }
+
+    @Override
+    public <D> List<D> convertToDtoList(List<Departamento> entities) {
+        return List.of();
     }
 
     @Override

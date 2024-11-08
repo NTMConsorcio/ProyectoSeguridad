@@ -38,6 +38,11 @@ public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, String> impleme
     }
 
     @Override
+    public <D> List<D> convertToDtoList(List<Usuario> entities) {
+        return List.of();
+    }
+
+    @Override
     public boolean validar(Usuario entity, String caso) throws Exception {
         try {
             if (entity.getCuenta() == null || entity.getCuenta().isEmpty()) {

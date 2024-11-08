@@ -45,6 +45,11 @@ public class PlanillaHorariaServiceImpl extends BaseServiceImpl<PlanillaHoraria,
     }
 
     @Override
+    public <D> List<D> convertToDtoList(List<PlanillaHoraria> entities) {
+        return List.of();
+    }
+
+    @Override
     public boolean validar(PlanillaHoraria entity, String caso) throws Exception {
         try {
             if (entity.getEmpleado() == null || entity.getEmpleado().getId().isEmpty()) {

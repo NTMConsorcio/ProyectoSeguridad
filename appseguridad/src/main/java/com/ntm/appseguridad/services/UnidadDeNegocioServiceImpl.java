@@ -47,6 +47,11 @@ public class UnidadDeNegocioServiceImpl extends BaseServiceImpl<UnidadDeNegocio,
     }
 
     @Override
+    public <D> List<D> convertToDtoList(List<UnidadDeNegocio> entities) {
+        return (List<D>) unidadDeNegocioMapper.toDtoList(entities);
+    }
+
+    @Override
     public boolean validar(UnidadDeNegocio entity, String caso) throws Exception {
         try {
             if (entity.getNombre() == null || entity.getNombre().isEmpty()) {
@@ -77,8 +82,8 @@ public class UnidadDeNegocioServiceImpl extends BaseServiceImpl<UnidadDeNegocio,
         }
     }
 
-    public List<UnidadDeNegocioDTO> listarUnidadDeNegocioActivo() throws Exception {
-        List<UnidadDeNegocio> unidades = findAll();
-        return unidadDeNegocioMapper.toDtoList(unidades);  // Convertir la lista de entidades a DTOs
-    }
+//    public List<UnidadDeNegocioDTO> listarUnidadDeNegocioActivo() throws Exception {
+//        List<UnidadDeNegocio> unidades = findAll();
+//        return unidadDeNegocioMapper.toDtoList(unidades);  // Convertir la lista de entidades a DTOs
+//    }
 }

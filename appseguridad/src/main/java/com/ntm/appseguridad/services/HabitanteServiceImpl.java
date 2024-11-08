@@ -9,6 +9,7 @@ import com.ntm.appseguridad.repositories.HabitanteRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,6 +29,11 @@ public class HabitanteServiceImpl extends BaseServiceImpl<Habitante,String> impl
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
+    }
+
+    @Override
+    public <D> List<D> convertToDtoList(List<Habitante> entities) {
+        return List.of();
     }
 
     @Override

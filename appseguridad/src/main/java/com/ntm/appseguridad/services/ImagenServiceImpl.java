@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Service
 public class ImagenServiceImpl extends BaseServiceImpl<Imagen,String> implements ImagenService {
     private final ImagenRepository imagenRepository;
@@ -16,59 +18,65 @@ public class ImagenServiceImpl extends BaseServiceImpl<Imagen,String> implements
         super(baseRepository);
         this.imagenRepository = imagenRepository;
     }
+
+    @Override
+    public <D> List<D> convertToDtoList(List<Imagen> entities) {
+        return List.of();
+    }
+
     /*
-    @Override
-    @Transactional
-    public Imagen save(MultipartFile archivo) throws ErrorServiceException {
-        try {
+        @Override
+        @Transactional
+        public Imagen save(MultipartFile archivo) throws ErrorServiceException {
+            try {
 
-            validar(archivo);
+                validar(archivo);
 
-            Imagen imagen = new Imagen();
-            imagen.setMime(archivo.getContentType());
-            imagen.setNombre(archivo.getName());
-            imagen.setContenido(archivo.getBytes());
-            imagen.setEliminado(false);
+                Imagen imagen = new Imagen();
+                imagen.setMime(archivo.getContentType());
+                imagen.setNombre(archivo.getName());
+                imagen.setContenido(archivo.getBytes());
+                imagen.setEliminado(false);
 
-            return repository.save(imagen);
+                return repository.save(imagen);
 
 
-        } catch (ErrorServiceException e) {
-            throw e;
-        } catch (Exception ex){
-            throw new ErrorServiceException("Error de Sistemas");
-        }
-    }
-
-    @Override
-    @Transactional
-    public Imagen update(String idImagen, MultipartFile archivo) throws ErrorServiceException{
-
-        try {
-
-            validar(archivo);
-
-            Imagen imagen = findById(idImagen);
-            imagen.setMime(archivo.getContentType());
-            imagen.setNombre(archivo.getName());
-            imagen.setContenido(archivo.getBytes());
-
-            return repository.save(imagen);
-
-        } catch (ErrorServiceException e) {
-            throw e;
-        } catch (Exception ex){
-            throw new ErrorServiceException("Error de Sistemas");
+            } catch (ErrorServiceException e) {
+                throw e;
+            } catch (Exception ex){
+                throw new ErrorServiceException("Error de Sistemas");
+            }
         }
 
-    }
+        @Override
+        @Transactional
+        public Imagen update(String idImagen, MultipartFile archivo) throws ErrorServiceException{
 
-    @Override
-    public boolean validar(Imagen imagen, String caso) {
-        return true;
-    }
+            try {
 
-    */
+                validar(archivo);
+
+                Imagen imagen = findById(idImagen);
+                imagen.setMime(archivo.getContentType());
+                imagen.setNombre(archivo.getName());
+                imagen.setContenido(archivo.getBytes());
+
+                return repository.save(imagen);
+
+            } catch (ErrorServiceException e) {
+                throw e;
+            } catch (Exception ex){
+                throw new ErrorServiceException("Error de Sistemas");
+            }
+
+        }
+
+        @Override
+        public boolean validar(Imagen imagen, String caso) {
+            return true;
+        }
+
+        */
     public boolean validar(Imagen archivo, String caso) throws ErrorServiceException{
 
         try {

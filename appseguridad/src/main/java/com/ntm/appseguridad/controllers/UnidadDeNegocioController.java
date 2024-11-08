@@ -25,8 +25,8 @@ public class UnidadDeNegocioController extends BaseControllerImpl<UnidadDeNegoci
     }
 
     @GetMapping("/activos")
-    public ResponseEntity<List<UnidadDeNegocioDTO>> listarUnidadDeNegocioActivos() throws Exception {
-        List<UnidadDeNegocioDTO> unidadesDeNegocio = service.listarUnidadDeNegocioActivo();
+    public ResponseEntity<List<UnidadDeNegocioDTO>> findAllDtoList() throws Exception {
+        List<UnidadDeNegocioDTO> unidadesDeNegocio = service.findAllDtoList();
         return ResponseEntity.ok(unidadesDeNegocio);
     }
 

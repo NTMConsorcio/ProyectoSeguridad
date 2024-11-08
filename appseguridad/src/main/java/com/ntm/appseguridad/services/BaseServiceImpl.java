@@ -28,6 +28,14 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
             throw new Exception("Error al obtener la lista de elementos");
         }
     }
+
+
+    @Transactional
+    public <D> List<D> findAllDtoList() throws Exception {
+        List<E> entities = findAll();
+        return convertToDtoList(entities);
+    }
+
     @Override
     @Transactional
     public Page<E> findAll(Pageable pageable) throws Exception{

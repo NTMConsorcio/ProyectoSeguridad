@@ -7,6 +7,8 @@ import com.ntm.appseguridad.repositories.DireccionRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class DireccionServiceImpl extends BaseServiceImpl<Direccion,String> implements DireccionService {
@@ -15,6 +17,11 @@ public class DireccionServiceImpl extends BaseServiceImpl<Direccion,String> impl
 
     public DireccionServiceImpl(BaseRepository<Direccion, String> baserepository, DireccionRepository direccionRepository) {super(baserepository);
         this.direccionRepository = direccionRepository;
+    }
+
+    @Override
+    public <D> List<D> convertToDtoList(List<Direccion> entities) {
+        return List.of();
     }
 
     @Override

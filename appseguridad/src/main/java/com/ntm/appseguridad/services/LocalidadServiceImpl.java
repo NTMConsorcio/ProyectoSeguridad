@@ -7,6 +7,8 @@ import com.ntm.appseguridad.repositories.LocalidadRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class LocalidadServiceImpl extends BaseServiceImpl<Localidad,String> implements LocalidadService {
@@ -15,6 +17,11 @@ public class LocalidadServiceImpl extends BaseServiceImpl<Localidad,String> impl
 
     public LocalidadServiceImpl(BaseRepository<Localidad, String> baserepository, LocalidadRepository localidadRepository) {super(baserepository);
         this.localidadRepository = localidadRepository;
+    }
+
+    @Override
+    public <D> List<D> convertToDtoList(List<Localidad> entities) {
+        return List.of();
     }
 
     @Override

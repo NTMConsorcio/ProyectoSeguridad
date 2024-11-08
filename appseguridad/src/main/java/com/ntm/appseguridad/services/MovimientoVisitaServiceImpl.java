@@ -10,6 +10,7 @@ import com.ntm.appseguridad.services.error.ErrorServiceException;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +22,11 @@ public class MovimientoVisitaServiceImpl extends BaseServiceImpl<MovimientoVisit
         this.movimientoVisitaRepository = movimientoVisitaRepository;
     }
 
+
+    @Override
+    public <D> List<D> convertToDtoList(List<MovimientoVisita> entities) {
+        return List.of();
+    }
 
     @Override
     public boolean validar(MovimientoVisita entity, String caso) throws Exception {

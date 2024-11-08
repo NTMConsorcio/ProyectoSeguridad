@@ -7,6 +7,8 @@ import com.ntm.appseguridad.repositories.ContactoTelefonicoRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class ContactoTelefonicoServiceImpl extends BaseServiceImpl<ContactoTelefonico,String> implements ContactoTelefonicoService {
@@ -15,6 +17,11 @@ public class ContactoTelefonicoServiceImpl extends BaseServiceImpl<ContactoTelef
 
     public ContactoTelefonicoServiceImpl(BaseRepository<ContactoTelefonico, String> baserepository, ContactoTelefonicoRepository contactoTelefonicoRepository) {super(baserepository);
         this.contactoTelefonicoRepository = contactoTelefonicoRepository;
+    }
+
+    @Override
+    public <D> List<D> convertToDtoList(List<ContactoTelefonico> entities) {
+        return List.of();
     }
 
     @Override
