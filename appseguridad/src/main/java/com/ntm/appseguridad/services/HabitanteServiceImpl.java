@@ -7,10 +7,11 @@ import com.ntm.appseguridad.entities.Inmueble;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.HabitanteRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-
+@Service
 public class HabitanteServiceImpl extends BaseServiceImpl<Habitante,String> implements HabitanteService {
 
     private final HabitanteRepository habitanteRepository;

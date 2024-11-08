@@ -6,10 +6,12 @@ import com.ntm.appseguridad.entities.enums.TipoEmpleado;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.EmpleadoRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class EmpleadoServiceImpl extends BaseServiceImpl<Empleado,String> implements EmpleadoService {
 
     private final EmpleadoRepository empleadoRepository;
