@@ -1,6 +1,8 @@
 package com.ntm.appseguridad.services;
 
 import com.ntm.appseguridad.entities.Localidad;
+import com.ntm.appseguridad.entities.Provincia;
+import com.ntm.appseguridad.mappers.LocalidadMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.LocalidadRepository;
 
@@ -14,14 +16,16 @@ import java.util.List;
 public class LocalidadServiceImpl extends BaseServiceImpl<Localidad,String> implements LocalidadService {
 
     private final LocalidadRepository localidadRepository;
+    private final LocalidadMapper localidadMapper;
 
-    public LocalidadServiceImpl(BaseRepository<Localidad, String> baserepository, LocalidadRepository localidadRepository) {super(baserepository);
+    public LocalidadServiceImpl(BaseRepository<Localidad, String> baserepository, LocalidadRepository localidadRepository, LocalidadMapper localidadMapper) {super(baserepository);
         this.localidadRepository = localidadRepository;
+        this.localidadMapper = localidadMapper;
     }
 
     @Override
     public <D> List<D> convertToDtoList(List<Localidad> entities) {
-        return List.of();
+        return (List<D>) localidadMapper.toDtoList(entities);
     }
 
     @Override

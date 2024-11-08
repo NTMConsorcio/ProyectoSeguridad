@@ -2,6 +2,8 @@ package com.ntm.appseguridad.services;
 
 import com.ntm.appseguridad.entities.ContactoTelefonico;
 import com.ntm.appseguridad.entities.Departamento;
+import com.ntm.appseguridad.entities.Provincia;
+import com.ntm.appseguridad.mappers.ContactoTelefonicoMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.ContactoTelefonicoRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
@@ -14,14 +16,16 @@ import java.util.List;
 public class ContactoTelefonicoServiceImpl extends BaseServiceImpl<ContactoTelefonico,String> implements ContactoTelefonicoService {
 
     private final ContactoTelefonicoRepository contactoTelefonicoRepository;
+    private final ContactoTelefonicoMapper contactoTelefonicoMapper;
 
-    public ContactoTelefonicoServiceImpl(BaseRepository<ContactoTelefonico, String> baserepository, ContactoTelefonicoRepository contactoTelefonicoRepository) {super(baserepository);
+    public ContactoTelefonicoServiceImpl(BaseRepository<ContactoTelefonico, String> baserepository, ContactoTelefonicoRepository contactoTelefonicoRepository, ContactoTelefonicoMapper contactoTelefonicoMapper) {super(baserepository);
         this.contactoTelefonicoRepository = contactoTelefonicoRepository;
+        this.contactoTelefonicoMapper = contactoTelefonicoMapper;
     }
 
     @Override
     public <D> List<D> convertToDtoList(List<ContactoTelefonico> entities) {
-        return List.of();
+        return (List<D>) contactoTelefonicoMapper.toDtoList(entities);
     }
 
     @Override

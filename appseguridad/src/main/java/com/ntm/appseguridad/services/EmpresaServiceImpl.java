@@ -2,6 +2,8 @@ package com.ntm.appseguridad.services;
 
 import com.ntm.appseguridad.entities.CuentaCorreo;
 import com.ntm.appseguridad.entities.Empresa;
+import com.ntm.appseguridad.entities.Provincia;
+import com.ntm.appseguridad.mappers.EmpresaMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.EmpresaRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
@@ -15,11 +17,17 @@ import java.util.List;
 public class EmpresaServiceImpl extends BaseServiceImpl<Empresa,String> implements EmpresaService {
 
     private final EmpresaRepository empresaRepository;
+    private final EmpresaMapper empresaMapper;
 
-    public EmpresaServiceImpl(BaseRepository<Empresa, String> baserepository, EmpresaRepository empresaRepository) {super(baserepository);
+    public EmpresaServiceImpl(BaseRepository<Empresa, String> baserepository, EmpresaRepository empresaRepository, EmpresaMapper empresaMapper) {super(baserepository);
         this.empresaRepository = empresaRepository;
+        this.empresaMapper = empresaMapper;
     }
 
+    @Override
+    public <D> List<D> convertToDtoList(List<Empresa> entities) {
+        return (List<D>) empresaMapper.toDtoList(entities);
+    }
 
     @Override
     public List<Empresa> search(String filtro) throws Exception {
@@ -29,11 +37,6 @@ public class EmpresaServiceImpl extends BaseServiceImpl<Empresa,String> implemen
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
-    }
-
-    @Override
-    public <D> List<D> convertToDtoList(List<Empresa> entities) {
-        return List.of();
     }
 
     @Override

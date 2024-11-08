@@ -1,6 +1,8 @@
 package com.ntm.appseguridad.services;
 
+import com.ntm.appseguridad.entities.Pais;
 import com.ntm.appseguridad.entities.Provincia;
+import com.ntm.appseguridad.mappers.ProvinciaMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.ProvinciaRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
@@ -14,13 +16,16 @@ public class ProvinciaServiceImpl extends BaseServiceImpl<Provincia,String> impl
 
     private final ProvinciaRepository provinciaRepository;
 
-    public ProvinciaServiceImpl(BaseRepository<Provincia, String> baserepository, ProvinciaRepository provinciaRepository) {super(baserepository);
+    private final ProvinciaMapper provinciaMapper;
+
+    public ProvinciaServiceImpl(BaseRepository<Provincia, String> baserepository, ProvinciaRepository provinciaRepository, ProvinciaMapper provinciaMapper) {super(baserepository);
         this.provinciaRepository = provinciaRepository;
+        this.provinciaMapper = provinciaMapper;
     }
 
     @Override
     public <D> List<D> convertToDtoList(List<Provincia> entities) {
-        return List.of();
+        return (List<D>) provinciaMapper.toDtoList(entities);
     }
 
     @Override

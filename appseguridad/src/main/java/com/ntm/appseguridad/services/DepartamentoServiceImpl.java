@@ -1,6 +1,8 @@
 package com.ntm.appseguridad.services;
 
 import com.ntm.appseguridad.entities.Departamento;
+import com.ntm.appseguridad.entities.Provincia;
+import com.ntm.appseguridad.mappers.DepartamentoMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.DepartamentoRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
@@ -13,14 +15,16 @@ import java.util.List;
 public class DepartamentoServiceImpl extends BaseServiceImpl<Departamento,String> implements DepartamentoService {
 
     private final DepartamentoRepository departamentoRepository;
+    private final DepartamentoMapper departamentoMapper;
 
-    public DepartamentoServiceImpl(BaseRepository<Departamento, String> baserepository, DepartamentoRepository departamentoRepository) {super(baserepository);
+    public DepartamentoServiceImpl(BaseRepository<Departamento, String> baserepository, DepartamentoRepository departamentoRepository, DepartamentoMapper departamentoMapper) {super(baserepository);
         this.departamentoRepository = departamentoRepository;
+        this.departamentoMapper = departamentoMapper;
     }
 
     @Override
     public <D> List<D> convertToDtoList(List<Departamento> entities) {
-        return List.of();
+        return (List<D>) departamentoMapper.toDtoList(entities);
     }
 
     @Override

@@ -1,4 +1,6 @@
 package com.ntm.appseguridad.services;
+import com.ntm.appseguridad.entities.Provincia;
+import com.ntm.appseguridad.mappers.ContactoCorreoElectronicoMapper;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
 import com.ntm.appseguridad.entities.ContactoCorreoElectronico;
 import com.ntm.appseguridad.repositories.BaseRepository;
@@ -12,14 +14,16 @@ import java.util.List;
 public class ContactoCorreoElectronicoServiceImpl extends BaseServiceImpl<ContactoCorreoElectronico,String> implements ContactoCorreoElectronicoService {
 
     private final ContactoCorreoElectronicoRepository contactoCorreoElectronicoRepository;
+    private final ContactoCorreoElectronicoMapper contactoCorreoElectronicoMapper;
 
-    public ContactoCorreoElectronicoServiceImpl(BaseRepository<ContactoCorreoElectronico, String> baserepository, ContactoCorreoElectronicoRepository contactoCorreoElectronicoRepository) {super(baserepository);
+    public ContactoCorreoElectronicoServiceImpl(BaseRepository<ContactoCorreoElectronico, String> baserepository, ContactoCorreoElectronicoRepository contactoCorreoElectronicoRepository, ContactoCorreoElectronicoMapper contactoCorreoElectronicoMapper) {super(baserepository);
         this.contactoCorreoElectronicoRepository = contactoCorreoElectronicoRepository;
+        this.contactoCorreoElectronicoMapper = contactoCorreoElectronicoMapper;
     }
 
     @Override
     public <D> List<D> convertToDtoList(List<ContactoCorreoElectronico> entities) {
-        return List.of();
+        return (List<D>) contactoCorreoElectronicoMapper.toDtoList(entities);
     }
 
     @Override

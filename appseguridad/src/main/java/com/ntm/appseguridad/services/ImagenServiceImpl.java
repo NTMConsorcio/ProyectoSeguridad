@@ -1,6 +1,8 @@
 package com.ntm.appseguridad.services;
 
 import com.ntm.appseguridad.entities.Imagen;
+import com.ntm.appseguridad.entities.Provincia;
+import com.ntm.appseguridad.mappers.ImagenMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.ImagenRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
@@ -13,15 +15,17 @@ import java.util.List;
 @Service
 public class ImagenServiceImpl extends BaseServiceImpl<Imagen,String> implements ImagenService {
     private final ImagenRepository imagenRepository;
+    private final ImagenMapper imagenMapper;
 
-    public ImagenServiceImpl(BaseRepository<Imagen, String> baseRepository, ImagenRepository imagenRepository) {
+    public ImagenServiceImpl(BaseRepository<Imagen, String> baseRepository, ImagenRepository imagenRepository, ImagenMapper imagenMapper) {
         super(baseRepository);
         this.imagenRepository = imagenRepository;
+        this.imagenMapper = imagenMapper;
     }
 
     @Override
     public <D> List<D> convertToDtoList(List<Imagen> entities) {
-        return List.of();
+        return (List<D>) imagenMapper.toDtoList(entities);
     }
 
     /*

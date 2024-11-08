@@ -2,6 +2,8 @@ package com.ntm.appseguridad.services;
 
 import com.ntm.appseguridad.entities.CuentaCorreo;
 import com.ntm.appseguridad.entities.Direccion;
+import com.ntm.appseguridad.entities.Provincia;
+import com.ntm.appseguridad.mappers.DireccionMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.DireccionRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
@@ -14,14 +16,16 @@ import java.util.List;
 public class DireccionServiceImpl extends BaseServiceImpl<Direccion,String> implements DireccionService {
 
     private final DireccionRepository direccionRepository;
+    private final DireccionMapper direccionMapper;
 
-    public DireccionServiceImpl(BaseRepository<Direccion, String> baserepository, DireccionRepository direccionRepository) {super(baserepository);
+    public DireccionServiceImpl(BaseRepository<Direccion, String> baserepository, DireccionRepository direccionRepository, DireccionMapper direccionMapper) {super(baserepository);
         this.direccionRepository = direccionRepository;
+        this.direccionMapper = direccionMapper;
     }
 
     @Override
     public <D> List<D> convertToDtoList(List<Direccion> entities) {
-        return List.of();
+        return (List<D>) direccionMapper.toDtoList(entities);
     }
 
     @Override
