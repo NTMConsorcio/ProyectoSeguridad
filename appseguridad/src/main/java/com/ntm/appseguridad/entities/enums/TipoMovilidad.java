@@ -1,5 +1,5 @@
 package com.ntm.appseguridad.entities.enums;
 
 public enum TipoMovilidad {
-    FAMILIARES, AMIGOS, SERVICIO, DELIVERY
+    AUTO, BICICLETA, MOTO, A_PIE
 }

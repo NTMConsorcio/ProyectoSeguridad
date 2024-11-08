@@ -1,5 +1,5 @@
 package com.ntm.clienteadministrativo.dto.enums;
 
 public enum TipoMovilidad {
-    FAMILIARES, AMIGOS, SERVICIO, DELIVERY
+    AUTO, BICICLETA, MOTO, A_PIE
 }
