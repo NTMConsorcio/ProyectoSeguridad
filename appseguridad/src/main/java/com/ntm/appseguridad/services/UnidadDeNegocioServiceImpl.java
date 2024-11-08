@@ -1,7 +1,9 @@
 package com.ntm.appseguridad.services;
 
+import com.ntm.appseguridad.dto.UnidadDeNegocioDTO;
 import com.ntm.appseguridad.entities.UnidadDeNegocio;
 import com.ntm.appseguridad.entities.Usuario;
+import com.ntm.appseguridad.mappers.UnidadDeNegocioMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.UnidadDeNegocioRepository;
 
@@ -16,9 +18,11 @@ import java.util.Optional;
 public class UnidadDeNegocioServiceImpl extends BaseServiceImpl<UnidadDeNegocio,String> implements UnidadDeNegocioService {
 
     private final UnidadDeNegocioRepository unidadDeNegocioRepository;
+    private final UnidadDeNegocioMapper unidadDeNegocioMapper;
 
-    public UnidadDeNegocioServiceImpl(BaseRepository<UnidadDeNegocio, String> baserepository, UnidadDeNegocioRepository unidadDeNegocioRepository) {super(baserepository);
+    public UnidadDeNegocioServiceImpl(BaseRepository<UnidadDeNegocio, String> baserepository, UnidadDeNegocioRepository unidadDeNegocioRepository, UnidadDeNegocioMapper unidadDeNegocioMapper) {super(baserepository);
         this.unidadDeNegocioRepository = unidadDeNegocioRepository;
+        this.unidadDeNegocioMapper = unidadDeNegocioMapper;
     }
 
 
@@ -40,6 +44,11 @@ public class UnidadDeNegocioServiceImpl extends BaseServiceImpl<UnidadDeNegocio,
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
+    }
+
+    @Override
+    public <D> List<D> convertToDtoList(List<UnidadDeNegocio> entities) {
+        return (List<D>) unidadDeNegocioMapper.toDtoList(entities);
     }
 
     @Override
@@ -72,4 +81,9 @@ public class UnidadDeNegocioServiceImpl extends BaseServiceImpl<UnidadDeNegocio,
             throw new ErrorServiceException("Error de sistema");
         }
     }
+
+//    public List<UnidadDeNegocioDTO> listarUnidadDeNegocioActivo() throws Exception {
+//        List<UnidadDeNegocio> unidades = findAll();
+//        return unidadDeNegocioMapper.toDtoList(unidades);  // Convertir la lista de entidades a DTOs
+//    }
 }

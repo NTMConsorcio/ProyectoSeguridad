@@ -36,7 +36,7 @@ public class SeguridadWeb {
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/admin/*").hasRole("ADMIN")
                         .requestMatchers("/css/**", "/js/**", "/assets/**", "/**", "/view/**").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 /*
                 .formLogin(form -> form

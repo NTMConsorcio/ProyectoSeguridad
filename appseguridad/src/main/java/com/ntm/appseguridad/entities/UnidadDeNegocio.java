@@ -15,7 +15,7 @@ public class UnidadDeNegocio extends Base {
 
     @Column(unique=true)
     private String nombre;
-    @ManyToOne
-    private Direccion direccion;
+    //@ManyToOne
+    private String direccion;
 
 }

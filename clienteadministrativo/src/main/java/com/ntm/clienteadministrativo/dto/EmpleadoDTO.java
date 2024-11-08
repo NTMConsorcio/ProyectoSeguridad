@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 public class EmpleadoDTO extends PersonaDTO{
     public String legajo;
     public TipoEmpleado tipoEmpleado;
-    public String idUnidadDeNegocio;
+    public UnidadDeNegocioDTO unidadDeNegocio;
 }
 

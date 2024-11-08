@@ -1,20 +1,31 @@
 package com.ntm.appseguridad.services;
 
 import com.ntm.appseguridad.entities.CuentaCorreo;
+import com.ntm.appseguridad.entities.Provincia;
+import com.ntm.appseguridad.mappers.CuentaCorreoMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.CuentaCorreoRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class CuentaCorreoServiceImpl extends BaseServiceImpl<CuentaCorreo,String> implements CuentaCorreoService {
 
     private final CuentaCorreoRepository cuentacorreoRepository;
+    private final CuentaCorreoMapper cuentaCorreoMapper;
 
-    public CuentaCorreoServiceImpl(BaseRepository<CuentaCorreo, String> baserepository, CuentaCorreoRepository cuentacorreoRepository) {super(baserepository);
+    public CuentaCorreoServiceImpl(BaseRepository<CuentaCorreo, String> baserepository, CuentaCorreoRepository cuentacorreoRepository, CuentaCorreoMapper cuentaCorreoMapper) {super(baserepository);
         this.cuentacorreoRepository = cuentacorreoRepository;
+        this.cuentaCorreoMapper = cuentaCorreoMapper;
+    }
+
+    @Override
+    public <D> List<D> convertToDtoList(List<CuentaCorreo> entities) {
+        return (List<D>) cuentaCorreoMapper.toDtoList(entities);
     }
 
     @Override
