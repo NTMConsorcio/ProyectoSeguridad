@@ -14,7 +14,7 @@ public class ContactoCorreoElectronicoDTOService {
     @Autowired
     ContactoCorreoElectronicoDAORest dao;
 
-    public void crear(String observacion, TipoContactos tipoContacto, String correo) throws ErrorServiceException {
+    public ContactoCorreoElectronicoDTO crear(String observacion, TipoContactos tipoContacto, String correo) throws ErrorServiceException {
 
         try {
             ContactoCorreoElectronicoDTO contactoCorreo = new ContactoCorreoElectronicoDTO();
@@ -23,6 +23,7 @@ public class ContactoCorreoElectronicoDTOService {
             contactoCorreo.setObservacion(observacion);
             contactoCorreo.setEliminado(false);
             dao.crear(ContactoCorreoElectronicoDTO.class, contactoCorreo);
+            return contactoCorreo;
 
         } catch (ErrorServiceException e) {
             throw e;

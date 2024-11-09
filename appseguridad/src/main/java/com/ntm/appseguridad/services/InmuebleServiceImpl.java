@@ -21,6 +21,11 @@ public class InmuebleServiceImpl extends BaseServiceImpl<Inmueble,String> implem
 
 
     @Override
+    public <D> D convertToDto(Inmueble entity) {
+        return null;
+    }
+
+    @Override
     public <D> List<D> convertToDtoList(List<Inmueble> entities) {
         return List.of();
     }

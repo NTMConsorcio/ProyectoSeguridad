@@ -30,4 +30,9 @@ public class UnidadDeNegocioController extends BaseControllerImpl<UnidadDeNegoci
         return ResponseEntity.ok(unidadesDeNegocio);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UnidadDeNegocioDTO> findByIdDto(String id) throws Exception{
+        UnidadDeNegocioDTO unidad = service.findByIdDto(id);
+        return ResponseEntity.ok(unidad);
+    }
 }

@@ -22,6 +22,11 @@ public class ContactoCorreoElectronicoServiceImpl extends BaseServiceImpl<Contac
     }
 
     @Override
+    public <D> D convertToDto(ContactoCorreoElectronico entity) {
+        return null;
+    }
+
+    @Override
     public <D> List<D> convertToDtoList(List<ContactoCorreoElectronico> entities) {
         return (List<D>) contactoCorreoElectronicoMapper.toDtoList(entities);
     }

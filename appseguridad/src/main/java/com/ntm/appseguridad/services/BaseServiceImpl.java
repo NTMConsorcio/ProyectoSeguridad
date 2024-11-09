@@ -36,6 +36,8 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
         return convertToDtoList(entities);
     }
 
+
+
     @Override
     @Transactional
     public Page<E> findAll(Pageable pageable) throws Exception{
@@ -57,6 +59,18 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
             throw new Exception("La entidad con el id no existe");
         }
     }
+
+    @Transactional
+    public <D> D findByIdDto(ID id) throws Exception{
+        try {
+            E entity = findById(id);
+            return convertToDto(entity);
+        }catch (Exception e) {
+            throw new Exception("La entidad con el id no existe");
+        }
+    }
+
+
 
     @Override
     @Transactional

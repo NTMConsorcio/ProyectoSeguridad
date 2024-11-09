@@ -39,6 +39,11 @@ public class EmpleadoServiceImpl extends BaseServiceImpl<Empleado,String> implem
     }
 
     @Override
+    public <D> D convertToDto(Empleado entity) {
+        return null;
+    }
+
+    @Override
     public <D> List<D> convertToDtoList(List<Empleado> entities) {
         return List.of();
     }

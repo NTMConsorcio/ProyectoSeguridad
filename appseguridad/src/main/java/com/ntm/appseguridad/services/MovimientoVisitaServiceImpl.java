@@ -24,6 +24,11 @@ public class MovimientoVisitaServiceImpl extends BaseServiceImpl<MovimientoVisit
 
 
     @Override
+    public <D> D convertToDto(MovimientoVisita entity) {
+        return null;
+    }
+
+    @Override
     public <D> List<D> convertToDtoList(List<MovimientoVisita> entities) {
         return List.of();
     }
