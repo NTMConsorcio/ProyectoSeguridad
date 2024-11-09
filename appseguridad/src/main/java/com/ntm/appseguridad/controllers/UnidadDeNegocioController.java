@@ -31,8 +31,10 @@ public class UnidadDeNegocioController extends BaseControllerImpl<UnidadDeNegoci
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<UnidadDeNegocioDTO> findByIdDto(String id) throws Exception{
+    public ResponseEntity<UnidadDeNegocioDTO> findByIdDto(@PathVariable String id) throws Exception{
+        System.out.println(id);
         UnidadDeNegocioDTO unidad = service.findByIdDto(id);
+        System.out.println(unidad);
         return ResponseEntity.ok(unidad);
     }
 }

@@ -1,5 +1,6 @@
 package com.ntm.appseguridad.services;
-import com.ntm.appseguridad.entities.Provincia;
+
+import com.ntm.appseguridad.dto.ContactoCorreoElectronicoDTO;
 import com.ntm.appseguridad.mappers.ContactoCorreoElectronicoMapper;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
 import com.ntm.appseguridad.entities.ContactoCorreoElectronico;
@@ -29,6 +30,12 @@ public class ContactoCorreoElectronicoServiceImpl extends BaseServiceImpl<Contac
     @Override
     public <D> List<D> convertToDtoList(List<ContactoCorreoElectronico> entities) {
         return (List<D>) contactoCorreoElectronicoMapper.toDtoList(entities);
+    }
+
+    public ContactoCorreoElectronicoDTO Crear(ContactoCorreoElectronicoDTO contactoDto) {
+        ContactoCorreoElectronico contacto = contactoCorreoElectronicoMapper.toEntity(contactoDto);
+        ContactoCorreoElectronico contactoGuardado = repository.save(contacto);
+        return contactoCorreoElectronicoMapper.toDTO(contactoGuardado);
     }
 
     @Override

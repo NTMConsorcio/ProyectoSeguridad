@@ -7,15 +7,19 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 
-@Mapper(uses = UnidadDeNegocioMapper.class)
+@Mapper(componentModel = "spring", uses = {UnidadDeNegocioMapper.class, UsuarioMapper.class, ContactoMapper.class})
 public interface EmpleadoMapper {
+
     EmpleadoMapper INSTANCE = Mappers.getMapper(EmpleadoMapper.class);
 
-    //Mapeo: Convertir UnidadDeNegocio a UnidadDeServicioDTO
+    // Mapeo: Convertir Empleado a EmpleadoDTO
     @Mapping(source = "unidadDeNegocio", target = "unidadDeNegocio")
-    EmpleadoDTO toEmpleadoDTO(Empleado empleado);
+    @Mapping(source = "contactos", target = "contactos")
+    EmpleadoDTO toDTO(Empleado empleado);
 
-    //Mapeo inverso: Convertir UnidadDeServicioDTO a UnidadDeNegocio
+    // Mapeo inverso: Convertir EmpleadoDTO a Empleado
     @Mapping(source = "unidadDeNegocio", target = "unidadDeNegocio")
-    Empleado toEmpleado(EmpleadoDTO empleadoDTO);
+    @Mapping(source = "contactos", target = "contactos")
+    Empleado toEntity(EmpleadoDTO empleadoDTO);
+
 }
