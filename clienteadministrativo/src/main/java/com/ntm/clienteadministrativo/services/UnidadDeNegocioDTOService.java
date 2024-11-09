@@ -102,6 +102,7 @@ public class UnidadDeNegocioDTOService {
                 throw new ErrorServiceException("Unidad de negocio no encontrada para el ID: " + id);
             }
             return unidad;
+
         } catch (ErrorServiceException ex) {
             // Manejar una excepción específica
             throw new ErrorServiceException("Error al buscar la unidad de negocio: " + ex.getMessage());
