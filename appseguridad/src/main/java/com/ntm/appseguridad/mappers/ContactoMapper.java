@@ -9,18 +9,59 @@ import com.ntm.appseguridad.entities.ContactoTelefonico;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = {ContactoTelefonicoMapper.class, ContactoCorreoElectronicoMapper.class})
 public interface ContactoMapper {
 
-    ContactoDTO toDTO(Contacto contacto);
+    ContactoMapper INSTANCE = Mappers.getMapper(ContactoMapper.class);
 
-    Contacto toEntity(ContactoDTO contactoDTO);
+    ContactoTelefonicoDTO toDTO(ContactoTelefonico contacto);
 
-    List<ContactoDTO> toDtoList(List<Contacto> entities);
+    ContactoTelefonico toEntity(ContactoTelefonicoDTO contactoDTO);
 
-    List<Contacto> toList(List<ContactoDTO> entities);
+    ContactoCorreoElectronicoDTO toDTO(ContactoCorreoElectronico contacto);
+
+    ContactoCorreoElectronico toEntity(ContactoCorreoElectronicoDTO contactoDTO);
+
+    default ContactoDTO toDTO(Contacto contacto) {
+        if (contacto instanceof ContactoTelefonico) {
+            return toDTO((ContactoTelefonico) contacto);
+        } else if (contacto instanceof ContactoCorreoElectronico) {
+            return toDTO((ContactoCorreoElectronico) contacto);
+        }
+        return null;
+    }
+
+    default Contacto toEntity(ContactoDTO contactoDTO) {
+        if (contactoDTO instanceof ContactoTelefonicoDTO) {
+            return toEntity((ContactoTelefonicoDTO) contactoDTO);
+        } else if (contactoDTO instanceof ContactoCorreoElectronicoDTO) {
+            return toEntity((ContactoCorreoElectronicoDTO) contactoDTO);
+        }
+        return null;
+    }
+
+    default List<Contacto> toEntityList(List<ContactoDTO> contactoDTOs, ContactoTelefonicoMapper contactoTelefonicoMapper,
+                                        ContactoCorreoElectronicoMapper contactoCorreoElectronicoMapper) {
+        List<Contacto> contactos = new ArrayList<>();
+        for (ContactoDTO dto : contactoDTOs) {
+            Contacto contacto = null;
+
+            if (dto instanceof ContactoTelefonicoDTO) {
+                contacto = contactoTelefonicoMapper.toEntity((ContactoTelefonicoDTO) dto);
+            } else if (dto instanceof ContactoCorreoElectronicoDTO) {
+                contacto = contactoCorreoElectronicoMapper.toEntity((ContactoCorreoElectronicoDTO) dto);
+            }
+
+            if (contacto != null) {
+                contactos.add(contacto);
+            }
+        }
+        return contactos;
+    }
 }
+
