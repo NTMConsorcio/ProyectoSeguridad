@@ -2,6 +2,7 @@ package com.ntm.clienteadministrativo.controllers;
 
 import com.ntm.clienteadministrativo.dto.EmpresaDTO;
 import com.ntm.clienteadministrativo.dto.CuentaCorreoDTO;
+import com.ntm.clienteadministrativo.dto.PaisDTO;
 import com.ntm.clienteadministrativo.services.EmpresaDTOService;
 import com.ntm.clienteadministrativo.services.CuentaCorreoDTOService;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
@@ -49,7 +50,7 @@ public class CuentaCorreoController {
         try {
             model.addAttribute("isDisabled", false);
             model.addAttribute("cuentaCorreo", dto);
-            List<EmpresaDTO> empresasList = empresaService.listar();
+            cargarListas(model);
             return viewEdit;
         } catch (ErrorServiceException e) {
             model.addAttribute("mensajeError", e.getMessage());
@@ -78,6 +79,7 @@ public class CuentaCorreoController {
             CuentaCorreoDTO obj = service.buscar(id);
             model.addAttribute("cuentaCorreo", obj);
             model.addAttribute("isDisabled", false);
+            cargarListas(model);
             return viewEdit;
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
@@ -108,25 +110,29 @@ public class CuentaCorreoController {
         try {
             if (result.hasErrors()) {
                 model.addAttribute("mensajeError", "Error en el formulario");
-                model.addAttribute("cuentaCorreo", dto);
-                return viewEdit;
-            }
 
-            if (dto.getId() == null || dto.getId().isEmpty()) {
-                service.crear(dto.getCorreo(), dto.getClave(), dto.getPuerto(), dto.getSmtp(), dto.isTls(), dto.getEmpresa().getId());
             } else {
-                service.modificar(dto.getId(), dto.getCorreo(), dto.getClave(), dto.getPuerto(), dto.getSmtp(), dto.isTls(), dto.getEmpresa().getId());
+
+                if (dto.getId() == null || dto.getId().isEmpty()) {
+                    service.crear(dto.getCorreo(), dto.getClave(), dto.getPuerto(), dto.getSmtp(), dto.isTls(), dto.getEmpresa().getId());
+                } else {
+                    service.modificar(dto.getId(), dto.getCorreo(), dto.getClave(), dto.getPuerto(), dto.getSmtp(), dto.isTls(), dto.getEmpresa().getId());
+                }
+                return "redirect:/cuentaCorreo/list";
             }
 
-            return "redirect:/cuentaCorreo/list";
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
-            model.addAttribute("cuentaCorreo", dto);
-            return viewEdit;
         } catch (Exception ex) {
             model.addAttribute("mensajeError", "Error en el formulario");
-            model.addAttribute("cuentaCorreo", dto);
-            return viewEdit;
         }
+        model.addAttribute("cuentaCorreo", dto);
+        cargarListas(model);
+        return viewEdit;
+    }
+
+    public void cargarListas(Model model) throws ErrorServiceException {
+        List<EmpresaDTO> list = empresaService.listar();
+        model.addAttribute("empresas", list);
     }
 }

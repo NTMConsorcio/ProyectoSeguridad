@@ -36,8 +36,14 @@ public class ProvinciaServiceImpl extends BaseServiceImpl<Provincia,String> impl
     @Override
     public boolean validar(Provincia entity, String caso) throws ErrorServiceException {
         try {
+            System.out.println(entity.getPais().getNombre());
+            System.out.println(entity.getPais().getId());
             if (entity.getNombre() == null || entity.getNombre().isEmpty()) {
                 throw new ErrorServiceException("Debe indicar el nombre");
+            }
+
+            if (entity.getPais() == null) {
+                throw new ErrorServiceException("Debe indicar el pais");
             }
 
             if (caso.equals("SAVE")) {
