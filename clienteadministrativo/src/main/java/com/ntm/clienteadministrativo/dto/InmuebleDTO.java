@@ -15,5 +15,5 @@ public class InmuebleDTO extends BaseDTO {
     private String piso;
     private String depto;
     private EstadoInmueble estadoInmueble;
-    private VisitanteDTO visitante;
+    private UnidadDeNegocioDTO unidadDeNegocio;
 }
