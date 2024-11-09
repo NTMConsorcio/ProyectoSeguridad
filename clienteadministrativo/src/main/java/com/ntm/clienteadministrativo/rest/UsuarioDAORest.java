@@ -15,7 +15,7 @@ public class UsuarioDAORest  extends BaseDAORestImpl<UsuarioDTO, String> {
 
     public void registrar(UsuarioDTO usuario) throws ErrorServiceException {
         try {
-            String uri = "http://localhost:9000/api/v1/autores";
+            String uri = "http://localhost:9000/api/v1/usuario/crear";
             restTemplate.postForEntity(uri, usuario, UsuarioDTO.class);
         } catch (Exception ex) {
             ex.printStackTrace();

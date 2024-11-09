@@ -25,7 +25,7 @@ public class UnidadDeNegocioDAORest extends BaseDAORestImpl<UnidadDeNegocioDTO, 
 
     public UnidadDeNegocioDTO buscar(String id) throws ErrorServiceException{
         try {
-            String uri = "http://localhost:9000/api/v1/unidadDeNegocio" + id;
+            String uri = "http://localhost:9000/api/v1/unidadDeNegocio/d" + id;
             ResponseEntity<UnidadDeNegocioDTO> response = restTemplate.getForEntity(uri,UnidadDeNegocioDTO.class);
             UnidadDeNegocioDTO unidad = response.getBody();
             return unidad;
