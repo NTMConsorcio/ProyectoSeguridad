@@ -24,7 +24,7 @@ public class InicioController {
             return  "view/tables";
         } catch (Exception ex) {
             model.addAttribute("mensajeError", "Error en el sistema");
-            return "/view/categoria/categoriaList";
+            return "view/categoria/categoriaList";
         }
     }
 }

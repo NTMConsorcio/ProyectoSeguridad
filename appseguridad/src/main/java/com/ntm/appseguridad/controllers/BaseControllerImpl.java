@@ -18,7 +18,7 @@ public abstract class BaseControllerImpl<E extends Base ,S extends BaseServiceIm
     @GetMapping("")
     public ResponseEntity<?> getAll() {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
+            return ResponseEntity.status(HttpStatus.OK).body(service.findAllDtoList());
         }catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde.\"}");
         }

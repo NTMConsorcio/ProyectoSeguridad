@@ -27,58 +27,44 @@
                         Registros
                     </div>
                     <div class="card-body">
-                        <table id="datatablesSimple">
+                        <table id="datatablesSimple" class="table-hover">
                             <thead>
                             <tr>
+                                <th>Opciones</th>
                                 <th>Correo</th>
-                            </tr>
-                            <tr>
                                 <th>Empresa</th>
-                            </tr>
-                            <tr>
                                 <th>Puerto</th>
-                            </tr>
-                            <tr>
                                 <th>SMTP</th>
-                            </tr>
-                            <tr>
                                 <th>TLS</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
+                                <th>Opciones</th>
                                 <th>Correo</th>
-                            </tr>
-                            <tr>
                                 <th>Empresa</th>
-                            </tr>
-                            <tr>
                                 <th>Puerto</th>
-                            </tr>
-                            <tr>
                                 <th>SMTP</th>
-                            </tr>
-                            <tr>
                                 <th>TLS</th>
                             </tr>
                             </tfoot>
                             <tbody>
                             <tr th:each="cuentaCorreo : ${cuentasCorreo}">
-                                <th>
+                                <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-primary dropdown-toggle btn-sm"
                                                 data-bs-toggle="dropdown" aria-expanded="false"><i
                                                 class="bi bi-three-dots-vertical"></i></button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item"
-                                                   th:href="@{/consultar?id=} + ${cuentaCorreo.id}">Consultar</a></li>
+                                                   th:href="@{consultar?id=} + ${cuentaCorreo.id}">Consultar</a></li>
                                             <li><a class="dropdown-item"
-                                                   th:href="@{/modificar?id=} + ${cuentaCorreo.id}">Modificar</a></li>
-                                            <li><a class="dropdown-item" th:href="@{/baja?id=} + ${cuentaCorreo.id}">Eliminar</a>
+                                                   th:href="@{modificar?id=} + ${cuentaCorreo.id}">Modificar</a></li>
+                                            <li><a class="dropdown-item" th:href="@{baja?id=} + ${cuentaCorreo.id}">Eliminar</a>
                                             </li>
                                         </ul>
                                     </div>
-                                </th>
+                                </td>
                                 <td th:text="${cuentaCorreo.correo}"></td>
                                 <td th:text="${cuentaCorreo.empresa.nombre}"></td>
                                 <td th:text="${cuentaCorreo.puerto}"></td>
