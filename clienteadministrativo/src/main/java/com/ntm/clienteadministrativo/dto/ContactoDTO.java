@@ -9,4 +9,9 @@ import lombok.EqualsAndHashCode;
 public class ContactoDTO extends BaseDTO {
     protected String observacion;
     protected TipoContactos tipoContacto;
+    protected String tipo;
+
+    public String getTipo() {
+        return this instanceof ContactoTelefonicoDTO ? "telefono" : "correo";
+    }
 }

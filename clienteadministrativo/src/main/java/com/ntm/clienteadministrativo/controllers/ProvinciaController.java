@@ -23,6 +23,8 @@ import java.util.List;
 public class ProvinciaController {
     private String viewList = "view/provincia/listProvincia";
     private String viewEdit = "view/provincia/editProvincia";
+    private String redList = "redirect:/provincia/list";
+    private String redEdit = "redirect:/provincia/alta";
 
     @Autowired
     private ProvinciaDTOService service;
@@ -49,7 +51,7 @@ public class ProvinciaController {
         try {
             model.addAttribute("isDisabled", false);
             model.addAttribute("provincia", dto);
-            List<PaisDTO> paisesList = paisService.listar();
+            cargarListas(model);
             return viewEdit;
         } catch (ErrorServiceException e) {
             model.addAttribute("mensajeError", e.getMessage());
@@ -60,7 +62,7 @@ public class ProvinciaController {
     }
 
     @GetMapping("/baja")
-    public String baja(@RequestParam(value="id") String id, Model model) {
+    public String baja(@RequestParam(value = "id") String id, Model model) {
         try {
             service.eliminar(id);
             return "redirect:/provincia/list";
@@ -78,6 +80,7 @@ public class ProvinciaController {
             ProvinciaDTO obj = service.buscar(id);
             model.addAttribute("provincia", obj);
             model.addAttribute("isDisabled", false);
+            cargarListas(model);
             return viewEdit;
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
@@ -103,30 +106,33 @@ public class ProvinciaController {
         return viewList;
     }
 
+    public void cargarListas(Model model) throws ErrorServiceException {
+        List<PaisDTO> paisesList = paisService.listar();
+        model.addAttribute("paises", paisesList);
+    }
+
     @PostMapping("/aceptarEdit")
     public String aceptarEdit(Model model, ProvinciaDTO dto, BindingResult result, RedirectAttributes attributes) throws ErrorServiceException {
         try {
             if (result.hasErrors()) {
                 model.addAttribute("mensajeError", "Error en el formulario");
-                model.addAttribute("provincia", dto);
-                return viewEdit;
-            }
-
-            if (dto.getId() == null || dto.getId().isEmpty()) {
-                service.crear(dto.getNombre(), dto.getPais().getId());
             } else {
-                service.modificar(dto.getId(), dto.getNombre(), dto.getPais().getId());
-            }
 
-            return "redirect:/provincia/list";
+                if (dto.getId() == null || dto.getId().isEmpty()) {
+                    service.crear(dto.getNombre(), dto.getPais().getId());
+                } else {
+                    service.modificar(dto.getId(), dto.getNombre(), dto.getPais().getId());
+                }
+
+                return "redirect:/provincia/list";
+            }
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
-            model.addAttribute("provincia", dto);
-            return viewEdit;
         } catch (Exception ex) {
             model.addAttribute("mensajeError", "Error en el formulario");
-            model.addAttribute("provincia", dto);
-            return viewEdit;
         }
+        model.addAttribute("provincia", dto);
+        cargarListas(model);
+        return viewEdit;
     }
 }
