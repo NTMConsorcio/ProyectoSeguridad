@@ -1,11 +1,7 @@
 package com.ntm.clienteadministrativo.controllers;
 
-import com.ntm.clienteadministrativo.dto.EmpresaDTO;
 import com.ntm.clienteadministrativo.dto.ImagenDTO;
-import com.ntm.clienteadministrativo.dto.ServicioDTO;
-import com.ntm.clienteadministrativo.services.EmpresaDTOService;
 import com.ntm.clienteadministrativo.services.ImagenDTOService;
-import com.ntm.clienteadministrativo.services.ServicioDTOService;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,31 +11,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
-@RequestMapping("/servicio")
-public class ServicioController {
-    private String viewList = "view/servicio/listServicio";
-    private String viewEdit = "view/servicio/editServicio";
+@RequestMapping("/imagen")
+public class ImagenController {
+    private String viewList = "view/imagen/listImagen";
+    private String viewEdit = "view/imagen/editImagen";
 
     @Autowired
-    private ServicioDTOService service;
-
-    @Autowired
-    private ImagenDTOService imagenService;
-
-    @Autowired
-    private EmpresaDTOService empresaService;
+    private ImagenDTOService service;
 
     @GetMapping("/list")
     public String listar(Model model) {
         try {
-            List<ServicioDTO> lista = service.listar();
-            model.addAttribute("servicios", lista);
+            List<ImagenDTO> lista = service.listar();
+            Map<String, String> newList = service.obtenerImagenesEnBase64(lista);
+            model.addAttribute("imagenes", lista);
+            model.addAttribute("imagenesBase", newList);
 
         } catch (ErrorServiceException e) {
             model.addAttribute("mensajeError", e.getMessage());
@@ -50,25 +44,17 @@ public class ServicioController {
     }
 
     @GetMapping("/alta")
-    public String alta(Model model, ServicioDTO dto) {
-        try {
-            model.addAttribute("isDisabled", false);
-            model.addAttribute("servicio", dto);
-            cargarListas(model);
-            return viewEdit;
-        } catch (ErrorServiceException e) {
-            model.addAttribute("mensajeError", e.getMessage());
-        } catch (Exception e) {
-            model.addAttribute("mensajeError", "Error de Sistemas");
-        }
-        return viewList;
+    public String alta(Model model, ImagenDTO dto) {
+        model.addAttribute("isDisabled", false);
+        model.addAttribute("imagen", dto);
+        return viewEdit;
     }
 
     @GetMapping("/baja")
     public String baja(@RequestParam(value = "id") String id, Model model) {
         try {
             service.eliminar(id);
-            return "redirect:/servicio/list";
+            return "redirect:/imagen/list";
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
         } catch (Exception ex) {
@@ -80,10 +66,9 @@ public class ServicioController {
     @GetMapping("/modificar")
     public String modificar(Model model, @RequestParam("id") String id) {
         try {
-            ServicioDTO obj = service.buscar(id);
-            model.addAttribute("servicio", obj);
+            ImagenDTO obj = service.buscar(id);
+            model.addAttribute("imagen", obj);
             model.addAttribute("isDisabled", false);
-            cargarListas(model);
             return viewEdit;
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
@@ -97,8 +82,8 @@ public class ServicioController {
     @GetMapping("/consultar")
     public String consultar(Model model, @RequestParam("id") String id) {
         try {
-            ServicioDTO obj = service.buscar(id);
-            model.addAttribute("servicio", obj);
+            ImagenDTO obj = service.buscar(id);
+            model.addAttribute("imagen", obj);
             model.addAttribute("isDisabled", true);
             return viewEdit;
         } catch (ErrorServiceException ex) {
@@ -110,35 +95,28 @@ public class ServicioController {
     }
 
     @PostMapping("/aceptarEdit")
-    public String aceptarEdit(Model model, ServicioDTO dto, BindingResult result, RedirectAttributes attributes) throws ErrorServiceException {
+    public String aceptarEdit(@RequestParam("name") String nombre, @RequestParam("archivo") MultipartFile archivo, Model model, ImagenDTO dto, BindingResult result, RedirectAttributes attributes) throws ErrorServiceException {
         try {
             if (result.hasErrors()) {
                 model.addAttribute("mensajeError", "Error en el formulario");
-
             } else {
 
                 if (dto.getId() == null || dto.getId().isEmpty()) {
-                    service.crear(dto.getNombre(), dto.getImagen().getId(), dto.getEmpresa().getId());
-                } else {
-                    service.modificar(dto.getId(), dto.getNombre(), dto.getImagen().getId(), dto.getEmpresa().getId());
+                    service.crear(nombre, archivo);
                 }
 
-                return "redirect:/servicio/list";
+                return "redirect:/imagen/list";
             }
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
+            model.addAttribute("imagen", dto);
+            return viewEdit;
         } catch (Exception ex) {
             model.addAttribute("mensajeError", "Error en el formulario");
+            model.addAttribute("imagen", dto);
+            return viewEdit;
         }
-        model.addAttribute("servicio", dto);
-        cargarListas(model);
+        model.addAttribute("imagen", dto);
         return viewEdit;
-    }
-
-    public void cargarListas(Model model) throws ErrorServiceException {
-        List<ImagenDTO> imagenesList = imagenService.listar();
-        List<EmpresaDTO> empresasList = empresaService.listar();
-        model.addAttribute("imagenes", imagenesList);
-        model.addAttribute("empresas", empresasList);
     }
 }

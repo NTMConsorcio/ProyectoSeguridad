@@ -1,6 +1,7 @@
 package com.ntm.appseguridad.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,6 @@ import lombok.NoArgsConstructor;
 public class Imagen extends Base {
     private String nombre;
     private String mime;
+    @Lob
     private byte[] contenido;
 }

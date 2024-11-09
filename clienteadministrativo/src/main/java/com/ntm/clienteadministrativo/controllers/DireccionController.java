@@ -49,7 +49,7 @@ public class DireccionController {
         try {
             model.addAttribute("isDisabled", false);
             model.addAttribute("direccion", dto);
-            List<LocalidadDTO> localidadesList = localidadService.listar();
+            cargarListas(model);
             return viewEdit;
         } catch (ErrorServiceException e) {
             model.addAttribute("mensajeError", e.getMessage());
@@ -60,7 +60,7 @@ public class DireccionController {
     }
 
     @GetMapping("/baja")
-    public String baja(@RequestParam(value="id") String id, Model model) {
+    public String baja(@RequestParam(value = "id") String id, Model model) {
         try {
             service.eliminar(id);
             return "redirect:/direccion/list";
@@ -78,6 +78,7 @@ public class DireccionController {
             DireccionDTO obj = service.buscar(id);
             model.addAttribute("direccion", obj);
             model.addAttribute("isDisabled", false);
+            cargarListas(model);
             return viewEdit;
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
@@ -108,25 +109,29 @@ public class DireccionController {
         try {
             if (result.hasErrors()) {
                 model.addAttribute("mensajeError", "Error en el formulario");
-                model.addAttribute("direccion", dto);
-                return viewEdit;
-            }
 
-            if (dto.getId() == null || dto.getId().isEmpty()) {
-                service.crear(dto.getCalle(), dto.getNumeracion(), dto.getLatitud(), dto.getLongitud(), dto.getLocalidad().getId());
             } else {
-                service.modificar(dto.getId(), dto.getCalle(), dto.getNumeracion(), dto.getLatitud(), dto.getLongitud(), dto.getLocalidad().getId());
-            }
 
-            return "redirect:/direccion/list";
+                if (dto.getId() == null || dto.getId().isEmpty()) {
+                    service.crear(dto.getCalle(), dto.getNumeracion(), dto.getLatitud(), dto.getLongitud(), dto.getLocalidad().getId());
+                } else {
+                    service.modificar(dto.getId(), dto.getCalle(), dto.getNumeracion(), dto.getLatitud(), dto.getLongitud(), dto.getLocalidad().getId());
+                }
+
+                return "redirect:/direccion/list";
+            }
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
-            model.addAttribute("direccion", dto);
-            return viewEdit;
         } catch (Exception ex) {
             model.addAttribute("mensajeError", "Error en el formulario");
-            model.addAttribute("direccion", dto);
-            return viewEdit;
         }
+        model.addAttribute("direccion", dto);
+        cargarListas(model);
+        return viewEdit;
+    }
+
+    public void cargarListas(Model model) throws ErrorServiceException {
+        model.addAttribute("localidades", localidadService.listar());
+
     }
 }
