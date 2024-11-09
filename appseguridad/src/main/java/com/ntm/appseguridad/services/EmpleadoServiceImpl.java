@@ -1,8 +1,10 @@
 package com.ntm.appseguridad.services;
 
-import com.ntm.appseguridad.entities.Departamento;
+
+import com.ntm.appseguridad.dto.EmpleadoDTO;
 import com.ntm.appseguridad.entities.Empleado;
 import com.ntm.appseguridad.entities.enums.TipoEmpleado;
+import com.ntm.appseguridad.mappers.EmpleadoMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.EmpleadoRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
@@ -15,9 +17,11 @@ import java.util.Optional;
 public class EmpleadoServiceImpl extends BaseServiceImpl<Empleado,String> implements EmpleadoService {
 
     private final EmpleadoRepository empleadoRepository;
-
-    public EmpleadoServiceImpl(BaseRepository<Empleado, String> baserepository, EmpleadoRepository empleadoRepository) {super(baserepository);
+    private final EmpleadoMapper empleadoMapper;
+    public EmpleadoServiceImpl(BaseRepository<Empleado, String> baserepository, EmpleadoRepository empleadoRepository, EmpleadoMapper empleadoMapper) {
+        super(baserepository);
         this.empleadoRepository = empleadoRepository;
+        this.empleadoMapper = empleadoMapper;
     }
     @Override
     public Empleado searchByNombre(String nombre) throws Exception {
@@ -37,7 +41,14 @@ public class EmpleadoServiceImpl extends BaseServiceImpl<Empleado,String> implem
             throw new Exception(e.getMessage());
         }
     }
-
+    public EmpleadoDTO Crear(EmpleadoDTO empleadoDto) {
+        Empleado empleado = empleadoMapper.toEntity(empleadoDto);
+        empleado.setLegajo("1");
+        System.out.println(empleado);
+        Empleado empleadoGuardado = repository.save(empleado);
+        System.out.println(empleadoGuardado);
+        return empleadoMapper.toDTO(empleadoGuardado);
+    }
     @Override
     public <D> D convertToDto(Empleado entity) {
         return null;

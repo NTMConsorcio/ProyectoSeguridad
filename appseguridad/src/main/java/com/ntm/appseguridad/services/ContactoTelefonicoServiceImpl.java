@@ -1,5 +1,7 @@
 package com.ntm.appseguridad.services;
 
+
+import com.ntm.appseguridad.dto.ContactoTelefonicoDTO;
 import com.ntm.appseguridad.entities.ContactoTelefonico;
 import com.ntm.appseguridad.entities.Departamento;
 import com.ntm.appseguridad.entities.Provincia;
@@ -23,6 +25,11 @@ public class ContactoTelefonicoServiceImpl extends BaseServiceImpl<ContactoTelef
         this.contactoTelefonicoMapper = contactoTelefonicoMapper;
     }
 
+    public ContactoTelefonicoDTO Crear(ContactoTelefonicoDTO contactoDto) {
+        ContactoTelefonico contacto = contactoTelefonicoMapper.toEntity(contactoDto);
+        ContactoTelefonico contactoGuardado = repository.save(contacto);
+        return contactoTelefonicoMapper.toDTO(contactoGuardado);
+    }
     @Override
     public <D> D convertToDto(ContactoTelefonico entity) {
         return null;

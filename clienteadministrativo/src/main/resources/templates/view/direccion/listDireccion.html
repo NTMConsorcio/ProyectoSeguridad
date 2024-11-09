@@ -8,7 +8,7 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Provincias</h1>
+                <h1 class="mt-4">Direcciones</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a th:href="@{/inicio}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Actual</li>
@@ -20,7 +20,7 @@
                     </div>
                 </div>
 
-                <a th:href="@{/provincia/alta}" type="button" class="btn btn-success mb-4"> Nuevo</a>
+                <a th:href="@{/direccion/alta}" type="button" class="btn btn-success mb-4"> Nuevo</a>
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
@@ -31,19 +31,25 @@
                             <thead>
                             <tr>
                                 <th>Opciones</th>
-                                <th>Nombre</th>
-                                <th>País</th>
+                                <th>Calle</th>
+                                <th>Numeración</th>
+                                <th>Localidad</th>
+                                <th>Latitud</th>
+                                <th>Longitud</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
                                 <th>Opciones</th>
-                                <th>Nombre</th>
-                                <th>País</th>
+                                <th>Calle</th>
+                                <th>Numeración</th>
+                                <th>Localidad</th>
+                                <th>Latitud</th>
+                                <th>Longitud</th>
                             </tr>
                             </tfoot>
                             <tbody>
-                            <tr th:each="provincia : ${provincias}">
+                            <tr th:each="direccion : ${direcciones}">
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-primary dropdown-toggle btn-sm"
@@ -51,16 +57,19 @@
                                                 class="bi bi-three-dots-vertical"></i></button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item"
-                                                   th:href="@{consultar?id=} + ${provincia.id}">Consultar</a></li>
+                                                   th:href="@{consultar?id=} + ${direccion.id}">Consultar</a></li>
                                             <li><a class="dropdown-item"
-                                                   th:href="@{modificar?id=} + ${provincia.id}">Modificar</a></li>
-                                            <li><a class="dropdown-item" th:href="@{baja?id=} + ${provincia.id}">Eliminar</a>
+                                                   th:href="@{modificar?id=} + ${direccion.id}">Modificar</a></li>
+                                            <li><a class="dropdown-item" th:href="@{baja?id=} + ${direccion.id}">Eliminar</a>
                                             </li>
                                         </ul>
                                     </div>
                                 </td>
-                                <td th:text="${provincia.nombre}"></td>
-                                <td th:text="${provincia.pais.nombre}"></td>
+                                <td th:text="${direccion.calle}"></td>
+                                <td th:text="${direccion.numeracion}"></td>
+                                <td th:text="${direccion.localidad.nombre}"></td>
+                                <td th:text="${direccion.latitud}"></td>
+                                <td th:text="${direccion.longitud}"></td>
                             </tr>
 
                             </tbody>

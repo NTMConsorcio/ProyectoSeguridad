@@ -22,7 +22,7 @@ public class ContactoCorreoElectronicoDTOService {
             contactoCorreo.setTipoContacto(tipoContacto);
             contactoCorreo.setObservacion(observacion);
             contactoCorreo.setEliminado(false);
-            dao.crear(ContactoCorreoElectronicoDTO.class, contactoCorreo);
+            dao.crearC(contactoCorreo);
             return contactoCorreo;
 
         } catch (ErrorServiceException e) {

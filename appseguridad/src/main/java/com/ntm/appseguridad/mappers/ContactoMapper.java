@@ -10,34 +10,16 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring")
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Mapper(componentModel = "spring", uses = {ContactoTelefonicoMapper.class, ContactoCorreoElectronicoMapper.class})
 public interface ContactoMapper {
-    ContactoMapper INSTANCE = Mappers.getMapper(ContactoMapper.class);
+    ContactoDTO toDTO(Contacto contacto);
 
-    ContactoTelefonicoDTO toDTO(ContactoTelefonico contacto);
+    Contacto toEntity(ContactoDTO contactoDTO);
 
-    ContactoTelefonico toEntity(ContactoTelefonicoDTO contactoDTO);
+    List<ContactoDTO> toDtoList(List<Contacto> entities);
 
-    ContactoCorreoElectronicoDTO toDTO(ContactoCorreoElectronico contacto);
-
-    ContactoCorreoElectronico toEntity(ContactoCorreoElectronicoDTO contactoDTO);
-
-    default ContactoDTO toDTO(Contacto contacto) {
-        if (contacto instanceof ContactoTelefonico) {
-            return toDTO((ContactoTelefonico) contacto);
-        } else if (contacto instanceof ContactoCorreoElectronico) {
-            return toDTO((ContactoCorreoElectronico) contacto);
-        }
-        return null;
-    }
-
-    default Contacto toEntity(ContactoDTO contactoDTO) {
-        if (contactoDTO instanceof ContactoTelefonicoDTO) {
-            return toEntity((ContactoTelefonicoDTO) contactoDTO);
-        } else if (contactoDTO instanceof ContactoCorreoElectronicoDTO) {
-            return toEntity((ContactoCorreoElectronicoDTO) contactoDTO);
-        }
-        return null;
-    }
+    List<Contacto> toList(List<ContactoDTO> entities);
 }
-

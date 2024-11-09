@@ -24,7 +24,7 @@ public class ContactoTelefonicoDTOService {
             contacto.setTelefono(telefono);
             contacto.setTipoTelefono(tipoTelefono);
             contacto.setEliminado(false);
-            dao.crear(ContactoTelefonicoDTO.class, contacto);
+            dao.crearC(contacto);
             return contacto;
         } catch (ErrorServiceException e) {
             throw e;

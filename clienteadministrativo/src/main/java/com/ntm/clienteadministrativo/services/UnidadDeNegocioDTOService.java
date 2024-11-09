@@ -94,12 +94,25 @@ public class UnidadDeNegocioDTOService {
     }
 
     public UnidadDeNegocioDTO buscar(String id) throws ErrorServiceException{
+<<<<<<< HEAD
+        try {
+            // Intentar buscar la unidad de negocio usando el DAO
+            UnidadDeNegocioDTO unidad = unidadDao.buscar(id);
+            if (unidad == null) {
+                // Si la unidad de negocio no se encuentra, lanzar una excepción con un mensaje más claro
+                throw new ErrorServiceException("Unidad de negocio no encontrada para el ID: " + id);
+            }
+=======
         try{
             UnidadDeNegocioDTO unidad = dao.buscar(id);
+>>>>>>> fbbbb7a11106f24088ebdd12f2256a5134ed1667
             return unidad;
-        }catch (Exception ex) {
-            ex.printStackTrace();
-            throw new ErrorServiceException("Error de Sistemas");
+        } catch (ErrorServiceException ex) {
+            // Manejar una excepción específica
+            throw new ErrorServiceException("Error al buscar la unidad de negocio: " + ex.getMessage());
+        } catch (Exception ex) {
+            // Manejar excepciones generales
+            throw new ErrorServiceException("Error de sistemas. Por favor, intente más tarde.");
         }
     }
 }
