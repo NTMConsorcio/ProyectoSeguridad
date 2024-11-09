@@ -15,13 +15,11 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = {ContactoTelefonicoMapper.class, ContactoCorreoElectronicoMapper.class})
 public interface ContactoMapper {
+    ContactoDTO toDTO(Contacto contacto);
 
-    ContactoTelefonicoDTO toDTO(ContactoTelefonico contactoTelefonico);
+    Contacto toEntity(ContactoDTO contactoDTO);
 
-    ContactoTelefonico toEntity(ContactoTelefonicoDTO contactoTelefonicoDTO);
+    List<ContactoDTO> toDtoList(List<Contacto> entities);
 
-    List<ContactoTelefonicoDTO> toDtoList(List<ContactoTelefonico> entities);
-
-    List<ContactoTelefonico> toList(List<ContactoTelefonicoDTO> entities);
+    List<Contacto> toList(List<ContactoDTO> entities);
 }
-

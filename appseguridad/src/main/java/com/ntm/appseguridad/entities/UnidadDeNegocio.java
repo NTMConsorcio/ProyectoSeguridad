@@ -3,6 +3,7 @@ package com.ntm.appseguridad.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 
@@ -15,7 +16,8 @@ public class UnidadDeNegocio extends Base {
 
     @Column(unique=true)
     private String nombre;
-    //@ManyToOne
-    private String direccion;
-
+    @ManyToOne
+    private Direccion direccion;
+    @ManyToOne
+    private Servicio servicio;
 }

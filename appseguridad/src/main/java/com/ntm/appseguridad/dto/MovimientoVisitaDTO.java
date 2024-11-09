@@ -1,8 +1,8 @@
-package com.ntm.clienteadministrativo.dto;
+package com.ntm.appseguridad.dto;
 
-import com.ntm.clienteadministrativo.dto.enums.EstadoMovimiento;
-import com.ntm.clienteadministrativo.dto.enums.TipoMovilidad;
-import com.ntm.clienteadministrativo.dto.enums.TipoMovimiento;
+import com.ntm.appseguridad.entities.enums.EstadoMovimiento;
+import com.ntm.appseguridad.entities.enums.TipoMovilidad;
+import com.ntm.appseguridad.entities.enums.TipoMovimiento;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

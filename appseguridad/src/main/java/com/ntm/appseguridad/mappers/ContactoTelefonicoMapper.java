@@ -12,7 +12,6 @@ public interface ContactoTelefonicoMapper {
     ContactoTelefonicoMapper INSTANCE = Mappers.getMapper(ContactoTelefonicoMapper.class);
 
     ContactoTelefonicoDTO toDTO(ContactoTelefonico contactoTelefonico);
-
     ContactoTelefonico toEntity(ContactoTelefonicoDTO contactoTelefonicoDTO);
 
     List<ContactoTelefonicoDTO> toDtoList(List<ContactoTelefonico> entities);
