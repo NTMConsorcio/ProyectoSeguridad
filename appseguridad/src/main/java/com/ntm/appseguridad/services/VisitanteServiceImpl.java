@@ -21,6 +21,11 @@ public class VisitanteServiceImpl extends BaseServiceImpl<Visitante,String> impl
 
 
     @Override
+    public <D> D convertToDto(Visitante entity) {
+        return null;
+    }
+
+    @Override
     public <D> List<D> convertToDtoList(List<Visitante> entities) {
         return List.of();
     }

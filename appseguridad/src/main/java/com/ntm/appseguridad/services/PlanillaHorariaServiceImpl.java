@@ -45,6 +45,11 @@ public class PlanillaHorariaServiceImpl extends BaseServiceImpl<PlanillaHoraria,
     }
 
     @Override
+    public <D> D convertToDto(PlanillaHoraria entity) {
+        return null;
+    }
+
+    @Override
     public <D> List<D> convertToDtoList(List<PlanillaHoraria> entities) {
         return List.of();
     }

@@ -23,4 +23,14 @@ public class UnidadDeNegocioDTOService {
             throw new ErrorServiceException("Error de Sistemas");
         }
     }
+
+    public UnidadDeNegocioDTO buscar(String id) throws ErrorServiceException{
+        try{
+            UnidadDeNegocioDTO unidad = unidadDao.buscar(id);
+            return unidad;
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ErrorServiceException("Error de Sistemas");
+        }
+    }
 }

@@ -47,6 +47,11 @@ public class UnidadDeNegocioServiceImpl extends BaseServiceImpl<UnidadDeNegocio,
     }
 
     @Override
+    public <D> D convertToDto(UnidadDeNegocio entity) {
+        return (D) unidadDeNegocioMapper.toUnidadDeNegocioDTO(entity);
+    }
+
+    @Override
     public <D> List<D> convertToDtoList(List<UnidadDeNegocio> entities) {
         return (List<D>) unidadDeNegocioMapper.toDtoList(entities);
     }

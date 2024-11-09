@@ -24,6 +24,11 @@ public class ImagenServiceImpl extends BaseServiceImpl<Imagen,String> implements
     }
 
     @Override
+    public <D> D convertToDto(Imagen entity) {
+        return null;
+    }
+
+    @Override
     public <D> List<D> convertToDtoList(List<Imagen> entities) {
         return (List<D>) imagenMapper.toDtoList(entities);
     }

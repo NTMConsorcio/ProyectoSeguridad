@@ -24,6 +24,11 @@ public class LocalidadServiceImpl extends BaseServiceImpl<Localidad,String> impl
     }
 
     @Override
+    public <D> D convertToDto(Localidad entity) {
+        return null;
+    }
+
+    @Override
     public <D> List<D> convertToDtoList(List<Localidad> entities) {
         return (List<D>) localidadMapper.toDtoList(entities);
     }

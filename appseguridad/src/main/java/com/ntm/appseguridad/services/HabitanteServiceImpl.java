@@ -32,6 +32,11 @@ public class HabitanteServiceImpl extends BaseServiceImpl<Habitante,String> impl
     }
 
     @Override
+    public <D> D convertToDto(Habitante entity) {
+        return null;
+    }
+
+    @Override
     public <D> List<D> convertToDtoList(List<Habitante> entities) {
         return List.of();
     }

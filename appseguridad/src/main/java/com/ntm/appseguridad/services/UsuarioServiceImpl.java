@@ -2,7 +2,9 @@ package com.ntm.appseguridad.services;
 
 
 
+import com.ntm.appseguridad.dto.UsuarioDTO;
 import com.ntm.appseguridad.entities.Usuario;
+import com.ntm.appseguridad.mappers.UsuarioMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.UsuarioRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
@@ -14,9 +16,17 @@ import java.util.Optional;
 @Service
 public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, String> implements UsuarioService{
     private final UsuarioRepository repository;
+    private final UsuarioMapper usuarioMapper;
 
-    public UsuarioServiceImpl(BaseRepository<Usuario, String> baserepository, UsuarioRepository usuarioRepository) {super(baserepository);
+    public UsuarioServiceImpl(BaseRepository<Usuario, String> baserepository, UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper) {super(baserepository);
         this.repository = usuarioRepository;
+        this.usuarioMapper = usuarioMapper;
+    }
+
+    public UsuarioDTO Crear(UsuarioDTO usuarioDto) {
+        Usuario usuario = usuarioMapper.toUsuario(usuarioDto);
+        Usuario usuarioGuardado = repository.save(usuario);
+        return usuarioMapper.toUsuarioDTO(usuarioGuardado);
     }
     @Override
     public Usuario searchByCuenta(String cuenta) throws Exception {
@@ -35,6 +45,11 @@ public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, String> impleme
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
+    }
+
+    @Override
+    public <D> D convertToDto(Usuario entity) {
+        return null;
     }
 
     @Override

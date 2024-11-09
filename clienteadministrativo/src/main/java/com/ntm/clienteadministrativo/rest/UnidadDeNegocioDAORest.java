@@ -22,6 +22,19 @@ public class UnidadDeNegocioDAORest extends BaseDAORestImpl<UnidadDeNegocioDTO, 
     public String getUri(String caso) throws ErrorServiceException{
         return "http://localhost:9000/api/v1/unidadDeNegocio";
     }
+
+    public UnidadDeNegocioDTO buscar(String id) throws ErrorServiceException{
+        try {
+            String uri = "http://localhost:9000/api/v1/unidadDeNegocio" + id;
+            ResponseEntity<UnidadDeNegocioDTO> response = restTemplate.getForEntity(uri,UnidadDeNegocioDTO.class);
+            UnidadDeNegocioDTO unidad = response.getBody();
+            return unidad;
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ErrorServiceException("Error de Sistemas");
+        }
+    }
+
     public List<UnidadDeNegocioDTO> getActivos() throws ErrorServiceException {
         try {
             String uri = "http://localhost:9000/api/v1/unidadDeNegocio/activos";

@@ -24,6 +24,11 @@ public class ContactoTelefonicoServiceImpl extends BaseServiceImpl<ContactoTelef
     }
 
     @Override
+    public <D> D convertToDto(ContactoTelefonico entity) {
+        return null;
+    }
+
+    @Override
     public <D> List<D> convertToDtoList(List<ContactoTelefonico> entities) {
         return (List<D>) contactoTelefonicoMapper.toDtoList(entities);
     }

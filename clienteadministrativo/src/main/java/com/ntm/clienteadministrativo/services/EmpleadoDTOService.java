@@ -17,8 +17,8 @@ public class EmpleadoDTOService {
     @Autowired
     EmpleadoDAORest dao;
 
-//    @Autowired
-//    UsuarioDTOService serviceUsuario;
+    @Autowired
+    UsuarioDTOService serviceUsuario;
 
     @Autowired
     UnidadDeNegocioDTOService unidadService;
@@ -31,10 +31,10 @@ public class EmpleadoDTOService {
     @Autowired
     private ContactoTelefonicoDTOService contactoTelefonicoDTOService;
 
-    public void crear(int documento, String nombre, String apellido, String numero, String correo, String legajo, TipoEmpleado tipoEmpleado, String idUnidadDeNegocio) throws ErrorServiceException {
+    public void crear(String documento, String nombre, String apellido, String numero, String correo, String legajo, TipoEmpleado tipoEmpleado, String idUnidadDeNegocio) throws ErrorServiceException {
         try {
             EmpleadoDTO empleado = new EmpleadoDTO();
-            empleado.setDocumento(documento);
+            empleado.setDocumento(Integer.parseInt(documento));
             empleado.setNombre(nombre);
             empleado.setApellido(apellido);
             empleado.setTipoEmpleado(tipoEmpleado);
@@ -42,10 +42,10 @@ public class EmpleadoDTOService {
             if (tipoEmpleado.equals("SUPERVISOR")){
                 rol = Rol.ADMIN;
             }
-//            UnidadDeNegocioDTO unidad = unidadService.buscar(idUnidadDeNegocio);
-//            empleado.setUnidadDeNegocio(unidad);
-//            UsuarioDTO usuario = serviceUsuario.registrar(correo, documento, rol);
-//            empleado.setUsuario(usuario);
+            UnidadDeNegocioDTO unidad = unidadService.buscar(idUnidadDeNegocio);
+            empleado.setUnidadDeNegocio(unidad);
+            UsuarioDTO usuario = serviceUsuario.registrar(correo, documento, rol);
+            empleado.setUsuario(usuario);
             ContactoTelefonicoDTO tel = telService.crear("", TipoContactos.LABORAL ,numero, TipoTelefono.CELULAR);
             ContactoCorreoElectronicoDTO contacCorreo = correoService.crear("", TipoContactos.LABORAL, numero);
             List<ContactoDTO> contactos = List.of();
