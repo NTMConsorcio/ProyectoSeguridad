@@ -25,7 +25,13 @@
                         <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="nombre" th:field="*{nombre}"
                                th:disabled="${isDisabled}" aria-describedby="nombreHelp">
-                        <div id="nombreHelp" class="form-text">Ingrese el nombre del país.</div>
+                        <div id="nombreHelp" class="form-text">Ingrese el nombre del empleado.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="apellido" th:field="*{apellido}"
+                               th:disabled="${isDisabled}" aria-describedby="apellidoHelp">
+                        <div id="apellidoHelp" class="form-text">Ingrese el apellido del empleado.</div>
                     </div>
                     <div class="mb-3">
                         <label for="unidadDeNegocio" class="form-label">Unidad de Negocio</label>
@@ -34,6 +40,16 @@
                             <option th:each="unidad : ${unidades}"
                                     th:value="${unidad.id}"
                                     th:text="${unidad.nombre}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipoEmpleado" class="form-label">Tipo de Empleado</label>
+                        <select class="form-select" id="tipoEmpleado" th:field="*{tipoEmpleado}">
+                            <option value="" disabled selected>Seleccione un tipo de empleado</option>
+                            <option th:each="tipo : ${tiposEmpleado}"
+                                    th:value="${tipo.name()}"
+                                    th:text="${#strings.capitalize(tipo.name().toLowerCase())}">
                             </option>
                         </select>
                     </div>

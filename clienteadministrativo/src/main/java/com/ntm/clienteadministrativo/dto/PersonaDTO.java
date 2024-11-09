@@ -12,6 +12,6 @@ public class PersonaDTO extends BaseDTO{
     protected int documento;
     protected String nombre;
     protected String apellido;
-    protected List<ContactoDTO> Contactos;
-    protected UsuarioDTO Usuario;
+    protected List<ContactoDTO> contactos;
+    protected UsuarioDTO usuario;
 }

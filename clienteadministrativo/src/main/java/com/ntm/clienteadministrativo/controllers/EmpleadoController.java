@@ -2,6 +2,11 @@ package com.ntm.clienteadministrativo.controllers;
 
 import com.ntm.clienteadministrativo.dto.EmpleadoDTO;
 import com.ntm.clienteadministrativo.dto.UnidadDeNegocioDTO;
+import com.ntm.clienteadministrativo.dto.enums.TipoEmpleado;
+import com.ntm.clienteadministrativo.rest.UnidadDeNegocioDAORest;
+import com.ntm.clienteadministrativo.services.UnidadDeNegocioDTOService;
+import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,18 +19,14 @@ import java.util.List;
 @RequestMapping("/empleado")
 public class EmpleadoController {
     private String viewEdit = "view/empleado/editEmpleado";
-    private final RestTemplate restTemplate;
 
-    public EmpleadoController(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+    @Autowired
+    UnidadDeNegocioDTOService unidadServicio;
 
     @GetMapping("/nuevo")
-    public String nuevoEmpleado(Model model) {
-        List<UnidadDeNegocioDTO> unidades = restTemplate.getForObject(
-                "http://localhost:9000/api/v1/unidadDeNegocio/activos",
-                List.class
-        );
+    public String nuevoEmpleado(Model model) throws ErrorServiceException {
+        List<UnidadDeNegocioDTO> unidades = unidadServicio.getActivos();
+        model.addAttribute("tiposEmpleado", TipoEmpleado.values()); // Agrega los valores del enum al modelo
         model.addAttribute("unidades", unidades);
         model.addAttribute("empleado", new EmpleadoDTO());
         return viewEdit;
