@@ -8,7 +8,7 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Provincias</h1>
+                <h1 class="mt-4">Contactos de Correo Electrónico</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a th:href="@{/inicio}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Actual</li>
@@ -20,7 +20,7 @@
                     </div>
                 </div>
 
-                <a th:href="@{/provincia/alta}" type="button" class="btn btn-success mb-4"> Nuevo</a>
+                <a th:href="@{/contactoCorreoElectronico/alta}" type="button" class="btn btn-success mb-4"> Nuevo</a>
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
@@ -31,19 +31,21 @@
                             <thead>
                             <tr>
                                 <th>Opciones</th>
-                                <th>Nombre</th>
-                                <th>País</th>
+                                <th>Observación</th>
+                                <th>Tipo de contacto</th>
+                                <th>Email</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
                                 <th>Opciones</th>
-                                <th>Nombre</th>
-                                <th>País</th>
+                                <th>Observación</th>
+                                <th>Tipo de contacto</th>
+                                <th>Email</th>
                             </tr>
                             </tfoot>
                             <tbody>
-                            <tr th:each="provincia : ${provincias}">
+                            <tr th:each="contactoCorreoElectronico : ${contactosCorreoElectronico}">
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-primary dropdown-toggle btn-sm"
@@ -51,16 +53,20 @@
                                                 class="bi bi-three-dots-vertical"></i></button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item"
-                                                   th:href="@{consultar?id=} + ${provincia.id}">Consultar</a></li>
+                                                   th:href="@{consultar?id=} + ${contactoCorreoElectronico.id}">Consultar</a>
+                                            </li>
                                             <li><a class="dropdown-item"
-                                                   th:href="@{modificar?id=} + ${provincia.id}">Modificar</a></li>
-                                            <li><a class="dropdown-item" th:href="@{baja?id=} + ${provincia.id}">Eliminar</a>
+                                                   th:href="@{modificar?id=} + ${contactoCorreoElectronico.id}">Modificar</a>
+                                            </li>
+                                            <li><a class="dropdown-item"
+                                                   th:href="@{baja?id=} + ${contactoCorreoElectronico.id}">Eliminar</a>
                                             </li>
                                         </ul>
                                     </div>
                                 </td>
-                                <td th:text="${provincia.nombre}"></td>
-                                <td th:text="${provincia.pais.nombre}"></td>
+                                <td th:text="${contactoCorreoElectronico.observacion}"></td>
+                                <td th:text="${contactoCorreoElectronico.tipoContacto}"></td>
+                                <td th:text="${contactoCorreoElectronico.email}"></td>
                             </tr>
 
                             </tbody>

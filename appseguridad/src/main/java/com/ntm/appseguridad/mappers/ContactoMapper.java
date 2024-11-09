@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = {ContactoTelefonicoMapper.class, ContactoCorreoElectronicoMapper.class})
 public interface ContactoMapper {
-
     ContactoDTO toDTO(Contacto contacto);
 
     Contacto toEntity(ContactoDTO contactoDTO);
