@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header :: header}"></head>
+<body class="sb-nav-fixed">
+<nav th:insert="~{fragments/upperNavbar :: upperNavbar}"></nav>
+<div id="layoutSidenav">
+  <div th:insert="~{fragments/sideNavbar :: sideNavbar}"></div>
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid px-4">
+        <h1 class="mt-4">Contactos de teléfono</h1>
+        <ol class="breadcrumb mb-4">
+          <li class="breadcrumb-item"><a th:href="@{/inicio}">Dashboard</a></li>
+          <li class="breadcrumb-item active">Actual</li>
+        </ol>
+        <div th:if="${mensajeError != null}" class="card mb-4">
+          <div class="card-body">
+            <div th:if="${mensajeError != null}" class='alert alert-danger' th:text="${mensajeError}"
+                 role='alert'></div>
+          </div>
+        </div>
+
+        <a th:href="@{/contactoTelefonico/alta}" type="button" class="btn btn-success mb-4"> Nuevo</a>
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Registros
+          </div>
+          <div class="card-body">
+            <table id="datatablesSimple">
+              <thead>
+              <tr>
+                <th>Observación</th>
+              </tr>
+              <tr>
+                <th>Tipo de contacto</th>
+              </tr>
+              <tr>
+                <th>Tipo de teléfono</th>
+              </tr>
+              <tr>
+                <th>Teléfono</th>
+              </tr>
+              </thead>
+              <tfoot>
+              <tr>
+                <th>Observación</th>
+              </tr>
+              <tr>
+                <th>Tipo de contacto</th>
+              </tr>
+              <tr>
+                <th>Tipo de teléfono</th>
+              </tr>
+              <tr>
+                <th>Teléfono</th>
+              </tr>
+              </tfoot>
+              <tbody>
+              <tr th:each="contactoTelefonico : ${contactosTelefonico}">
+                <th>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle btn-sm"
+                            data-bs-toggle="dropdown" aria-expanded="false"><i
+                            class="bi bi-three-dots-vertical"></i></button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item"
+                             th:href="@{/consultar?id=} + ${contactoTelefonico.id}">Consultar</a></li>
+                      <li><a class="dropdown-item"
+                             th:href="@{/modificar?id=} + ${contactoTelefonico.id}">Modificar</a></li>
+                      <li><a class="dropdown-item" th:href="@{/baja?id=} + ${contactoTelefonico.id}">Eliminar</a>
+                      </li>
+                    </ul>
+                  </div>
+                </th>
+                <td th:text="${contactoTelefonico.observacion}"></td>
+                <td th:text="${contactoTelefonico.tipoContacto}"></td>
+                <td th:text="${contactoTelefonico.tipoTelefono}"></td>
+                <td th:text="${contactoTelefonico.telefono}"></td>
+              </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script th:src="@{/js/scripts.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+<script th:src="@{/js/datatables-simple-demo.js}"></script>
+</body>
+</html>
