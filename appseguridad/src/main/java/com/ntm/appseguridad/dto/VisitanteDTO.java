@@ -1,14 +1,16 @@
 package com.ntm.appseguridad.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class UnidadDeNegocioDTO extends BaseDTO{
+public class VisitanteDTO extends BaseDTO{
     private String nombre;
-    private DireccionDTO direccion;
-    private ServicioDTO servicio;
+    private String apellido;
+    private int numeroDeDocumento;
 }
