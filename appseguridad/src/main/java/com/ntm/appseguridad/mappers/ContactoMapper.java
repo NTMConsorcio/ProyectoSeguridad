@@ -16,12 +16,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {ContactoTelefonicoMapper.class, ContactoCorreoElectronicoMapper.class})
 public interface ContactoMapper {
-<<<<<<< HEAD
 
     ContactoMapper INSTANCE = Mappers.getMapper(ContactoMapper.class);
-=======
-    ContactoDTO toDTO(Contacto contacto);
->>>>>>> d4a99a2d142086d11d0cdb39f85fece958c0a474
 
     ContactoTelefonicoDTO toDTO(ContactoTelefonico contacto);
 
