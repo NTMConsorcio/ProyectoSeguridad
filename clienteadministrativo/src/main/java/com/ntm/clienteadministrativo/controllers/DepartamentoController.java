@@ -50,6 +50,7 @@ public class DepartamentoController {
             model.addAttribute("isDisabled", false);
             model.addAttribute("departamento", dto);
             List<ProvinciaDTO> provinciasList = provinciaService.listar();
+            model.addAttribute("provincias", provinciasList);
             return viewEdit;
         } catch (ErrorServiceException e) {
             model.addAttribute("mensajeError", e.getMessage());
@@ -78,6 +79,8 @@ public class DepartamentoController {
             DepartamentoDTO obj = service.buscar(id);
             model.addAttribute("departamento", obj);
             model.addAttribute("isDisabled", false);
+            List<ProvinciaDTO> provinciasList = provinciaService.listar();
+            model.addAttribute("provincias", provinciasList);
             return viewEdit;
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());

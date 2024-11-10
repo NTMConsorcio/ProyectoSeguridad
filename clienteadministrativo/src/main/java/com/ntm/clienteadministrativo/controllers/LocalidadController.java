@@ -50,6 +50,7 @@ public class LocalidadController {
             model.addAttribute("isDisabled", false);
             model.addAttribute("localidad", dto);
             List<DepartamentoDTO> departamentosList = departamentoService.listar();
+            model.addAttribute("departamentos", departamentosList);
             return viewEdit;
         } catch (ErrorServiceException e) {
             model.addAttribute("mensajeError", e.getMessage());
@@ -78,6 +79,8 @@ public class LocalidadController {
             LocalidadDTO obj = service.buscar(id);
             model.addAttribute("localidad", obj);
             model.addAttribute("isDisabled", false);
+            List<DepartamentoDTO> departamentosList = departamentoService.listar();
+            model.addAttribute("departamentos", departamentosList);
             return viewEdit;
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
