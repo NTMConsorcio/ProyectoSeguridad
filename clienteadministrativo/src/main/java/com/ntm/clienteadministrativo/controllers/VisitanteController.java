@@ -19,8 +19,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/visitante")
 public class VisitanteController {
-    private String viewList = "view/visitante/list";
-    private String viewEdit = "view/visitante/edit";
+    private String viewList = "view/visitante/listVisitante";
+    private String viewEdit = "view/visitante/editVisitante";
 
     @Autowired
     private VisitanteDTOService service;
@@ -28,7 +28,7 @@ public class VisitanteController {
     @GetMapping("/list")
     public String listar(Model model) {
         try {
-            List<VisitanteDTO> list = service.getActivos();
+            List<VisitanteDTO> list = service.listar();
             model.addAttribute("visitantes", list);
         } catch (ErrorServiceException e) {
             model.addAttribute("mensajeError", e.getMessage());

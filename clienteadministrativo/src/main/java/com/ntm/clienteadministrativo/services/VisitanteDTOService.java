@@ -68,10 +68,9 @@ public class VisitanteDTOService {
 
     }
 
-    public List<VisitanteDTO> getActivos() throws ErrorServiceException{
+    public List<VisitanteDTO> listar() throws ErrorServiceException{
         try {
-            List<VisitanteDTO> visitantes = dao.getActivos();
-            return visitantes;
+            return dao.listar(VisitanteDTO[].class);
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new ErrorServiceException("Error de Sistemas");
