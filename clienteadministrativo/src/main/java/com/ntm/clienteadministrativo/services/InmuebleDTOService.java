@@ -24,7 +24,7 @@ public class InmuebleDTOService {
             inmuebleDTO.setEstadoInmueble(estadoInmueble);
             inmuebleDTO.setNumeracion(numeracion);
             inmuebleDTO.setPiso(piso);
-            inmuebleDTO.setDepto(depto);
+            inmuebleDTO.setDpto(depto);
 
             inmuebleDTO.setEliminado(false);
             UnidadDeNegocioDTO unidadDeNegocioDTO = unidadDeNegocioService.buscar(idUnidadDeNegocio);
@@ -46,6 +46,7 @@ public class InmuebleDTOService {
             InmuebleDTO inmueble = new InmuebleDTO();
             inmueble.setId(id);
             inmueble.setNumeracion(numeracion);
+            inmueble.setDpto(dpto);
             inmueble.setPiso(piso);
             inmueble.setEstadoInmueble(estadoInmueble);
             inmueble.setEliminado(false);
