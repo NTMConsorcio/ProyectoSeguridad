@@ -8,7 +8,7 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Visitantes</h1>
+                <h1 class="mt-4">Imagenes</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a th:href="@{/inicio}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Actual</li>
@@ -20,50 +20,52 @@
                     </div>
                 </div>
 
-                <a th:href="@{/visitante/alta}" type="button" class="btn btn-success mb-4"> Nuevo</a>
+                <a th:href="@{/imagen/alta}" type="button" class="btn btn-success mb-4"> Nuevo</a>
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
                         Registros
                     </div>
                     <div class="card-body">
-                        <table id="datatablesSimple">
+                        <table id="datatablesSimple" class="table-hover">
                             <thead>
                             <tr>
                                 <th>Opciones</th>
                                 <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Numero de documento</th>
+                                <th>Mime</th>
+                                <th>Imagen</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
                                 <th>Opciones</th>
                                 <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Numero de documento</th>
+                                <th>Mime</th>
+                                <th>Imagen</th>
                             </tr>
                             </tfoot>
                             <tbody>
-                            <tr th:each="visitante : ${visitantes}">
-                                <th>
+                            <tr th:each="imagen : ${imagenes}">
+                                <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-primary dropdown-toggle btn-sm"
                                                 data-bs-toggle="dropdown" aria-expanded="false"><i
                                                 class="bi bi-three-dots-vertical"></i></button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item"
-                                                   th:href="@{/consultar?id=} + ${visitante.id}">Consultar</a></li>
+                                                   th:href="@{consultar?id=} + ${imagen.id}">Consultar</a></li>
                                             <li><a class="dropdown-item"
-                                                   th:href="@{/modificar?id=} + ${visitante.id}">Modificar</a></li>
-                                            <li><a class="dropdown-item" th:href="@{/baja?id=} + ${visitante.id}">Eliminar</a>
+                                                   th:href="@{modificar?id=} + ${imagen.id}">Modificar</a></li>
+                                            <li><a class="dropdown-item" th:href="@{baja?id=} + ${imagen.id}">Eliminar</a>
                                             </li>
                                         </ul>
                                     </div>
-                                </th>
-                                <td th:text="${visitante.nombre}"></td>
-                                <td th:text="${visitante.apellido}"></td>
-                                <td th:text="${visitante.numeroDeDocumento}"></td>
+                                </td>
+                                <td th:text="${imagen.nombre}"></td>
+                                <td th:text="${imagen.mime}"></td>
+                                <td>
+                                    <img th:src="'data:image/jpeg;base64,' + ${imagenesBase[imagen.id]}" alt="Imagen" width="100"/>
+                                </td>
                             </tr>
 
                             </tbody>

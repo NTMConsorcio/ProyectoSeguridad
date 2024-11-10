@@ -54,8 +54,7 @@ public class ServicioController {
         try {
             model.addAttribute("isDisabled", false);
             model.addAttribute("servicio", dto);
-            List<ImagenDTO> imagenesList = imagenService.listar();
-            List<EmpresaDTO> empresasList = empresaService.listar();
+            cargarListas(model);
             return viewEdit;
         } catch (ErrorServiceException e) {
             model.addAttribute("mensajeError", e.getMessage());
@@ -66,7 +65,7 @@ public class ServicioController {
     }
 
     @GetMapping("/baja")
-    public String baja(@RequestParam(value="id") String id, Model model) {
+    public String baja(@RequestParam(value = "id") String id, Model model) {
         try {
             service.eliminar(id);
             return "redirect:/servicio/list";
@@ -84,6 +83,7 @@ public class ServicioController {
             ServicioDTO obj = service.buscar(id);
             model.addAttribute("servicio", obj);
             model.addAttribute("isDisabled", false);
+            cargarListas(model);
             return viewEdit;
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
@@ -114,25 +114,31 @@ public class ServicioController {
         try {
             if (result.hasErrors()) {
                 model.addAttribute("mensajeError", "Error en el formulario");
-                model.addAttribute("servicio", dto);
-                return viewEdit;
-            }
 
-            if (dto.getId() == null || dto.getId().isEmpty()) {
-                service.crear(dto.getNombre(), dto.getImagen().getId(), dto.getEmpresa().getId());
             } else {
-                service.modificar(dto.getId(), dto.getNombre(), dto.getImagen().getId(), dto.getEmpresa().getId());
-            }
 
-            return "redirect:/servicio/list";
+                if (dto.getId() == null || dto.getId().isEmpty()) {
+                    service.crear(dto.getNombre(), dto.getImagen().getId(), dto.getEmpresa().getId());
+                } else {
+                    service.modificar(dto.getId(), dto.getNombre(), dto.getImagen().getId(), dto.getEmpresa().getId());
+                }
+
+                return "redirect:/servicio/list";
+            }
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
-            model.addAttribute("servicio", dto);
-            return viewEdit;
         } catch (Exception ex) {
             model.addAttribute("mensajeError", "Error en el formulario");
-            model.addAttribute("servicio", dto);
-            return viewEdit;
         }
+        model.addAttribute("servicio", dto);
+        cargarListas(model);
+        return viewEdit;
+    }
+
+    public void cargarListas(Model model) throws ErrorServiceException {
+        List<ImagenDTO> imagenesList = imagenService.listar();
+        List<EmpresaDTO> empresasList = empresaService.listar();
+        model.addAttribute("imagenes", imagenesList);
+        model.addAttribute("empresas", empresasList);
     }
 }

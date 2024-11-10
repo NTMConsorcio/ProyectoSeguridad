@@ -1,7 +1,9 @@
 package com.ntm.appseguridad.services;
 
+import com.ntm.appseguridad.entities.Pais;
 import com.ntm.appseguridad.entities.Usuario;
 import com.ntm.appseguridad.entities.Visitante;
+import com.ntm.appseguridad.mappers.VisitanteMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.VisitanteRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
@@ -13,10 +15,12 @@ import java.util.Optional;
 @Service
 public class VisitanteServiceImpl extends BaseServiceImpl<Visitante,String> implements VisitanteService {
     private final VisitanteRepository visitanteRepository;
+    private final VisitanteMapper visitanteMapper;
 
-    public VisitanteServiceImpl(BaseRepository<Visitante, String> baseRepository, VisitanteRepository visitanteRepository) {
+    public VisitanteServiceImpl(BaseRepository<Visitante, String> baseRepository, VisitanteRepository visitanteRepository, VisitanteMapper visitanteMapper) {
         super(baseRepository);
         this.visitanteRepository = visitanteRepository;
+        this.visitanteMapper = visitanteMapper;
     }
 
 
@@ -27,7 +31,7 @@ public class VisitanteServiceImpl extends BaseServiceImpl<Visitante,String> impl
 
     @Override
     public <D> List<D> convertToDtoList(List<Visitante> entities) {
-        return List.of();
+        return (List<D>) visitanteMapper.toDtoList(entities);
     }
 
     @Override
