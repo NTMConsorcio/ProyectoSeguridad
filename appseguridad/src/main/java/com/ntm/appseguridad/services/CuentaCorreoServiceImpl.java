@@ -25,7 +25,7 @@ public class CuentaCorreoServiceImpl extends BaseServiceImpl<CuentaCorreo,String
 
     @Override
     public <D> D convertToDto(CuentaCorreo entity) {
-        return null;
+        return (D) cuentaCorreoMapper.toDTO(entity);
     }
 
     @Override

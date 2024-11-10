@@ -31,6 +31,7 @@ public class EmpresaServiceImpl extends BaseServiceImpl<Empresa,String> implemen
 
     @Override
     public <D> List<D> convertToDtoList(List<Empresa> entities) {
+        System.out.println(entities);
         return (List<D>) empresaMapper.toDtoList(entities);
     }
 

@@ -43,21 +43,21 @@ public class EmpleadoDTOService {
             if (tipoEmpleado.equals(TipoEmpleado.SUPERVISOR)){
                 rol = Rol.ADMIN;
             }
-            System.out.println(idUnidadDeNegocio);
+
             UnidadDeNegocioDTO unidad = unidadService.buscar(idUnidadDeNegocio);
             empleado.setUnidadDeNegocio(unidad);
-            UsuarioDTO usuario = serviceUsuario.registrar(correo, documento, rol);
+
+            serviceUsuario.registrar(correo, documento, rol);
+            UsuarioDTO usuario = serviceUsuario.buscarCuenta(correo);
             empleado.setUsuario(usuario);
-            System.out.println("---------------------------------------------------");
+
             ContactoTelefonicoDTO tel = telService.crear("", TipoContactos.LABORAL ,numero, TipoTelefono.CELULAR);
-            System.out.println("---------------------------------------------------");
             ContactoCorreoElectronicoDTO contacCorreo = correoService.crear("", TipoContactos.LABORAL, correo);
-            System.out.println("---------------------------------------------------");
             List<ContactoDTO> contactos = new ArrayList<>();
             contactos.add(tel);
             contactos.add(contacCorreo);
             empleado.setContactos(contactos);
-            System.out.println(empleado.getContactos());
+
             dao.registrar(empleado);
         } catch (ErrorServiceException e) {
             throw e;
@@ -96,6 +96,33 @@ public class EmpleadoDTOService {
             ex.printStackTrace();
             throw new ErrorServiceException("Error de Sistemas");
         }
+    }
+
+    public List<EmpleadoDTO> listar() throws ErrorServiceException {
+        try {
+            return dao.listar(EmpleadoDTO[].class);
+        } catch (ErrorServiceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ErrorServiceException("Error de sistema");
+        }
+    }
+
+    public void eliminar(String id) throws ErrorServiceException {
+
+        try {
+            if (id == null) {
+                throw new ErrorServiceException("Debe indicar el id");
+            }
+            dao.eliminar(id);
+        } catch (ErrorServiceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ErrorServiceException("Error de sistema");
+        }
+
     }
 
 

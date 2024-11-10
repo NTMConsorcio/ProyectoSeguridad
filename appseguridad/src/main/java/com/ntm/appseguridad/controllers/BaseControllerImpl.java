@@ -36,7 +36,7 @@ public abstract class BaseControllerImpl<E extends Base ,S extends BaseServiceIm
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(@PathVariable String id) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
+            return ResponseEntity.status(HttpStatus.OK).body(service.findByIdDto(id));
         }catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde.\"}");
         }

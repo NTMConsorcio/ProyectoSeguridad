@@ -7,4 +7,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class ContactoCorreoElectronicoDTO extends ContactoDTO {
     private String email;
+    private String type;
 }

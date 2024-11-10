@@ -26,7 +26,7 @@ public class ImagenServiceImpl extends BaseServiceImpl<Imagen,String> implements
 
     @Override
     public <D> D convertToDto(Imagen entity) {
-        return null;
+        return (D) imagenMapper.toDTO(entity);
     }
 
     @Override

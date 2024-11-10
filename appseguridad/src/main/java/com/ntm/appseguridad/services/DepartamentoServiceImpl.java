@@ -24,7 +24,7 @@ public class DepartamentoServiceImpl extends BaseServiceImpl<Departamento,String
 
     @Override
     public <D> D convertToDto(Departamento entity) {
-        return null;
+        return (D) departamentoMapper.toDTO(entity);
     }
 
     @Override

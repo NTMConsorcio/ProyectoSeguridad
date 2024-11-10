@@ -24,7 +24,7 @@ public class ContactoCorreoElectronicoServiceImpl extends BaseServiceImpl<Contac
 
     @Override
     public <D> D convertToDto(ContactoCorreoElectronico entity) {
-        return null;
+        return (D) contactoCorreoElectronicoMapper.toDTO(entity);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.ntm.clienteadministrativo.controllers;
 
+import com.ntm.clienteadministrativo.dto.DireccionDTO;
 import com.ntm.clienteadministrativo.dto.EmpleadoDTO;
 import com.ntm.clienteadministrativo.dto.UnidadDeNegocioDTO;
 import com.ntm.clienteadministrativo.dto.enums.TipoEmpleado;
@@ -23,12 +24,42 @@ import java.util.List;
 @RequestMapping("/empleado")
 public class EmpleadoController {
     private String viewEdit = "view/empleado/editEmpleado";
+    private String viewList = "view/empleado/listEmpleado";
 
     @Autowired
     EmpleadoDTOService empleadoService;
 
     @Autowired
     UnidadDeNegocioDTOService unidadServicio;
+
+
+    @GetMapping("/list")
+    public String listar(Model model) {
+        try {
+            List<EmpleadoDTO> lista = empleadoService.listar();
+            System.out.println(lista);
+            model.addAttribute("empleados", lista);
+
+        } catch (ErrorServiceException e) {
+            model.addAttribute("mensajeError", e.getMessage());
+        } catch (Exception e) {
+            model.addAttribute("mensajeError", "Error de Sistema");
+        }
+        return viewList;
+    }
+
+    @GetMapping("/baja")
+    public String baja(@RequestParam(value = "id") String id, Model model) {
+        try {
+            empleadoService.eliminar(id);
+            return "redirect:/empleado/list";
+        } catch (ErrorServiceException ex) {
+            model.addAttribute("mensajeError", ex.getMessage());
+        } catch (Exception ex) {
+            model.addAttribute("mensajeError", "Error con el formulario");
+        }
+        return viewList;
+    }
 
     @GetMapping("/edit")
     public String editEmpleado(Model model) throws ErrorServiceException {

@@ -2,9 +2,11 @@ package com.ntm.appseguridad.services;
 
 
 import com.ntm.appseguridad.dto.ContactoTelefonicoDTO;
+import com.ntm.appseguridad.entities.Contacto;
 import com.ntm.appseguridad.entities.ContactoTelefonico;
 import com.ntm.appseguridad.entities.Departamento;
 import com.ntm.appseguridad.entities.Provincia;
+import com.ntm.appseguridad.mappers.ContactoMapper;
 import com.ntm.appseguridad.mappers.ContactoTelefonicoMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.ContactoTelefonicoRepository;
@@ -19,10 +21,12 @@ public class ContactoTelefonicoServiceImpl extends BaseServiceImpl<ContactoTelef
 
     private final ContactoTelefonicoRepository contactoTelefonicoRepository;
     private final ContactoTelefonicoMapper contactoTelefonicoMapper;
+    private final ContactoMapper contactoMapper;
 
-    public ContactoTelefonicoServiceImpl(BaseRepository<ContactoTelefonico, String> baserepository, ContactoTelefonicoRepository contactoTelefonicoRepository, ContactoTelefonicoMapper contactoTelefonicoMapper) {super(baserepository);
+    public ContactoTelefonicoServiceImpl(BaseRepository<ContactoTelefonico, String> baserepository, ContactoTelefonicoRepository contactoTelefonicoRepository, ContactoTelefonicoMapper contactoTelefonicoMapper, ContactoMapper contactoMapper) {super(baserepository);
         this.contactoTelefonicoRepository = contactoTelefonicoRepository;
         this.contactoTelefonicoMapper = contactoTelefonicoMapper;
+        this.contactoMapper = contactoMapper;
     }
 
     public ContactoTelefonicoDTO Crear(ContactoTelefonicoDTO contactoDto) {
@@ -32,13 +36,14 @@ public class ContactoTelefonicoServiceImpl extends BaseServiceImpl<ContactoTelef
     }
     @Override
     public <D> D convertToDto(ContactoTelefonico entity) {
-        return null;
+        return (D) contactoTelefonicoMapper.toDTO(entity);
     }
 
     @Override
     public <D> List<D> convertToDtoList(List<ContactoTelefonico> entities) {
         return (List<D>) contactoTelefonicoMapper.toDtoList(entities);
     }
+
 
     @Override
     public boolean validar(ContactoTelefonico entity, String caso) throws ErrorServiceException {

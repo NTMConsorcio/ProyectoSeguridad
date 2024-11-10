@@ -25,7 +25,7 @@ public class ProvinciaServiceImpl extends BaseServiceImpl<Provincia,String> impl
 
     @Override
     public <D> D convertToDto(Provincia entity) {
-        return null;
+        return (D) provinciaMapper.toDTO(entity);
     }
 
     @Override
