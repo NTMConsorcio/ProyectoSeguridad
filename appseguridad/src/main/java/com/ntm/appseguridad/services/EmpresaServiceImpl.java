@@ -26,7 +26,7 @@ public class EmpresaServiceImpl extends BaseServiceImpl<Empresa,String> implemen
 
     @Override
     public <D> D convertToDto(Empresa entity) {
-        return null;
+        return (D) empresaMapper.toDTO(entity);
     }
 
     @Override
