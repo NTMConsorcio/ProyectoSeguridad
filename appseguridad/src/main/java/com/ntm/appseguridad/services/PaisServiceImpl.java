@@ -25,7 +25,7 @@ public class PaisServiceImpl extends BaseServiceImpl<Pais,String> implements Pai
 
     @Override
     public <D> D convertToDto(Pais entity) {
-        return null;
+        return (D) paisMapper.toDTO(entity);
     }
 
     @Override

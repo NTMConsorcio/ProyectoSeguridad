@@ -25,7 +25,7 @@ public class DireccionServiceImpl extends BaseServiceImpl<Direccion,String> impl
 
     @Override
     public <D> D convertToDto(Direccion entity) {
-        return null;
+        return (D) direccionMapper.toDTO(entity);
     }
 
     @Override

@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 
 @Mapper(componentModel = "spring", uses = {UnidadDeNegocioMapper.class, UsuarioMapper.class, ContactoMapper.class})
 public interface EmpleadoMapper {
@@ -21,5 +23,7 @@ public interface EmpleadoMapper {
     @Mapping(source = "unidadDeNegocio", target = "unidadDeNegocio")
     @Mapping(source = "contactos", target = "contactos")
     Empleado toEntity(EmpleadoDTO empleadoDTO);
+
+    List<EmpleadoDTO> toDtoList(List<Empleado> entities);
 
 }

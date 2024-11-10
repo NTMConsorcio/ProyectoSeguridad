@@ -1,5 +1,7 @@
 package com.ntm.appseguridad.entities;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.ntm.appseguridad.entities.enums.TipoContactos;
 import jakarta.persistence.Entity;
 import lombok.Data;

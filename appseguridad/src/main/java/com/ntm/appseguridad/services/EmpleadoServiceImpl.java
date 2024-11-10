@@ -2,11 +2,13 @@ package com.ntm.appseguridad.services;
 
 
 import com.ntm.appseguridad.dto.EmpleadoDTO;
+import com.ntm.appseguridad.entities.CacheLegajoSingleton;
 import com.ntm.appseguridad.entities.Empleado;
 import com.ntm.appseguridad.entities.enums.TipoEmpleado;
 import com.ntm.appseguridad.mappers.EmpleadoMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.EmpleadoRepository;
+import com.ntm.appseguridad.repositories.UsuarioRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +20,15 @@ public class EmpleadoServiceImpl extends BaseServiceImpl<Empleado,String> implem
 
     private final EmpleadoRepository empleadoRepository;
     private final EmpleadoMapper empleadoMapper;
-    public EmpleadoServiceImpl(BaseRepository<Empleado, String> baserepository, EmpleadoRepository empleadoRepository, EmpleadoMapper empleadoMapper) {
+    private final UsuarioRepository usuarioRepository;
+
+    private UsuarioService usuarioService;
+
+    public EmpleadoServiceImpl(BaseRepository<Empleado, String> baserepository, EmpleadoRepository empleadoRepository, EmpleadoMapper empleadoMapper, UsuarioRepository usuarioRepository) {
         super(baserepository);
         this.empleadoRepository = empleadoRepository;
         this.empleadoMapper = empleadoMapper;
+        this.usuarioRepository = usuarioRepository;
     }
     @Override
     public Empleado searchByNombre(String nombre) throws Exception {
@@ -41,22 +48,35 @@ public class EmpleadoServiceImpl extends BaseServiceImpl<Empleado,String> implem
             throw new Exception(e.getMessage());
         }
     }
-    public EmpleadoDTO Crear(EmpleadoDTO empleadoDto) {
-        Empleado empleado = empleadoMapper.toEntity(empleadoDto);
-        empleado.setLegajo("1");
-        System.out.println(empleado);
-        Empleado empleadoGuardado = repository.save(empleado);
-        System.out.println(empleadoGuardado);
-        return empleadoMapper.toDTO(empleadoGuardado);
+
+    public EmpleadoDTO Crear(EmpleadoDTO empleadoDto) throws ErrorServiceException {
+        try {
+            Empleado empleado = empleadoMapper.toEntity(empleadoDto);
+            CacheLegajoSingleton cache = CacheLegajoSingleton.getInstance();
+            if (cache.getContadorLegajo() == 0) {
+                cache.setContadorLegajo(Integer.parseInt(empleadoRepository.findFirstByOrderByLegajoDesc().getLegajo()) + 1);
+            };
+            empleado.setLegajo(String.valueOf(cache.getContadorLegajo()));
+            Empleado empleadoGuardado = repository.save(empleado);
+            cache.addContadorLegajo();
+
+            return empleadoMapper.toDTO(empleadoGuardado);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ErrorServiceException("Error al persistir el empleado");
+        }
+
     }
+
+
     @Override
     public <D> D convertToDto(Empleado entity) {
-        return null;
+        return (D) empleadoMapper.toDTO(entity);
     }
 
     @Override
     public <D> List<D> convertToDtoList(List<Empleado> entities) {
-        return List.of();
+        return (List<D>) empleadoMapper.toDtoList(entities);
     }
 
     @Override

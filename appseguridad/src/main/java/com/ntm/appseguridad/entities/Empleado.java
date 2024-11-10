@@ -1,9 +1,7 @@
 package com.ntm.appseguridad.entities;
 
 import com.ntm.appseguridad.entities.enums.TipoEmpleado;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

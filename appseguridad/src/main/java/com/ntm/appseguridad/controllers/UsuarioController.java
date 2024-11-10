@@ -22,4 +22,13 @@ public class UsuarioController extends BaseControllerImpl<Usuario, UsuarioServic
         }
     }
 
+    @GetMapping("/buscar/{nombre}")
+    public ResponseEntity<?> getOne(@PathVariable String nombre) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.searchByCuenta(nombre));
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde.\"}");
+        }
+    }
+
 }

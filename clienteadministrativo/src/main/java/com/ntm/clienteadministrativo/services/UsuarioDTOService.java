@@ -1,5 +1,6 @@
 package com.ntm.clienteadministrativo.services;
 
+import com.ntm.clienteadministrativo.dto.DireccionDTO;
 import com.ntm.clienteadministrativo.dto.UsuarioDTO;
 import com.ntm.clienteadministrativo.dto.enums.Rol;
 import com.ntm.clienteadministrativo.rest.UsuarioDAORest;
@@ -29,6 +30,24 @@ public class UsuarioDTOService {
             ex.printStackTrace();
             throw new ErrorServiceException("Error de Sistemas");
         }
+    }
 
+    public UsuarioDTO buscarCuenta (String cuenta) throws ErrorServiceException {
+
+        try {
+
+            if (cuenta == null) {
+                throw new ErrorServiceException("Debe indicar la cuenta");
+            }
+
+            UsuarioDTO obj = dao.buscarCuenta(cuenta);
+
+            return obj;
+        } catch (ErrorServiceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ErrorServiceException("Error de sistema");
+        }
     }
 }

@@ -1,8 +1,8 @@
 package com.ntm.appseguridad.mappers;
 
+import com.ntm.appseguridad.dto.ContactoDTO;
 import com.ntm.appseguridad.dto.EmpresaDTO;
-import com.ntm.appseguridad.entities.Direccion;
-import com.ntm.appseguridad.entities.Empresa;
+import com.ntm.appseguridad.entities.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -13,7 +13,7 @@ import java.util.List;
 public interface EmpresaMapper {
     EmpresaMapper INSTANCE = Mappers.getMapper(EmpresaMapper.class);
 
-    @Mapping(source = "contacto", target = "contacto")
+    @Mapping(target = "contacto",  source = "contacto")
     @Mapping(source = "direccion", target = "direccion")
     EmpresaDTO toDTO(Empresa empresa);
 
@@ -22,5 +22,6 @@ public interface EmpresaMapper {
     Empresa toEntity(EmpresaDTO empresaDTO);
 
     List<EmpresaDTO> toDtoList(List<Empresa> entities);
+
 }
 

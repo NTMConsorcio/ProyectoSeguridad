@@ -26,7 +26,7 @@ public class ServicioServiceImpl extends BaseServiceImpl<Servicio,String> implem
 
     @Override
     public <D> D convertToDto(Servicio entity) {
-        return null;
+        return (D) servicioMapper.toDTO(entity);
     }
 
     @Override
