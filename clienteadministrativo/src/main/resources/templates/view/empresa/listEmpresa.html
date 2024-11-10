@@ -32,16 +32,16 @@
                             <tr>
                                 <th>Opciones</th>
                                 <th>Nombre</th>
-                                <th>Imagen</th>
-                                <th>Empresa</th>
+                                <th>Dirección</th>
+                                <th>Contacto</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
                                 <th>Opciones</th>
                                 <th>Nombre</th>
-                                <th>Imagen</th>
-                                <th>Empresa</th>
+                                <th>Dirección</th>
+                                <th>Contacto</th>
                             </tr>
                             </tfoot>
                             <tbody>
@@ -62,7 +62,8 @@
                                     </div>
                                 </td>
                                 <td th:text="${empresa.nombre}"></td>
-                                <td th:text="${empresa.nombre}"></td>
+                                <td th:text="${empresa.direccion.calle} + ' ' + ${empresa.direccion.numeracion}"></td>
+                                <td th:text="${empresa.contacto.tipo == 'telefono' ? empresa.contacto.telefono : empresa.contacto.email}"></td>
                             </tr>
 
                             </tbody>

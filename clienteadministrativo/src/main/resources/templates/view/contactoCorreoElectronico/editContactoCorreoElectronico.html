@@ -8,7 +8,7 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-5">
-                <h1 class="mt-4">Contactos Telefónicos</h1>
+                <h1 class="mt-4">Contacto Correo Electrónico</h1>
                 <ol class="breadcrumb mb-4 mt-4">
                     <li class="breadcrumb-item"><a th:href="@{/inicio}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Actual</li>
@@ -19,13 +19,19 @@
                              role='alert'></div>
                     </div>
                 </div>
-                <form th:action="@{/contactoTelefonico/aceptarEdit}" method="post" th:object="${contactoTelefonico}">
-                    <input type="hidden" name="id" th:value="${contactoTelefonico.id}">
+                <form th:action="@{/contactoCorreoElectronico/aceptarEdit}" method="post" th:object="${contactoCorreoElectronico}">
+                    <input type="hidden" name="id" th:value="${contactoCorreoElectronico.id}">
                     <div class="mb-3">
                         <label for="correo" class="form-label">Correo</label>
                         <input type="text" class="form-control" id="correo" th:field="*{email}"
                                th:disabled="${isDisabled}" aria-describedby="correoHelp">
                         <div id="correoHelp" class="form-text">Ingrese el correo electrónico.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipoContactoIn" class="form-label">Tipo de contacto</label>
+                        <select id="tipoContactoIn" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar tipo de contacto" th:field="*{tipoContacto}">
+                            <option th:each="tipoContacto : ${tiposContacto}" th:value="${tipoContacto}" th:text="${tipoContacto}">Option</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="observacion" class="form-label">Observación</label>

@@ -1,6 +1,7 @@
 package com.ntm.appseguridad.services;
 
 import com.ntm.appseguridad.entities.Imagen;
+import com.ntm.appseguridad.entities.Pais;
 import com.ntm.appseguridad.entities.Provincia;
 import com.ntm.appseguridad.mappers.ImagenMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
@@ -89,6 +90,20 @@ public class ImagenServiceImpl extends BaseServiceImpl<Imagen,String> implements
     public boolean validar(Imagen archivo, String caso) throws ErrorServiceException{
 
         try {
+
+            if (caso.equals("SAVE")) {
+                if (imagenRepository.existsByNombreAndEliminadoFalse(archivo.getNombre())) {
+                    throw new ErrorServiceException("La imagen ya existe en el sistema");
+                }
+            } else {
+                Imagen cc = imagenRepository.findByNombreAndEliminadoFalse(archivo.getNombre());
+                if (cc != null) {
+                    if (!cc.getId().equals(archivo.getId())) {
+                        throw new ErrorServiceException("La imagen especificada ya existe en el sistema");
+                    }
+                }
+            }
+
             if (archivo.getContenido() == null) {
                 throw new ErrorServiceException("La imagen no posee contenido");
             }

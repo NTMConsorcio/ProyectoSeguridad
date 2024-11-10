@@ -62,7 +62,7 @@ public class ImagenController {
         }
         return viewList;
     }
-
+    /*
     @GetMapping("/modificar")
     public String modificar(Model model, @RequestParam("id") String id) {
         try {
@@ -79,11 +79,14 @@ public class ImagenController {
         }
     }
 
+     */
+
     @GetMapping("/consultar")
     public String consultar(Model model, @RequestParam("id") String id) {
         try {
             ImagenDTO obj = service.buscar(id);
             model.addAttribute("imagen", obj);
+            model.addAttribute("nombre", obj.getNombre());
             model.addAttribute("isDisabled", true);
             return viewEdit;
         } catch (ErrorServiceException ex) {
@@ -95,7 +98,7 @@ public class ImagenController {
     }
 
     @PostMapping("/aceptarEdit")
-    public String aceptarEdit(@RequestParam("name") String nombre, @RequestParam("archivo") MultipartFile archivo, Model model, ImagenDTO dto, BindingResult result, RedirectAttributes attributes) throws ErrorServiceException {
+    public String aceptarEdit(@RequestParam("nombre") String nombre, @RequestParam("archivo") MultipartFile archivo, Model model, ImagenDTO dto, BindingResult result, RedirectAttributes attributes) throws ErrorServiceException {
         try {
             if (result.hasErrors()) {
                 model.addAttribute("mensajeError", "Error en el formulario");

@@ -41,6 +41,7 @@ public class EmpresaController {
     public String listar(Model model) {
         try {
             List<EmpresaDTO> lista = service.listar();
+            System.out.println("Lista de Empresas: " + lista);
             model.addAttribute("empresas", lista);
 
         } catch (ErrorServiceException e) {
@@ -56,13 +57,7 @@ public class EmpresaController {
         try {
             model.addAttribute("isDisabled", false);
             model.addAttribute("empresa", dto);
-            List<DireccionDTO> direccionesList = direccionService.listar();
-            List<ContactoCorreoElectronicoDTO> correosList = contactoCorreoService.listar();
-            List<ContactoTelefonicoDTO> telefonosList = contactoTelefonicoService.listar();
-            List<ContactoDTO> contactosList = new ArrayList<>();
-            contactosList.addAll(correosList);
-            contactosList.addAll(telefonosList);
-
+            cargarListas(model);
             return viewEdit;
         } catch (ErrorServiceException e) {
             model.addAttribute("mensajeError", e.getMessage());
@@ -73,7 +68,7 @@ public class EmpresaController {
     }
 
     @GetMapping("/baja")
-    public String baja(@RequestParam(value="id") String id, Model model) {
+    public String baja(@RequestParam(value = "id") String id, Model model) {
         try {
             service.eliminar(id);
             return "redirect:/empresa/list";
@@ -91,6 +86,7 @@ public class EmpresaController {
             EmpresaDTO obj = service.buscar(id);
             model.addAttribute("empresa", obj);
             model.addAttribute("isDisabled", false);
+            cargarListas(model);
             return viewEdit;
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
@@ -121,25 +117,34 @@ public class EmpresaController {
         try {
             if (result.hasErrors()) {
                 model.addAttribute("mensajeError", "Error en el formulario");
-                model.addAttribute("empresa", dto);
-                return viewEdit;
-            }
-
-            if (dto.getId() == null || dto.getId().isEmpty()) {
-                service.crear(dto.getNombre(), dto.getDireccion().getId(), dto.getContacto().getId(), dto.getContacto().getTipo());
             } else {
-                service.modificar(dto.getId(), dto.getNombre(), dto.getDireccion().getId(), dto.getContacto().getId(), dto.getContacto().getTipo());
-            }
+                System.out.println(dto.getContacto().getTipo());
+                if (dto.getId() == null || dto.getId().isEmpty()) {
+                    service.crear(dto.getNombre(), dto.getDireccion().getId(), dto.getContacto().getId(), dto.getContacto().getTipo());
+                } else {
+                    service.modificar(dto.getId(), dto.getNombre(), dto.getDireccion().getId(), dto.getContacto().getId(), dto.getContacto().getTipo());
+                }
 
-            return "redirect:/empresa/list";
+                return "redirect:/empresa/list";
+            }
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
-            model.addAttribute("empresa", dto);
-            return viewEdit;
         } catch (Exception ex) {
             model.addAttribute("mensajeError", "Error en el formulario");
-            model.addAttribute("empresa", dto);
-            return viewEdit;
         }
+        model.addAttribute("empresa", dto);
+        cargarListas(model);
+        return viewEdit;
+    }
+
+    public void cargarListas(Model model) throws ErrorServiceException {
+        List<DireccionDTO> direccionesList = direccionService.listar();
+        List<ContactoCorreoElectronicoDTO> correosList = contactoCorreoService.listar();
+        List<ContactoTelefonicoDTO> telefonosList = contactoTelefonicoService.listar();
+        List<ContactoDTO> contactosList = new ArrayList<>();
+        contactosList.addAll(correosList);
+        contactosList.addAll(telefonosList);
+        model.addAttribute("contactos", contactosList);
+        model.addAttribute("direcciones", direccionesList);
     }
 }

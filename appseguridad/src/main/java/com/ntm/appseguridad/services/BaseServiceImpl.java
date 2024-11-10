@@ -30,7 +30,7 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
     }
 
 
-    @Transactional
+
     public <D> List<D> findAllDtoList() throws Exception {
         List<E> entities = findAll();
         return convertToDtoList(entities);
