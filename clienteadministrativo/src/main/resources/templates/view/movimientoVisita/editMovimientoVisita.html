@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head th:insert="~{fragments/header :: header}"></head>
+<body class="sb-nav-fixed">
+<nav th:insert="~{fragments/upperNavbar :: upperNavbar}"></nav>
+<div id="layoutSidenav">
+    <div th:insert="~{fragments/sideNavbar :: sideNavbar}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-5">
+                <h1 class="mt-4">Movimiento Visita</h1>
+                <ol class="breadcrumb mb-4 mt-4">
+                    <li class="breadcrumb-item"><a th:href="@{/inicio}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Actual</li>
+                </ol>
+                <div th:if="${mensajeError != null}" class="card mb-4">
+                    <div class="card-body">
+                        <div th:if="${mensajeError != null}" class='alert alert-danger' th:text="${mensajeError}"
+                             role='alert'></div>
+                    </div>
+                </div>
+                <form th:action="@{/movimientoVisita/aceptarEdit}" method="post" th:object="${movimientoVisita}">
+                    <input type="hidden" name="id">
+                    <div class="mb-3">
+                        <label for="tipoMovimiento" class="form-label">Tipo</label>
+                        <input type="text" class="form-control" id="tipoMovimiento" name="tipoMovimiento" th:value="${tipoMovimiento}"
+                               th:disabled="${isDisabled}" aria-describedby="tipoMovimientoHelp">
+                        <div id="tipoMovimientoHelp" class="form-text">Ingrese el tipo de movimiento.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fechaMovimiento" class="form-label">Fecha</label>
+                        <input type="text" class="form-control" id="fechaMovimiento" name="fechaMovimiento" th:value="${fechaMovimiento}"
+                               th:disabled="${isDisabled}" aria-describedby="fechaMovimientoHelp">
+                        <div id="fechaMovimientoHelp" class="form-text">Ingrese la fecha del movimiento.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="observacion" class="form-label">Observación</label>
+                        <input type="text" class="form-control" id="observacion" name="observacion" th:value="${observacion}"
+                               th:disabled="${isDisabled}" aria-describedby="observacionHelp">
+                        <div id="observacionHelp" class="form-text">Ingrese una observacion del movimiento.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="estadoMovimiento" class="form-label">Estado</label>
+                        <input type="text" class="form-control" id="estadoMovimiento" name="estadoMovimiento" th:value="${estadoMovimiento}"
+                               th:disabled="${isDisabled}" aria-describedby="estadoMovimientoHelp">
+                        <div id="estadoMovimientoHelp" class="form-text">Ingrese el estado del movimiento.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipoMovilidad" class="form-label">Tipo de movilidad</label>
+                        <input type="text" class="form-control" id="tipoMovilidad" name="tipoMovilidad" th:value="${tipoMovilidad}"
+                               th:disabled="${isDisabled}" aria-describedby="tipoMovilidadHelp">
+                        <div id="tipoMovilidadHelp" class="form-text">Ingrese el tipo de movilidad.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcionMovilidad" class="form-label">descripción de la movilidad</label>
+                        <input type="text" class="form-control" id="descripcionMovilidad" name="descripcionMovilidad" th:value="${descripcionMovilidad}"
+                               th:disabled="${isDisabled}" aria-describedby="descripcionMovilidadHelp">
+                        <div id="descripcionMovilidad" class="form-text">Ingrese una descripción de la movilidad.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="visitante" class="form-label">Visitante</label>
+                        <select id="visitante" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar visitante" th:field="*{visitante.id}">
+                            <option value="" th:text="'Seleccione opción...'" selected></option>
+                            <option th:each="visitante : ${visitantees}" th:value="${visitante.id}" th:text="${visitante.numeroDeDocumento}">Option</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Inmueble" class="form-label">Inmueble</label>
+                        <select id="Inmueble" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar inmueble" th:field="*{inmueble.id}">
+                            <option value="" th:text="'Seleccione opción...'" selected></option>
+                            <option th:each="inmueble : ${inmuebles}" th:text="${inmueble.unidadDeNegocio.nombre} + ' ' + ${inmueble.numeracion} + ' ' + ${inmueble.piso} + ' ' + ${inmueble.dpto}">Option</option>
+                        </select>
+                    </div>
+                    <button type="submit" th:disabled="${isDisabled}" class="btn btn-success">Aceptar</button>
+                    <a th:href="@{list}" class="btn btn-danger" role="button">Cancelar</a>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script th:src="@{js/scripts.js}"></script>
+</body>
+</html>
