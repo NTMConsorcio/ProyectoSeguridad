@@ -48,6 +48,7 @@ public class ContactoTelefonicoController {
         try {
             model.addAttribute("isDisabled", false);
             model.addAttribute("contactoTelefonico", dto);
+            cargarListas(model);
             return viewEdit;
         } catch (Exception e) {
             model.addAttribute("mensajeError", "Error de Sistemas");
@@ -74,6 +75,7 @@ public class ContactoTelefonicoController {
             ContactoTelefonicoDTO obj = service.buscar(id);
             model.addAttribute("contactoTelefonico", obj);
             model.addAttribute("isDisabled", false);
+            cargarListas(model);
             return viewEdit;
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
@@ -104,25 +106,28 @@ public class ContactoTelefonicoController {
         try {
             if (result.hasErrors()) {
                 model.addAttribute("mensajeError", "Error en el formulario");
-                model.addAttribute("contactoTelefonico", dto);
-                return viewEdit;
-            }
-
-            if (dto.getId() == null || dto.getId().isEmpty()) {
-                service.crear(dto.getObservacion(), TipoContactos.PERSONAL, dto.getTelefono(), TipoTelefono.CELULAR);
             } else {
-                service.modificar(dto.getId(), dto.getObservacion(), TipoContactos.PERSONAL, dto.getTelefono(), TipoTelefono.CELULAR);
-            }
 
-            return "redirect:/contactoTelefonico/list";
+                if (dto.getId() == null || dto.getId().isEmpty()) {
+                    service.crear(dto.getObservacion(), dto.getTipoContacto(), dto.getTelefono(), dto.getTipoTelefono());
+                } else {
+                    service.modificar(dto.getId(), dto.getObservacion(), dto.getTipoContacto(), dto.getTelefono(), dto.getTipoTelefono());
+                }
+
+                return "redirect:/contactoTelefonico/list";
+            }
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
-            model.addAttribute("contactoTelefonico", dto);
-            return viewEdit;
         } catch (Exception ex) {
             model.addAttribute("mensajeError", "Error en el formulario");
-            model.addAttribute("contactoTelefonico", dto);
-            return viewEdit;
         }
+        model.addAttribute("contactoTelefonico", dto);
+        cargarListas(model);
+        return viewEdit;
+    }
+
+    public void cargarListas(Model model) {
+        model.addAttribute("tiposContacto", TipoContactos.values());
+        model.addAttribute("tiposTelefono", TipoTelefono.values());
     }
 }

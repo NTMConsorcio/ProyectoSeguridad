@@ -28,6 +28,18 @@
                         <div id="telefonoHelp" class="form-text">Ingrese el teléfono.</div>
                     </div>
                     <div class="mb-3">
+                        <label for="tipoContactoIn" class="form-label">Tipo de contacto</label>
+                        <select id="tipoContactoIn" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar tipo de contacto" th:field="*{tipoContacto}">
+                            <option th:each="tipoContacto : ${tiposContacto}" th:value="${tipoContacto}" th:text="${tipoContacto}">Option</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipoTelefonoIn" class="form-label">Tipo de teléfono</label>
+                        <select id="tipoTelefonoIn" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar tipo de teléfono" th:field="*{tipoTelefono}">
+                            <option th:each="tipoTelefono : ${tiposTelefono}" th:value="${tipoTelefono}" th:text="${tipoTelefono}">Option</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="observacion" class="form-label">Observación</label>
                         <input type="text" class="form-control" id="observacion" th:field="*{observacion}"
                                th:disabled="${isDisabled}" aria-describedby="observacionHelp">

@@ -33,7 +33,7 @@ public class ContactoCorreoElectronicoController {
     public String listar(Model model) {
         try {
             List<ContactoCorreoElectronicoDTO> lista = service.listar();
-            model.addAttribute("contactosTelefonicos", lista);
+            model.addAttribute("contactosCorreoElectronico", lista);
 
         } catch (ErrorServiceException e) {
             model.addAttribute("mensajeError", e.getMessage());
@@ -48,6 +48,7 @@ public class ContactoCorreoElectronicoController {
         try {
             model.addAttribute("isDisabled", false);
             model.addAttribute("contactoCorreoElectronico", dto);
+            cargarListas(model);
             return viewEdit;
         } catch (Exception e) {
             model.addAttribute("mensajeError", "Error de Sistemas");
@@ -56,7 +57,7 @@ public class ContactoCorreoElectronicoController {
     }
 
     @GetMapping("/baja")
-    public String baja(@RequestParam(value="id") String id, Model model) {
+    public String baja(@RequestParam(value = "id") String id, Model model) {
         try {
             service.eliminar(id);
             return "redirect:/contactoCorreoElectronico/list";
@@ -74,6 +75,7 @@ public class ContactoCorreoElectronicoController {
             ContactoCorreoElectronicoDTO obj = service.buscar(id);
             model.addAttribute("contactoCorreoElectronico", obj);
             model.addAttribute("isDisabled", false);
+            cargarListas(model);
             return viewEdit;
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
@@ -88,6 +90,7 @@ public class ContactoCorreoElectronicoController {
     public String consultar(Model model, @RequestParam("id") String id) {
         try {
             ContactoCorreoElectronicoDTO obj = service.buscar(id);
+            cargarListas(model);
             model.addAttribute("contactoCorreoElectronico", obj);
             model.addAttribute("isDisabled", true);
             return viewEdit;
@@ -104,25 +107,27 @@ public class ContactoCorreoElectronicoController {
         try {
             if (result.hasErrors()) {
                 model.addAttribute("mensajeError", "Error en el formulario");
-                model.addAttribute("contactoCorreoElectronico", dto);
-                return viewEdit;
-            }
-
-            if (dto.getId() == null || dto.getId().isEmpty()) {
-                service.crear(dto.getObservacion(), TipoContactos.PERSONAL, dto.getEmail());
             } else {
-                service.modificar(dto.getId(), dto.getObservacion(), TipoContactos.PERSONAL, dto.getEmail());
-            }
 
-            return "redirect:/contactoCorreoElectronico/list";
+                if (dto.getId() == null || dto.getId().isEmpty()) {
+                    service.crear(dto.getObservacion(), dto.getTipoContacto(), dto.getEmail());
+                } else {
+                    service.modificar(dto.getId(), dto.getObservacion(), dto.getTipoContacto(), dto.getEmail());
+                }
+
+                return "redirect:/contactoCorreoElectronico/list";
+            }
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
-            model.addAttribute("contactoCorreoElectronico", dto);
-            return viewEdit;
         } catch (Exception ex) {
             model.addAttribute("mensajeError", "Error en el formulario");
-            model.addAttribute("contactoCorreoElectronico", dto);
-            return viewEdit;
         }
+        model.addAttribute("contactoCorreoElectronico", dto);
+        cargarListas(model);
+        return viewEdit;
+    }
+
+    public void cargarListas(Model model) {
+        model.addAttribute("tiposContacto", TipoContactos.values());
     }
 }

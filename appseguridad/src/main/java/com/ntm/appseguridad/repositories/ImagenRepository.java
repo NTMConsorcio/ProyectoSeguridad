@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ImagenRepository extends BaseRepository<Imagen, String> {
-    Imagen findByNombre(String nombre);
+    Imagen findByNombreAndEliminadoFalse(String nombre);
+    boolean existsByNombreAndEliminadoFalse(String nombre);
 }
