@@ -30,12 +30,18 @@
                         <table id="datatablesSimple">
                             <thead>
                             <tr>
+                                <th>Opciones</th>
                                 <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Numero de documento</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
+                                <th>Opciones</th>
                                 <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Numero de documento</th>
                             </tr>
                             </tfoot>
                             <tbody>
@@ -56,6 +62,8 @@
                                     </div>
                                 </th>
                                 <td th:text="${visitante.nombre}"></td>
+                                <td th:text="${visitante.apellido}"></td>
+                                <td th:text="${visitante.numeroDeDocumento}"></td>
                             </tr>
 
                             </tbody>
