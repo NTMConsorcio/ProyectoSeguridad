@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head th:insert="~{fragments/header :: header}"></head>
+<body class="sb-nav-fixed">
+<nav th:insert="~{fragments/upperNavbar :: upperNavbar}"></nav>
+<div id="layoutSidenav">
+    <div th:insert="~{fragments/sideNavbar :: sideNavbar}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-5">
+                <h1 class="mt-4">Inmueble</h1>
+                <ol class="breadcrumb mb-4 mt-4">
+                    <li class="breadcrumb-item"><a th:href="@{/inicio}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Actual</li>
+                </ol>
+                <div th:if="${mensajeError != null}" class="card mb-4">
+                    <div class="card-body">
+                        <div th:if="${mensajeError != null}" class='alert alert-danger' th:text="${mensajeError}"
+                             role='alert'></div>
+                    </div>
+                </div>
+                <form th:action="@{/inmueble/aceptarEdit}" method="post" th:object="${inmueble}">
+                    <input type="hidden" name="id" th:value="${inmueble.id}">
+                    <div class="mb-3">
+                        <label for="numeracion" class="form-label">Numeracion</label>
+                        <input type="text" class="form-control" id="numeracion" th:field="*{numeracion}"
+                               th:disabled="${isDisabled}" aria-describedby="numeracionHelp">
+                        <div id="numeracionHelp" class="form-text">Ingrese la numeracion del inmueble.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="piso" class="form-label">Piso</label>
+                        <input type="text" class="form-control" id="piso" th:field="*{piso}"
+                               th:disabled="${isDisabled}" aria-describedby="pisoHelp">
+                        <div id="pisoHelp" class="form-text">Ingrese el piso del inmueble.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="depto" class="form-label">Departamento</label>
+                        <input type="text" class="form-control" id="dpto" th:field="*{depto}"
+                               th:disabled="${isDisabled}" aria-describedby="deptoHelp">
+                        <div id="deptoHelp" class="form-text">Ingrese el numero de departamento del inmueble.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="estadoInmueble" class="form-label">Estado del inmueble</label>
+                        <input type="text" class="form-control" id="estadoInmueble" th:field="*{estadoInmueble}"
+                               th:disabled="${isDisabled}" aria-describedby="estadoInmuebleHelp">
+                        <div id="estadoInmuebleHelp" class="form-text">Ingrese el estado del inmueble.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="UnidadDeNegocioIn" class="form-label">Unidad de negocio</label>
+                        <select id="UnidadDeNegocioIn" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar UnidadDeNegocio" th:field="*{unidadDeNegocio.id}">
+                            <option th:each="unidadDeNegocio : ${unidadesDeNegocio}" th:value="${unidadDeNegocio.id}" th:text="${unidadDeNegocio.nombre}">Option</option>
+                        </select>
+                    </div>
+                    <button type="submit" th:disabled="${isDisabled}" class="btn btn-success">Aceptar</button>
+                    <a th:href="@{list}" class="btn btn-danger" role="button">Cancelar</a>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script th:src="@{js/scripts.js}"></script>
+</body>
+</html>

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class InmuebleDTO extends BaseDTO {
     private String numeracion;
     private String piso;
-    private String depto;
+    private String dpto;
     private EstadoInmueble estadoInmueble;
     private UnidadDeNegocioDTO unidadDeNegocio;
 }
