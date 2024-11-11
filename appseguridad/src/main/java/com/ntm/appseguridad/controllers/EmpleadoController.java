@@ -14,7 +14,6 @@ public class EmpleadoController extends BaseControllerImpl<Empleado, EmpleadoSer
     @PostMapping("/crear")
     public ResponseEntity<?> crearContactoTelefonico (@RequestBody EmpleadoDTO empleadoDto){
         try{
-            System.out.println(empleadoDto);
             EmpleadoDTO empleadoNuevo = service.Crear(empleadoDto);
             return ResponseEntity.status(HttpStatus.OK).body(empleadoNuevo);
         } catch (Exception e) {

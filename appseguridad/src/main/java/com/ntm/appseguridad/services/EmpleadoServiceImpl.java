@@ -54,7 +54,13 @@ public class EmpleadoServiceImpl extends BaseServiceImpl<Empleado,String> implem
             Empleado empleado = empleadoMapper.toEntity(empleadoDto);
             CacheLegajoSingleton cache = CacheLegajoSingleton.getInstance();
             if (cache.getContadorLegajo() == 0) {
-                cache.setContadorLegajo(Integer.parseInt(empleadoRepository.findFirstByOrderByLegajoDesc().getLegajo()) + 1);
+                Empleado primerLegajo = (empleadoRepository.findFirstByOrderByLegajoDesc());
+                if (null == primerLegajo) {
+                    cache.setContadorLegajo(1);
+                } else {
+                    cache.setContadorLegajo(Integer.parseInt(empleadoRepository.findFirstByOrderByLegajoDesc().getLegajo()) + 1);
+                }
+
             };
             empleado.setLegajo(String.valueOf(cache.getContadorLegajo()));
             Empleado empleadoGuardado = repository.save(empleado);

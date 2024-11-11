@@ -28,6 +28,16 @@ public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, String> impleme
         Usuario usuarioGuardado = repository.save(usuario);
         return usuarioMapper.toUsuarioDTO(usuarioGuardado);
     }
+
+    public UsuarioDTO searchByCuentaDto(String cuenta) throws Exception {
+        try {
+            Usuario usuario = searchByCuenta(cuenta);
+            return usuarioMapper.toUsuarioDTO(usuario);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
+
     @Override
     public Usuario searchByCuenta(String cuenta) throws Exception {
         try {
