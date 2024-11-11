@@ -80,6 +80,7 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
             entity = repository.save(entity);
             return entity;
         }catch (Exception e) {
+            e.printStackTrace();
             throw new Exception("Error al guardar la entidad");
         }
     }
@@ -94,6 +95,7 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
             entityUpdate = repository.save(entity);
             return entityUpdate;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new Exception("La entidad con el id ingresado no existe");
         }
     }

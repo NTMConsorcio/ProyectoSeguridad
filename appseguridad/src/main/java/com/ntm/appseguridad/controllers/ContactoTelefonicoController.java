@@ -19,6 +19,7 @@ public class ContactoTelefonicoController extends BaseControllerImpl<ContactoTel
             ContactoTelefonicoDTO contactoNuevo = service.Crear(contactoDto);
             return ResponseEntity.status(HttpStatus.OK).body(contactoNuevo);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\""+e.getMessage()+"\"}");
         }
     }

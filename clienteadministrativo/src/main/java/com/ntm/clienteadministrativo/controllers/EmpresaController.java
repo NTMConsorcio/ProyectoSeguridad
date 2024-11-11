@@ -114,16 +114,15 @@ public class EmpresaController {
     }
 
     @PostMapping("/aceptarEdit")
-    public String aceptarEdit(Model model, EmpresaDTO dto, BindingResult result, RedirectAttributes attributes) throws ErrorServiceException {
+    public String aceptarEdit(Model model, EmpresaDTO dto, BindingResult result, RedirectAttributes attributes, @RequestParam("tipoContacto") String tipo) throws ErrorServiceException {
         try {
             if (result.hasErrors()) {
                 model.addAttribute("mensajeError", "Error en el formulario");
             } else {
-                System.out.println(dto.getContacto().getTipo());
                 if (dto.getId() == null || dto.getId().isEmpty()) {
-                    service.crear(dto.getNombre(), dto.getDireccion().getId(), dto.getContacto().getId(), dto.getContacto().getTipo());
+                    service.crear(dto.getNombre(), dto.getDireccion().getId(), dto.getContacto().getId(), tipo);
                 } else {
-                    service.modificar(dto.getId(), dto.getNombre(), dto.getDireccion().getId(), dto.getContacto().getId(), dto.getContacto().getTipo());
+                    service.modificar(dto.getId(), dto.getNombre(), dto.getDireccion().getId(), dto.getContacto().getId(), tipo);
                 }
 
                 return "redirect:/empresa/list";
