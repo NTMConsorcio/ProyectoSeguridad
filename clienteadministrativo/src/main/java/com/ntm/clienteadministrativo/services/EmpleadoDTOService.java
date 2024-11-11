@@ -46,10 +46,7 @@ public class EmpleadoDTOService {
 
             UnidadDeNegocioDTO unidad = unidadService.buscar(idUnidadDeNegocio);
             empleado.setUnidadDeNegocio(unidad);
-
-            serviceUsuario.registrar(correo, documento, rol);
-            UsuarioDTO usuario = serviceUsuario.buscarCuenta(correo);
-            empleado.setUsuario(usuario);
+            empleado.setUsuario(serviceUsuario.crearUsuario(correo, documento, rol));
 
             ContactoTelefonicoDTO tel = telService.crear("", TipoContactos.LABORAL ,numero, TipoTelefono.CELULAR);
             ContactoCorreoElectronicoDTO contacCorreo = correoService.crear("", TipoContactos.LABORAL, correo);
@@ -60,6 +57,7 @@ public class EmpleadoDTOService {
 
             dao.registrar(empleado);
         } catch (ErrorServiceException e) {
+            e.printStackTrace();
             throw e;
         } catch (Exception ex) {
             ex.printStackTrace();

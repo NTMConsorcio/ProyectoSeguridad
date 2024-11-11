@@ -2,6 +2,7 @@ package com.ntm.appseguridad.services;
 
 
 import com.ntm.appseguridad.dto.EmpleadoDTO;
+import com.ntm.appseguridad.dto.UsuarioDTO;
 import com.ntm.appseguridad.entities.CacheLegajoSingleton;
 import com.ntm.appseguridad.entities.Empleado;
 import com.ntm.appseguridad.entities.enums.TipoEmpleado;
@@ -10,6 +11,7 @@ import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.EmpleadoRepository;
 import com.ntm.appseguridad.repositories.UsuarioRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,15 +22,13 @@ public class EmpleadoServiceImpl extends BaseServiceImpl<Empleado,String> implem
 
     private final EmpleadoRepository empleadoRepository;
     private final EmpleadoMapper empleadoMapper;
-    private final UsuarioRepository usuarioRepository;
-
-    private UsuarioService usuarioService;
+    @Autowired
+    private UsuarioServiceImpl usuarioService;
 
     public EmpleadoServiceImpl(BaseRepository<Empleado, String> baserepository, EmpleadoRepository empleadoRepository, EmpleadoMapper empleadoMapper, UsuarioRepository usuarioRepository) {
         super(baserepository);
         this.empleadoRepository = empleadoRepository;
         this.empleadoMapper = empleadoMapper;
-        this.usuarioRepository = usuarioRepository;
     }
     @Override
     public Empleado searchByNombre(String nombre) throws Exception {
@@ -62,6 +62,8 @@ public class EmpleadoServiceImpl extends BaseServiceImpl<Empleado,String> implem
                 }
 
             };
+            UsuarioDTO user = usuarioService.Crear(usuarioService.crearUsuarioDTO(empleado.getUsuario().getCuenta(), empleado.getUsuario().getClave(), empleado.getUsuario().getRol()));
+            empleado.getUsuario().setId(user.getId());
             empleado.setLegajo(String.valueOf(cache.getContadorLegajo()));
             Empleado empleadoGuardado = repository.save(empleado);
             cache.addContadorLegajo();

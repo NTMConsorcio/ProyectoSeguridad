@@ -7,6 +7,8 @@ import com.ntm.clienteadministrativo.services.DireccionDTOService;
 import com.ntm.clienteadministrativo.services.EmpresaDTOService;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,7 +43,6 @@ public class EmpresaController {
     public String listar(Model model) {
         try {
             List<EmpresaDTO> lista = service.listar();
-            System.out.println("Lista de Empresas: " + lista);
             model.addAttribute("empresas", lista);
 
         } catch (ErrorServiceException e) {
