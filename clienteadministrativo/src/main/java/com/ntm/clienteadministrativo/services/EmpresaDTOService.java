@@ -57,25 +57,22 @@ public class EmpresaDTOService {
             EmpresaDTO empresa = new EmpresaDTO();
             empresa.setId(id);
             empresa.setNombre(nombre);
-
             DireccionDTO direccion = serviceDireccion.buscar(idDireccion);
             empresa.setDireccion(direccion);
-
             ContactoDTO contacto;
-            if (tipoContacto.equals("TELEFONICO")) {
+
+            if (tipoContacto.equals("telefono")) {
                 contacto = serviceContactoTelefonico.buscar(idContacto);
             } else {
                 contacto = serviceContactoCorreo.buscar(idContacto);
 
             }
             empresa.setContacto(contacto);
-
             dao.actualizar(empresa);
 
         } catch (ErrorServiceException e) {
             throw e;
         } catch (Exception ex) {
-            ex.printStackTrace();
             throw new ErrorServiceException("Error de Sistemas");
         }
     }

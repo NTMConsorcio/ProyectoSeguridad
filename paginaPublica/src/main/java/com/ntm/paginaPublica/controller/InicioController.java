@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -33,11 +34,16 @@ public class InicioController {
 
             List<ServicioDTO> lista1 = servicioDTOService.listar();
             List<UnidadDeNegocioDTO> lista2 = unidadDeNegocioDTOService.listar();
+            HashMap<String, Integer> listaIndices = servicioDTOService.getMapIndices(lista1);
+            HashMap<String, String> listaImagenes = servicioDTOService.obtenerImagenEnBase64(lista1);
             model.addAttribute("lista1", lista1);
             model.addAttribute("lista2", lista2);
+            model.addAttribute("indices", listaIndices);
+            model.addAttribute("imagenes", listaImagenes);
             return "index";
-        } catch (ErrorServiceException ex) {
-            return "error";
+        } catch (Exception ex) {
+            model.addAttribute("error", ex.getMessage());
+            return "index";
         }
     }
 }

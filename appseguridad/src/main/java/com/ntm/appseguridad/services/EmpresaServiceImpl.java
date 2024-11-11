@@ -1,5 +1,6 @@
 package com.ntm.appseguridad.services;
 
+import com.ntm.appseguridad.dto.EmpresaDTO;
 import com.ntm.appseguridad.entities.CuentaCorreo;
 import com.ntm.appseguridad.entities.Empresa;
 import com.ntm.appseguridad.entities.Provincia;
