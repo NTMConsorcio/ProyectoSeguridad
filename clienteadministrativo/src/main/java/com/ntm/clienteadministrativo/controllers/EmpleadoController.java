@@ -37,7 +37,6 @@ public class EmpleadoController {
     public String listar(Model model) {
         try {
             List<EmpleadoDTO> lista = empleadoService.listar();
-            System.out.println(lista);
             model.addAttribute("empleados", lista);
 
         } catch (ErrorServiceException e) {

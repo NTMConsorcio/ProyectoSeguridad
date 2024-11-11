@@ -31,7 +31,6 @@ public class UsuarioDAORest  extends BaseDAORestImpl<UsuarioDTO, String> {
 
             ResponseEntity<UsuarioDTO> response = restTemplate.getForEntity(uri, UsuarioDTO.class);
             UsuarioDTO entity = response.getBody();
-
             return entity;
 
         } catch (Exception ex){

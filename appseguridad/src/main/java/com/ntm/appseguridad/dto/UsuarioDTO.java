@@ -1,6 +1,7 @@
 package com.ntm.appseguridad.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ntm.appseguridad.entities.enums.Rol;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper=false)
 public class UsuarioDTO extends BaseDTO{
     public String cuenta;
+    @JsonIgnore
     public String clave;
     public Rol rol;
 }
