@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper=false)
 public class UsuarioDTO extends BaseDTO{
     public String cuenta;
-    @JsonIgnore
     public String clave;
     public Rol rol;
 }

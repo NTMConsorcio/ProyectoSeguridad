@@ -43,6 +43,20 @@ public class UsuarioDTOService implements UserDetailsService {
         }
     }
 
+    public UsuarioDTO crearUsuario(String correo, String clave, Rol rol) throws ErrorServiceException {
+        try {
+            //validaciones
+            UsuarioDTO usuario = new UsuarioDTO();
+            usuario.setCuenta(correo);
+            usuario.setClave(clave);
+            usuario.setRol(rol);
+            return usuario;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ErrorServiceException("Error de Sistemas");
+        }
+    }
+
     public UsuarioDTO buscarCuenta (String cuenta) throws ErrorServiceException {
 
         try {

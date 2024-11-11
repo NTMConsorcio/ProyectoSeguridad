@@ -4,6 +4,7 @@ package com.ntm.appseguridad.services;
 import com.ntm.appseguridad.dto.UsuarioDTO;
 import com.ntm.appseguridad.entities.Servicio;
 import com.ntm.appseguridad.entities.Usuario;
+import com.ntm.appseguridad.entities.enums.Rol;
 import com.ntm.appseguridad.mappers.UsuarioMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.UsuarioRepository;
@@ -30,6 +31,14 @@ public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, String> impleme
         usuario.setClave(new BCryptPasswordEncoder().encode(usuario.getClave()));
         Usuario usuarioGuardado = repository.save(usuario);
         return usuarioMapper.toUsuarioDTO(usuarioGuardado);
+    }
+
+    public UsuarioDTO crearUsuarioDTO(String cuenta, String clave, Rol rol) {
+        UsuarioDTO usuario = new UsuarioDTO();
+        usuario.setClave(clave);
+        usuario.setRol(rol);
+        usuario.setCuenta(cuenta);
+        return usuario;
     }
 
     @Override
