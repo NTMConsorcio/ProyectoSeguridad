@@ -7,6 +7,8 @@ import com.ntm.clienteadministrativo.services.DireccionDTOService;
 import com.ntm.clienteadministrativo.services.EmpresaDTOService;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,7 +43,6 @@ public class EmpresaController {
     public String listar(Model model) {
         try {
             List<EmpresaDTO> lista = service.listar();
-            System.out.println("Lista de Empresas: " + lista);
             model.addAttribute("empresas", lista);
 
         } catch (ErrorServiceException e) {
@@ -113,16 +114,15 @@ public class EmpresaController {
     }
 
     @PostMapping("/aceptarEdit")
-    public String aceptarEdit(Model model, EmpresaDTO dto, BindingResult result, RedirectAttributes attributes) throws ErrorServiceException {
+    public String aceptarEdit(Model model, EmpresaDTO dto, BindingResult result, RedirectAttributes attributes, @RequestParam("tipoContacto") String tipo) throws ErrorServiceException {
         try {
             if (result.hasErrors()) {
                 model.addAttribute("mensajeError", "Error en el formulario");
             } else {
-                System.out.println(dto.getContacto().getTipo());
                 if (dto.getId() == null || dto.getId().isEmpty()) {
-                    service.crear(dto.getNombre(), dto.getDireccion().getId(), dto.getContacto().getId(), dto.getContacto().getTipo());
+                    service.crear(dto.getNombre(), dto.getDireccion().getId(), dto.getContacto().getId(), tipo);
                 } else {
-                    service.modificar(dto.getId(), dto.getNombre(), dto.getDireccion().getId(), dto.getContacto().getId(), dto.getContacto().getTipo());
+                    service.modificar(dto.getId(), dto.getNombre(), dto.getDireccion().getId(), dto.getContacto().getId(), tipo);
                 }
 
                 return "redirect:/empresa/list";

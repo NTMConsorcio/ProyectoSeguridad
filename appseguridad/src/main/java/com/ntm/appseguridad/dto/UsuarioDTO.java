@@ -1,6 +1,7 @@
 package com.ntm.appseguridad.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ntm.appseguridad.entities.enums.Rol;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
