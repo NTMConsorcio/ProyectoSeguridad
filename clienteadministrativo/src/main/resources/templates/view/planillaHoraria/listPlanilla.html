@@ -8,7 +8,7 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Empleados</h1>
+                <h1 class="mt-4">Planilla De Asistencias</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a th:href="@{/inicio}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Actual</li>
@@ -20,7 +20,7 @@
                     </div>
                 </div>
 
-                <a th:href="@{/empleado/nuevo}" type="button" class="btn btn-success mb-4"> Nuevo</a>
+                <a th:href="@{/planillaHoraria/nuevo}" type="button" class="btn btn-success mb-4"> Nuevo</a>
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
@@ -31,27 +31,23 @@
                             <thead>
                             <tr>
                                 <th>Opciones</th>
-                                <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Documento</th>
-                                <th>Legajo</th>
-                                <th>Tipo de empleado</th>
-                                <th>Unidad de negocio</th>
+                                <th>Empleado</th>
+                                <th>Fecha y hora de entrada</th>
+                                <th>Fecha y hora de salida</th>
+                                <th>Estado</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
                                 <th>Opciones</th>
-                                <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Documento</th>
-                                <th>Legajo</th>
-                                <th>Tipo de empleado</th>
-                                <th>Unidad de negocio</th>
+                                <th>Empleado</th>
+                                <th>Fecha y hora de entrada</th>
+                                <th>Fecha y hora de salida</th>
+                                <th>Estado</th>
                             </tr>
                             </tfoot>
                             <tbody>
-                            <tr th:each="empleado : ${empleados}">
+                            <tr th:each="planillaHoraria : ${planillasHoraria}">
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn btn-primary dropdown-toggle btn-sm"
@@ -59,20 +55,18 @@
                                                 class="bi bi-three-dots-vertical"></i></button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item"
-                                                   th:href="@{empleado/consultar?id=} + ${empleado.id}">Consultar</a></li>
+                                                   th:href="@{planillaHoraria/consultar?id=} + ${planillaHoraria.id}">Consultar</a></li>
                                             <li><a class="dropdown-item"
-                                                   th:href="@{/empleado/modificar?id=} + ${empleado.id}">Modificar</a></li>
-                                            <li><a class="dropdown-item" th:href="@{baja?id=} + ${empleado.id}">Eliminar</a>
+                                                   th:href="@{/planillaHoraria/modificar?id=} + ${planillaHoraria.id}">Modificar</a></li>
+                                            <li><a class="dropdown-item" th:href="@{baja?id=} + ${planillaHoraria.id}">Eliminar</a>
                                             </li>
                                         </ul>
                                     </div>
                                 </td>
-                                <td th:text="${empleado.nombre}"></td>
-                                <td th:text="${empleado.apellido}"></td>
-                                <td th:text="${empleado.documento}"></td>
-                                <td th:text="${empleado.legajo}"></td>
-                                <td th:text="${empleado.tipoEmpleado}"></td>
-                                <td th:text="${empleado.unidadDeNegocio.nombre}"></td>
+                                <td th:text="${planillaHoraria.empleado.nombre}"></td>
+                                <td th:text="${planillaHoraria.entrada}"></td>
+                                <td th:text="${planillaHoraria.salida}"></td>
+                                <td th:text="${planillaHoraria.estadoAsistencia}"></td>
                             </tr>
 
                             </tbody>

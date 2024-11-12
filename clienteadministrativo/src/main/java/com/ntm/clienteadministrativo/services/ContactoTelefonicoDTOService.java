@@ -34,7 +34,7 @@ public class ContactoTelefonicoDTOService {
         }
     }
 
-    public void modificar(String id, String observacion, TipoContactos tipoContacto, String telefono, TipoTelefono tipoTelefono) throws ErrorServiceException {
+    public ContactoTelefonicoDTO modificar(String id, String observacion, TipoContactos tipoContacto, String telefono, TipoTelefono tipoTelefono) throws ErrorServiceException {
 
         try {
 
@@ -46,7 +46,7 @@ public class ContactoTelefonicoDTOService {
             contacto.setTipoTelefono(tipoTelefono);
             contacto.setEliminado(false);
             dao.actualizar(contacto);
-
+            return contacto;
         } catch (ErrorServiceException e) {
             throw e;
         } catch (Exception ex) {
@@ -56,7 +56,6 @@ public class ContactoTelefonicoDTOService {
     }
 
     public ContactoTelefonicoDTO buscar (String id) throws ErrorServiceException {
-
         try {
 
             if (id == null) {
@@ -76,7 +75,6 @@ public class ContactoTelefonicoDTOService {
     }
 
     public void eliminar(String id) throws ErrorServiceException {
-
         try {
 
             if (id == null) {

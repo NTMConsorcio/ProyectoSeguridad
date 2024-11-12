@@ -5,7 +5,7 @@ import com.ntm.clienteadministrativo.dto.enums.Rol;
 import com.ntm.clienteadministrativo.dto.enums.TipoContactos;
 import com.ntm.clienteadministrativo.dto.enums.TipoEmpleado;
 import com.ntm.clienteadministrativo.dto.enums.TipoTelefono;
-import com.ntm.clienteadministrativo.rest.EmpleadoDAORest;
+import com.ntm.clienteadministrativo.rest.HabitanteDAORest;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,15 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class EmpleadoDTOService {
+public class HabitanteDTOService {
     @Autowired
-    EmpleadoDAORest dao;
+    HabitanteDAORest dao;
 
     @Autowired
     UsuarioDTOService serviceUsuario;
 
     @Autowired
-    UnidadDeNegocioDTOService unidadService;
+    InmuebleDTOService inmuebleService;
 
     @Autowired
     ContactoTelefonicoDTOService telService;
@@ -32,32 +32,29 @@ public class EmpleadoDTOService {
     @Autowired
     private ContactoTelefonicoDTOService contactoTelefonicoDTOService;
 
-    public void crear(String documento, String nombre, String apellido, String numero, String correo, TipoEmpleado tipoEmpleado, String idUnidadDeNegocio) throws ErrorServiceException {
+    public void crear(String documento, String nombre, String apellido, String numero, String correo, String idInmueble) throws ErrorServiceException {
         try {
-            EmpleadoDTO empleado = new EmpleadoDTO();
-            empleado.setDocumento(Integer.parseInt(documento));
-            empleado.setNombre(nombre);
-            empleado.setApellido(apellido);
-            empleado.setTipoEmpleado(tipoEmpleado);
-            Rol rol = Rol.PERSONAL;
-            if (tipoEmpleado.equals(TipoEmpleado.SUPERVISOR)){
-                rol = Rol.ADMIN;
-            }
+            HabitanteDTO habitante = new HabitanteDTO();
+            habitante.setDocumento(Integer.parseInt(documento));
+            habitante.setNombre(nombre);
+            habitante.setApellido(apellido);
 
-            UnidadDeNegocioDTO unidad = unidadService.buscar(idUnidadDeNegocio);
-            empleado.setUnidadDeNegocio(unidad);
-            empleado.setUsuario(serviceUsuario.crearUsuario(correo, documento, rol));
+            InmuebleDTO inmueble = inmuebleService.buscar(idInmueble);
+            habitante.setInmueble(inmueble);
 
-            ContactoTelefonicoDTO tel = telService.crear("", TipoContactos.LABORAL ,numero, TipoTelefono.CELULAR);
-            ContactoCorreoElectronicoDTO contacCorreo = correoService.crear("", TipoContactos.LABORAL, correo);
+            serviceUsuario.registrar(correo, documento, Rol.HABITANTE);
+            UsuarioDTO usuario = serviceUsuario.buscarCuenta(correo);
+            habitante.setUsuario(usuario);
+
+            ContactoTelefonicoDTO tel = telService.crear("", TipoContactos.PERSONAL ,numero, TipoTelefono.CELULAR);
+            ContactoCorreoElectronicoDTO contacCorreo = correoService.crear("", TipoContactos.PERSONAL, correo);
             List<ContactoDTO> contactos = new ArrayList<>();
             contactos.add(tel);
             contactos.add(contacCorreo);
-            empleado.setContactos(contactos);
+            habitante.setContactos(contactos);
 
-            dao.registrar(empleado);
+            dao.registrar(habitante);
         } catch (ErrorServiceException e) {
-            e.printStackTrace();
             throw e;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -65,39 +62,33 @@ public class EmpleadoDTOService {
         }
     }
 
-    public void modificar(String id ,String documento, String nombre, String apellido, String idTelAnt, String idCorrAnt, String numero, String correo, String legajo, TipoEmpleado tipoEmpleado, String idUnidadDeNegocio) throws ErrorServiceException {
+    public void modificar(String id ,String documento, String nombre, String apellido, String idTelAnt, String idCorrAnt, String numero, String correo, String idInmueble) throws ErrorServiceException {
         try {
-            EmpleadoDTO empleado = new EmpleadoDTO();
-            empleado.setId(id);
-            empleado.setDocumento(Integer.parseInt(documento));
-            empleado.setNombre(nombre);
-            empleado.setApellido(apellido);
-            empleado.setTipoEmpleado(tipoEmpleado);
-            Rol rol = Rol.PERSONAL;
-            if (tipoEmpleado.equals(TipoEmpleado.SUPERVISOR)){
-                rol = Rol.ADMIN;
-            }
-
-            UnidadDeNegocioDTO unidad = unidadService.buscar(idUnidadDeNegocio);
-            empleado.setUnidadDeNegocio(unidad);
+            HabitanteDTO habitante = new HabitanteDTO();
+            habitante.setId(id);
+            habitante.setDocumento(Integer.parseInt(documento));
+            habitante.setNombre(nombre);
+            habitante.setApellido(apellido);
+            InmuebleDTO inmueble = inmuebleService.buscar(idInmueble);
+            habitante.setInmueble(inmueble);
             UsuarioDTO usuario = serviceUsuario.buscarPorIdPersona(id);
-            empleado.setUsuario(usuario);
+            habitante.setUsuario(usuario);
 
             ContactoTelefonicoDTO tel = telService.buscar(idTelAnt);
             if (!tel.getTelefono().equals(numero)) {
-                tel = telService.modificar(idTelAnt, "", TipoContactos.LABORAL ,numero, TipoTelefono.CELULAR);
+                tel = telService.modificar(idTelAnt, "", TipoContactos.PERSONAL ,numero, TipoTelefono.CELULAR);
             }
 
             ContactoCorreoElectronicoDTO contacCorreo = correoService.buscar(idCorrAnt);
             if (!contacCorreo.getEmail().equals(correo)) {
-                contacCorreo = correoService.modificar(idCorrAnt, "", TipoContactos.LABORAL, correo);
+                contacCorreo = correoService.modificar(idCorrAnt, "", TipoContactos.PERSONAL, correo);
             }
             List<ContactoDTO> contactos = new ArrayList<>();
             contactos.add(tel);
             contactos.add(contacCorreo);
-            empleado.setContactos(contactos);
+            habitante.setContactos(contactos);
 
-            dao.actualizar(empleado);
+            dao.actualizar(habitante);
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -105,9 +96,9 @@ public class EmpleadoDTOService {
         }
     }
 
-    public List<EmpleadoDTO> listar() throws ErrorServiceException {
+    public List<HabitanteDTO> listar() throws ErrorServiceException {
         try {
-            return dao.listar(EmpleadoDTO[].class);
+            return dao.listar(HabitanteDTO[].class);
         } catch (ErrorServiceException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -132,7 +123,7 @@ public class EmpleadoDTOService {
 
     }
 
-    public EmpleadoDTO buscar (String id) throws ErrorServiceException {
+    public HabitanteDTO buscar (String id) throws ErrorServiceException {
 
         try {
 
@@ -140,7 +131,7 @@ public class EmpleadoDTOService {
                 throw new ErrorServiceException("Debe indicar el id");
             }
 
-            EmpleadoDTO obj = dao.buscar(EmpleadoDTO.class, id);
+            HabitanteDTO obj = dao.buscar(HabitanteDTO.class, id);
 
             return obj;
 

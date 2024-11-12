@@ -47,9 +47,13 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="UnidadDeNegocioIn" class="form-label">Unidad de negocio</label>
-                        <select id="UnidadDeNegocioIn" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar UnidadDeNegocio" th:field="*{unidadDeNegocio.id}">
-                            <option th:each="unidadDeNegocio : ${unidadesDeNegocio}" th:value="${unidadDeNegocio.id}" th:text="${unidadDeNegocio.nombre}">Option</option>
+                        <label for="unidadDeNegocioIn" class="form-label">Unidad de Negocio</label>
+                        <select class="form-select" id="unidadDeNegocioIn" th:name="idUnidadDeNegocio">
+                            <option value="" disabled selected>Seleccione una unidad</option>
+                            <option th:each="unidad : ${unidadesIn}"
+                                    th:value="${unidad.id}"
+                                    th:text="${unidad.nombre}">
+                            </option>
                         </select>
                     </div>
                     <button type="submit" th:disabled="${isDisabled}" class="btn btn-success">Aceptar</button>

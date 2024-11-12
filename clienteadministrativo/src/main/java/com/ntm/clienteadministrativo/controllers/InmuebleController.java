@@ -5,6 +5,7 @@ import com.ntm.clienteadministrativo.dto.DepartamentoDTO;
 import com.ntm.clienteadministrativo.dto.InmuebleDTO;
 import com.ntm.clienteadministrativo.dto.ProvinciaDTO;
 import com.ntm.clienteadministrativo.dto.UnidadDeNegocioDTO;
+import com.ntm.clienteadministrativo.dto.enums.EstadoInmueble;
 import com.ntm.clienteadministrativo.services.InmuebleDTOService;
 import com.ntm.clienteadministrativo.services.UnidadDeNegocioDTOService;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
@@ -54,7 +55,7 @@ public class InmuebleController {
             List<UnidadDeNegocioDTO> unList = unService.getActivos();
 
             /////////////////////////////////////////
-            model.addAttribute("unidadadesDeNegocios", unList);
+            model.addAttribute("unidadesIn", unList);
             return viewEdit;
         } catch (ErrorServiceException e) {
             model.addAttribute("mensajeError", e.getMessage());
@@ -122,7 +123,7 @@ public class InmuebleController {
             }
 
             if (dto.getId() == null || dto.getId().isEmpty()) {
-                service.crear(dto.getNumeracion(),dto.getPiso(),dto.getPiso(),dto.getEstadoInmueble(),dto.getUnidadDeNegocio().getId());
+                service.crear(dto.getNumeracion(),dto.getPiso(),dto.getPiso(), EstadoInmueble.OCUPADO,dto.getUnidadDeNegocio().getId());
             } else {
                 service.modificar(dto.getId(), dto.getNumeracion(),dto.getPiso(),dto.getPiso(),dto.getEstadoInmueble(),dto.getUnidadDeNegocio().getId());
             }

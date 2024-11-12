@@ -8,7 +8,7 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-5">
-                <h1 class="mt-4">Empleado</h1>
+                <h1 class="mt-4" th:text="${isEditMode ? 'Modificar Empleado' : 'Crear Empleado'}">Empleado</h1>
                 <ol class="breadcrumb mb-4 mt-4">
                     <li class="breadcrumb-item"><a th:href="@{/inicio}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Actual</li>
@@ -19,8 +19,12 @@
                              role='alert'></div>
                     </div>
                 </div>
-                <form th:action="@{/empleado/nuevoEmpleado}" method="post" th:object="${empleado}">
+                <form th:action="@{/empleado/aceptarEdit}" method="post" th:object="${empleado}">
                     <input type="hidden" name="id" th:value="${empleado.id}">
+                    <div th:if="${isEditMode}">
+                    <input type="hidden" name="idtel" th:value="${empleado.contactos[0].id}" />
+                    <input type="hidden" name="idcorreo" th:value="${empleado.contactos[1].id}" />
+                    </div>
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="nombre" th:field="*{nombre}"
@@ -39,18 +43,20 @@
                                th:disabled="${isDisabled}" aria-describedby="documentoHelp">
                         <div id="documentoHelp" class="form-text">Ingrese el documento del empleado.</div>
                     </div>
+
                     <div class="mb-3">
                         <label for="numero" class="form-label">Numero</label>
                         <input type="text" class="form-control" id="numero" name="numero"
-                               aria-describedby="numeroHelp">
+                               th:value="${numero}" aria-describedby="numeroHelp">
                         <div id="numeroHelp" class="form-text">Ingrese el numero laboral del empleado.</div>
                     </div>
                     <div class="mb-3">
                         <label for="correo" class="form-label">Correo</label>
                         <input type="text" class="form-control" id="correo" name="correo"
-                               aria-describedby="correoHelp">
+                               th:value="${correo}" aria-describedby="correoHelp"¿>
                         <div id="correoHelp" class="form-text">Ingrese el correo laboral del empleado.</div>
                     </div>
+
                     <div class="mb-3">
                         <label for="unidadDeNegocio" class="form-label">Unidad de Negocio</label>
                         <select class="form-select" id="unidadDeNegocio" th:name="idUnidadDeNegocio">

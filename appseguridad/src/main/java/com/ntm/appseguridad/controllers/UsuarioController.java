@@ -25,8 +25,17 @@ public class UsuarioController extends BaseControllerImpl<Usuario, UsuarioServic
     @GetMapping("/buscar/{nombre}")
     public ResponseEntity<?> getOne(@PathVariable String nombre) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.searchByCuentaDto(nombre));
+            return ResponseEntity.status(HttpStatus.OK).body(service.convertToDto(service.searchByCuenta(nombre)));
         }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde.\"}");
+        }
+    }
+
+    @GetMapping("/buscar/per/{idUsuario}")
+    public ResponseEntity<?> getPorPersonaId(@PathVariable String idUsuario) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.convertToDto(service.searchByIdPersona(idUsuario)));
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Por favor intente más tarde.\"}");
         }
     }
