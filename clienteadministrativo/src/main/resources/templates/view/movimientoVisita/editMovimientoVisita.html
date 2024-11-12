@@ -20,42 +20,50 @@
                     </div>
                 </div>
                 <form th:action="@{/movimientoVisita/aceptarEdit}" method="post" th:object="${movimientoVisita}">
-                    <input type="hidden" name="id">
+                    <input type="hidden" th:field="*{id}">
+
                     <div class="mb-3">
-                        <label for="tipoMovimiento" class="form-label">Tipo</label>
-                        <input type="text" class="form-control" id="tipoMovimiento" name="tipoMovimiento" th:value="${tipoMovimiento}"
-                               th:disabled="${isDisabled}" aria-describedby="tipoMovimientoHelp">
-                        <div id="tipoMovimientoHelp" class="form-text">Ingrese el tipo de movimiento.</div>
+                        <label for="tipoMovimiento" class="form-label">Tipo de movimiento</label>
+                        <select id="tipoMovimiento" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar tipo de movimiento" th:field="*{tipoMovimiento}">
+                            <option th:each="tipoMovimiento : ${tiposMovimiento}" th:value="${tipoMovimiento}" th:text="${tipoMovimiento}">Option</option>
+                        </select>
                     </div>
-                    <div class="mb-3">
-                        <label for="fechaMovimiento" class="form-label">Fecha</label>
-                        <input type="text" class="form-control" id="fechaMovimiento" name="fechaMovimiento" th:value="${fechaMovimiento}"
-                               th:disabled="${isDisabled}" aria-describedby="fechaMovimientoHelp">
-                        <div id="fechaMovimientoHelp" class="form-text">Ingrese la fecha del movimiento.</div>
-                    </div>
+
+
                     <div class="mb-3">
                         <label for="observacion" class="form-label">Observación</label>
-                        <input type="text" class="form-control" id="observacion" name="observacion" th:value="${observacion}"
+                        <input type="text" class="form-control" id="observacion" th:field="*{observacion}"
                                th:disabled="${isDisabled}" aria-describedby="observacionHelp">
-                        <div id="observacionHelp" class="form-text">Ingrese una observacion del movimiento.</div>
+                        <div id="observacionHelp" class="form-text">Ingrese una observación del movimiento.</div>
                     </div>
+
                     <div class="mb-3">
-                        <label for="estadoMovimiento" class="form-label">Estado</label>
-                        <input type="text" class="form-control" id="estadoMovimiento" name="estadoMovimiento" th:value="${estadoMovimiento}"
-                               th:disabled="${isDisabled}" aria-describedby="estadoMovimientoHelp">
-                        <div id="estadoMovimientoHelp" class="form-text">Ingrese el estado del movimiento.</div>
+                        <label for="estadoMovimiento" class="form-label">Estado del movimiento</label>
+                        <select class="form-select" id="estadoMovimiento" th:field="*{estadoMovimiento}">
+                            <option value="" disabled selected>Seleccione un estado de Movimiento</option>
+                            <option th:each="estadoMovimiento : ${estadosMovimiento}"
+                                    th:value="${estadoMovimiento.name()}"
+                                    th:text="${#strings.capitalize(estadoMovimiento.name().toLowerCase())}">
+                            </option>
+                        </select>
                     </div>
+
                     <div class="mb-3">
                         <label for="tipoMovilidad" class="form-label">Tipo de movilidad</label>
-                        <input type="text" class="form-control" id="tipoMovilidad" name="tipoMovilidad" th:value="${tipoMovilidad}"
-                               th:disabled="${isDisabled}" aria-describedby="tipoMovilidadHelp">
-                        <div id="tipoMovilidadHelp" class="form-text">Ingrese el tipo de movilidad.</div>
+                        <select class="form-select" id="tipoMovilidad" th:field="*{tipoMovilidad}">
+                            <option value="" disabled selected>Seleccione un tipo de movilidad</option>
+                            <option th:each="tipoMovilidad : ${tiposMovilidad}"
+                                    th:value="${tipoMovilidad.name()}"
+                                    th:text="${#strings.capitalize(tipoMovilidad.name().toLowerCase())}">
+                            </option>
+                        </select>
                     </div>
+
                     <div class="mb-3">
-                        <label for="descripcionMovilidad" class="form-label">descripción de la movilidad</label>
-                        <input type="text" class="form-control" id="descripcionMovilidad" name="descripcionMovilidad" th:value="${descripcionMovilidad}"
+                        <label for="descripcionMovilidad" class="form-label">Descripción de la movilidad</label>
+                        <input type="text" class="form-control" id="descripcionMovilidad" th:field="*{descripcionMovilidad}"
                                th:disabled="${isDisabled}" aria-describedby="descripcionMovilidadHelp">
-                        <div id="descripcionMovilidad" class="form-text">Ingrese una descripción de la movilidad.</div>
+                        <div id="descripcionMovilidadHelp" class="form-text">Ingrese una descripción de la movilidad.</div>
                     </div>
 
                     <div class="mb-3">
@@ -75,10 +83,11 @@
                             <option value="" th:text="'Seleccione opción...'" selected></option>
                             <option th:each="inmueble : ${inmuebles}"
                                     th:value="${inmueble.id}"
-                                    th:text="${inmueble.unidadDeNegocio.nombre} + ' ' + ${inmueble.numeracion} + ' ' + ${inmueble.piso} + ' ' + ${inmueble.dpto}">
+                                    th:text="${inmueble.unidadDeNegocio.nombre + ' ' + inmueble.numeracion + ' ' + inmueble.piso + ' ' + inmueble.dpto}">
                             </option>
                         </select>
                     </div>
+
 
                     <button type="submit" th:disabled="${isDisabled}" class="btn btn-success">Aceptar</button>
                     <a th:href="@{list}" class="btn btn-danger" role="button">Cancelar</a>
@@ -89,6 +98,6 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
-<script th:src="@{js/scripts.js}"></script>
+<script th:src="@{/js/scripts.js}"></script>
 </body>
 </html>
