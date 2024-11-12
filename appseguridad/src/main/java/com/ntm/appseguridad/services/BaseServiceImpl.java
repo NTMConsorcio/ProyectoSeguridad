@@ -78,7 +78,7 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
         try {
             validar(entity, "SAVE");
             entity = repository.save(entity);
-            return entity;
+            return convertToDto(entity);
         }catch (Exception e) {
             e.printStackTrace();
             throw new Exception("Error al guardar la entidad");

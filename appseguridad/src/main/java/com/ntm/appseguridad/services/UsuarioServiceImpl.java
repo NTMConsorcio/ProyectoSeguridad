@@ -39,7 +39,8 @@ public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, String> impleme
         usuario.setRol(rol);
         usuario.setCuenta(cuenta);
         return usuario;
-  
+    }
+
     public UsuarioDTO searchByCuentaDto(String cuenta) throws Exception {
         try {
             Usuario usuario = searchByCuenta(cuenta);

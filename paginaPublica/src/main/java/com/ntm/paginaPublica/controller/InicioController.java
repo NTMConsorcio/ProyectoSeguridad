@@ -3,13 +3,17 @@ package com.ntm.paginaPublica.controller;
 import com.ntm.paginaPublica.dto.ServicioDTO;
 import com.ntm.paginaPublica.dto.UnidadDeNegocioDTO;
 import com.ntm.paginaPublica.services.AuthService;
+import com.ntm.paginaPublica.services.CuentaCorreoService;
 import com.ntm.paginaPublica.services.ServicioDTOService;
 import com.ntm.paginaPublica.services.UnidadDeNegocioDTOService;
 import com.ntm.paginaPublica.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +29,9 @@ public class InicioController {
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private CuentaCorreoService serviceCorreo;
 
     @GetMapping("/inicio")
     public String inicio(Model model) {
@@ -44,6 +51,19 @@ public class InicioController {
         } catch (Exception ex) {
             model.addAttribute("error", ex.getMessage());
             return "index";
+        }
+    }
+
+    @PostMapping("/send")
+    public String send(@RequestParam("emailAddress") String email, Model model, BindingResult results) {
+        try {
+            if (results.hasErrors()) {
+                return "redirect://inicio";
+            }
+            serviceCorreo.crear(email);
+            return "redirect://inicio";
+        } catch (Exception e) {
+            return "redirect://inicio";
         }
     }
 }
