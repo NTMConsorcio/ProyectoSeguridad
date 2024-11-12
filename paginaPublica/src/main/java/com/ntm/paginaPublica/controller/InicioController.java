@@ -55,15 +55,12 @@ public class InicioController {
     }
 
     @PostMapping("/send")
-    public String send(@RequestParam("emailAddress") String email, Model model, BindingResult results) {
+    public String send(@RequestParam("emailAddress") String email, Model model) {
         try {
-            if (results.hasErrors()) {
-                return "redirect://inicio";
-            }
             serviceCorreo.crear(email);
-            return "redirect://inicio";
+            return "redirect:/inicio";
         } catch (Exception e) {
-            return "redirect://inicio";
+            return "redirect:/inicio";
         }
     }
 }

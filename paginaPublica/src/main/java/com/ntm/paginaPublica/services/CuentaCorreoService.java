@@ -12,6 +12,15 @@ public class CuentaCorreoService {
 
     public void crear(String correo) {
         try {
+            if (correo.length() < 7) {
+                throw new Exception("Longitud incorrecta");
+            }
+            if (correo.isEmpty() || correo == null) {
+                throw new Exception("No puede encontrarse vacío");
+            }
+            if (!correo.contains("@") || !correo.contains(".")) {
+                throw new Exception("El mail ingresado no es correcto.");
+            }
             CuentaCorreo cuentaCorreo = new CuentaCorreo();
             cuentaCorreo.setCorreo(correo);
             cuentaCorreoRepository.save(cuentaCorreo);
