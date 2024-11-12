@@ -60,6 +60,16 @@ public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, String> impleme
         }
     }
 
+
+    public Usuario searchByIdPersona(String idPersona) throws Exception {
+        try {
+            Usuario usuario = repository.findByPersonaId(idPersona);
+            return usuario;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
     @Override
     public Usuario searchByCuentaAndClave(String cuenta, String clave) throws Exception {
         try {

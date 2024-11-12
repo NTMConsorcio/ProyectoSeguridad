@@ -39,6 +39,8 @@ public class EmpleadoServiceImpl extends BaseServiceImpl<Empleado,String> implem
             throw new Exception(e.getMessage());
         }
     }
+
+
     @Override
     public List<Empleado> searchByTipo(TipoEmpleado tipo) throws Exception {
         try {
