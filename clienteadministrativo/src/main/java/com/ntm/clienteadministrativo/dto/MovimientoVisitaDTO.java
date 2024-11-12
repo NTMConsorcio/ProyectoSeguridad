@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -16,6 +17,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper=false)
 public class MovimientoVisitaDTO extends BaseDTO{
     private TipoMovimiento tipoMovimiento;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date fechaMovimiento;
     private String observacion;
     private EstadoMovimiento estadoMovimiento;

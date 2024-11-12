@@ -35,6 +35,7 @@ public class MovimientoVisitaDTOService {
             movimiento.setObservacion(observacion);
             movimiento.setEstadoMovimiento(estadoMovimiento);
             movimiento.setDescripcionMovilidad(descripcionMovilidad);
+            movimiento.setFechaMovimiento(fecha);
             InmuebleDTO inmueble = inmuebleService.buscar(idInmueble);
             VisitanteDTO visitante = visitanteService.buscar(idVisitante);
             movimiento.setInmueble(inmueble);
@@ -59,6 +60,7 @@ public class MovimientoVisitaDTOService {
             movimiento.setObservacion(observacion);
             movimiento.setEstadoMovimiento(estadoMovimiento);
             movimiento.setDescripcionMovilidad(descripcionMovilidad);
+            movimiento.setFechaMovimiento(fecha);
             InmuebleDTO inmueble = inmuebleService.buscar(idInmueble);
             movimiento.setInmueble(inmueble);
             VisitanteDTO visitante = visitanteService.buscar(idVisitante);

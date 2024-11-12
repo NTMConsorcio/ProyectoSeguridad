@@ -135,9 +135,9 @@ public class MovimientoVisitaController {
     public void cargarListas(Model model) throws ErrorServiceException {
         List<InmuebleDTO> inmuebleDTOS = inmuebleService.listar();
         List<VisitanteDTO> visitanteDTOS = visitanteService.listar();
-        model.addAttribute("tipoMovimiento", TipoMovimiento.values());
-        model.addAttribute("estadoMovimiento", EstadoMovimiento.values());
-        model.addAttribute("tipoMovilidad", TipoMovilidad.values());
+        model.addAttribute("tiposMovimiento", TipoMovimiento.values());
+        model.addAttribute("estadosMovimiento", EstadoMovimiento.values());
+        model.addAttribute("tiposMovilidad", TipoMovilidad.values());
         model.addAttribute("inmuebles", inmuebleDTOS);
         model.addAttribute("visitantes", visitanteDTOS);
     }

@@ -53,11 +53,7 @@ public class InmuebleController {
         try {
             model.addAttribute("isDisabled", false);
             model.addAttribute("inmueble", dto);
-            List<UnidadDeNegocioDTO> unidadesDeNegocio = unService.getActivos();
-
-            /////////////////////////////////////////
-            model.addAttribute("unidadesDeNegocio", unidadesDeNegocio);
-            model.addAttribute("estadoInmueble", EstadoInmueble.values());
+            cargarCombos(model);
 
             return viewEdit;
         } catch (ErrorServiceException e) {
@@ -87,11 +83,7 @@ public class InmuebleController {
             InmuebleDTO obj = service.buscar(id);
             model.addAttribute("inmueble", obj);
             model.addAttribute("isDisabled", false);
-            List<UnidadDeNegocioDTO> unidadesDeNegocio = unService.getActivos();
-            model.addAttribute("estadoInmueble", EstadoInmueble.values());
-
-
-            model.addAttribute("unidadesDeNegocio", unidadesDeNegocio);
+            cargarCombos(model);
             return viewEdit;
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
@@ -145,5 +137,11 @@ public class InmuebleController {
             return viewEdit;
         }
     }
+    public void cargarCombos(Model model) throws ErrorServiceException {
+        List<UnidadDeNegocioDTO> unidades = unService.getActivos();
+        model.addAttribute("estadosInmueble", EstadoInmueble.values()); // Agrega los valores del enum al modelo
+        model.addAttribute("unidadesDeNegocio", unidades);
+    }
+
 
 }
