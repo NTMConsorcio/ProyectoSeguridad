@@ -35,7 +35,6 @@ public class UnidadDeNegocioController {
     public String listar(Model model) {
         try {
             List<UnidadDeNegocioDTO> lista = service.getActivos();
-            System.out.println("Lista de unidades de negocio: " + lista);
             model.addAttribute("unidadesDeNegocio", lista);
 
         } catch (ErrorServiceException e) {
@@ -121,6 +120,7 @@ public class UnidadDeNegocioController {
                 return "redirect:/unidadDeNegocio/list";
             }
         } catch (ErrorServiceException ex) {
+            ex.printStackTrace();
             model.addAttribute("mensajeError", ex.getMessage());
         } catch (Exception ex) {
             model.addAttribute("mensajeError", "Error en el formulario");

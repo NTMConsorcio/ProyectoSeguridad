@@ -1,10 +1,12 @@
 package com.ntm.clienteadministrativo.rest;
 
+import com.fasterxml.jackson.databind.exc.InvalidTypeIdException;
 import com.ntm.clienteadministrativo.dto.BaseDTO;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
@@ -23,7 +25,8 @@ public abstract class BaseDAORestImpl<E extends BaseDTO, ID extends Serializable
 
             String uri = getUri("CREAR");
             restTemplate.postForEntity(uri, entity, clase);
-
+        } catch (RestClientException ex) {
+            //
         } catch (Exception ex){
             ex.printStackTrace();
             throw new ErrorServiceException("Error de Sistemas");
