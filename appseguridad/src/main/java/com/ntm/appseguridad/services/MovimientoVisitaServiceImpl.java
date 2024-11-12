@@ -4,6 +4,7 @@ import com.ntm.appseguridad.entities.Inmueble;
 import com.ntm.appseguridad.entities.MovimientoVisita;
 import com.ntm.appseguridad.entities.Usuario;
 import com.ntm.appseguridad.entities.Visitante;
+import com.ntm.appseguridad.mappers.MovimientoVisitaMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.MovimientoVisitaRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
@@ -16,21 +17,23 @@ import java.util.Optional;
 @Service
 public class MovimientoVisitaServiceImpl extends BaseServiceImpl<MovimientoVisita,String> implements MovimientoVisitaService {
     private final MovimientoVisitaRepository movimientoVisitaRepository;
+    private final MovimientoVisitaMapper movimientoVisitaMapper;
 
-    public MovimientoVisitaServiceImpl(BaseRepository<MovimientoVisita,String> baseRepository, MovimientoVisitaRepository movimientoVisitaRepository) {
+    public MovimientoVisitaServiceImpl(BaseRepository<MovimientoVisita,String> baseRepository, MovimientoVisitaRepository movimientoVisitaRepository, MovimientoVisitaMapper mapper) {
         super(baseRepository);
         this.movimientoVisitaRepository = movimientoVisitaRepository;
+        this.movimientoVisitaMapper = mapper;
     }
 
 
     @Override
     public <D> D convertToDto(MovimientoVisita entity) {
-        return null;
+        return (D) movimientoVisitaMapper.toDTO(entity);
     }
 
     @Override
     public <D> List<D> convertToDtoList(List<MovimientoVisita> entities) {
-        return List.of();
+        return (List<D>) movimientoVisitaMapper.toDtoList(entities);
     }
 
     @Override

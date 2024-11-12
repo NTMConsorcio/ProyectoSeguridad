@@ -2,6 +2,7 @@ package com.ntm.appseguridad.services;
 
 import com.ntm.appseguridad.entities.Inmueble;
 import com.ntm.appseguridad.entities.UnidadDeNegocio;
+import com.ntm.appseguridad.mappers.InmuebleMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.InmuebleRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
@@ -13,21 +14,23 @@ import java.util.Optional;
 @Service
 public class InmuebleServiceImpl extends BaseServiceImpl<Inmueble,String> implements InmuebleService {
     private final InmuebleRepository inmuebleRepository;
+    private final InmuebleMapper inmuebleMapper;
 
-    public InmuebleServiceImpl(BaseRepository<Inmueble, String> baseRepository,InmuebleRepository inmuebleRepository) {
+    public InmuebleServiceImpl(BaseRepository<Inmueble, String> baseRepository,InmuebleRepository inmuebleRepository, InmuebleMapper inmuebleMapper) {
         super(baseRepository);
         this.inmuebleRepository = inmuebleRepository;
+        this.inmuebleMapper = inmuebleMapper;
     }
 
 
     @Override
     public <D> D convertToDto(Inmueble entity) {
-        return null;
+        return (D) inmuebleMapper.toDTO(entity);
     }
 
     @Override
     public <D> List<D> convertToDtoList(List<Inmueble> entities) {
-        return List.of();
+        return (List<D>) inmuebleMapper.toDtoList(entities);
     }
 
     @Override
