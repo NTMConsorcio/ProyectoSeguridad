@@ -26,10 +26,8 @@ public class ServicioDTOService {
         try {
             ServicioDTO servicio = new ServicioDTO();
             servicio.setNombre(nombre);
-
             ImagenDTO imagen = serviceImagen.buscar(idImagen);
             servicio.setImagen(imagen);
-
             EmpresaDTO empresa = serviceEmpresa.buscar(idEmpresa);
             servicio.setEmpresa(empresa);
             dao.crear(ServicioDTO.class, servicio);
@@ -45,14 +43,11 @@ public class ServicioDTOService {
     public void modificar(String id, String nombre, String idImagen, String idEmpresa) throws ErrorServiceException {
 
         try {
-
             ServicioDTO servicio = new ServicioDTO();
             servicio.setId(id);
             servicio.setNombre(nombre);
-
             ImagenDTO imagen = serviceImagen.buscar(idImagen);
             servicio.setImagen(imagen);
-
             EmpresaDTO empresa = serviceEmpresa.buscar(idEmpresa);
             servicio.setEmpresa(empresa);
             dao.actualizar(servicio);
