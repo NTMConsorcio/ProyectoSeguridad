@@ -42,9 +42,9 @@
 
                     <div class="mb-3">
                         <label for="estadoInmueble" class="form-label">Estado del inmueble</label>
-                        <input type="text" class="form-control" id="estadoInmueble" th:field="*{estadoInmueble}"
-                               th:disabled="${isDisabled}" aria-describedby="estadoInmuebleHelp">
-                        <div id="estadoInmuebleHelp" class="form-text">Ingrese el estado del inmueble.</div>
+                        <select id="estadoInmueble" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar el estado del inmueble" th:field="*{estadoInmueble}">
+                            <option th:each="estadoInmueble : ${estadoInmueble}" th:value="${estadoInmueble}" th:text="${estadoInmueble}">Option</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="UnidadDeNegocioIn" class="form-label">Unidad de negocio</label>

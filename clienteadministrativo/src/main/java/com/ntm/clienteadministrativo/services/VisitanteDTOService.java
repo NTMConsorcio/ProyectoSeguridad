@@ -1,9 +1,6 @@
 package com.ntm.clienteadministrativo.services;
 
-import com.ntm.clienteadministrativo.dto.DireccionDTO;
-import com.ntm.clienteadministrativo.dto.ServicioDTO;
-import com.ntm.clienteadministrativo.dto.UnidadDeNegocioDTO;
-import com.ntm.clienteadministrativo.dto.VisitanteDTO;
+import com.ntm.clienteadministrativo.dto.*;
 import com.ntm.clienteadministrativo.rest.UnidadDeNegocioDAORest;
 import com.ntm.clienteadministrativo.rest.VisitanteDAORest;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
@@ -77,13 +74,23 @@ public class VisitanteDTOService {
         }
     }
 
-    public VisitanteDTO buscar(String id) throws ErrorServiceException{
-        try{
-            VisitanteDTO visitanteDTO = dao.buscar(VisitanteDTO.class,id);
-            return visitanteDTO;
-        }catch (Exception ex) {
+    public VisitanteDTO buscar (String id) throws ErrorServiceException {
+
+        try {
+
+            if (id == null) {
+                throw new ErrorServiceException("Debe indicar el id");
+            }
+
+            VisitanteDTO obj = dao.buscar(VisitanteDTO.class, id);
+
+            return obj;
+
+        } catch (ErrorServiceException ex) {
+            throw ex;
+        } catch (Exception ex) {
             ex.printStackTrace();
-            throw new ErrorServiceException("Error de Sistemas");
+            throw new ErrorServiceException("Error de sistema");
         }
     }
 }
