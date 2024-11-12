@@ -23,9 +23,13 @@
                     <input type="hidden" th:field="*{id}">
 
                     <div class="mb-3">
-                        <label for="tipoMovimiento" class="form-label">Tipo de movimiento</label>
-                        <select id="tipoMovimiento" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar tipo de movimiento" th:field="*{tipoMovimiento}">
-                            <option th:each="tipoMovimiento : ${tiposMovimiento}" th:value="${tipoMovimiento}" th:text="${tipoMovimiento}">Option</option>
+                        <label for="tipoMovimiento" class="form-label">tipo de movimiento</label>
+                        <select class="form-select" id="tipoMovimiento" th:field="*{tipoMovimiento}">
+                            <option value="" th:text="'Seleccione opción...'" selected>Seleccione un tipo de Movimiento</option>
+                            <option th:each="tipoMovimiento : ${tiposMovimiento}"
+                                    th:value="${tipoMovimiento.name()}"
+                                    th:text="${#strings.capitalize(tipoMovimiento.name().toLowerCase())}">
+                            </option>
                         </select>
                     </div>
 
@@ -40,7 +44,7 @@
                     <div class="mb-3">
                         <label for="estadoMovimiento" class="form-label">Estado del movimiento</label>
                         <select class="form-select" id="estadoMovimiento" th:field="*{estadoMovimiento}">
-                            <option value="" disabled selected>Seleccione un estado de Movimiento</option>
+                            <option value="" th:text="'Seleccione opción...'" selected>Seleccione un estado de Movimiento</option>
                             <option th:each="estadoMovimiento : ${estadosMovimiento}"
                                     th:value="${estadoMovimiento.name()}"
                                     th:text="${#strings.capitalize(estadoMovimiento.name().toLowerCase())}">
@@ -51,7 +55,7 @@
                     <div class="mb-3">
                         <label for="tipoMovilidad" class="form-label">Tipo de movilidad</label>
                         <select class="form-select" id="tipoMovilidad" th:field="*{tipoMovilidad}">
-                            <option value="" disabled selected>Seleccione un tipo de movilidad</option>
+                            <option value="" th:text="'Seleccione opción...'" selected>Seleccione un tipo de movilidad</option>
                             <option th:each="tipoMovilidad : ${tiposMovilidad}"
                                     th:value="${tipoMovilidad.name()}"
                                     th:text="${#strings.capitalize(tipoMovilidad.name().toLowerCase())}">
