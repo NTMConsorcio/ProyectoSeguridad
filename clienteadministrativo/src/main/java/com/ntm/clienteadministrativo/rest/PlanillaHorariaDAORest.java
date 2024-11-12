@@ -12,4 +12,14 @@ public class PlanillaHorariaDAORest  extends BaseDAORestImpl<PlanillaHorariaDTO,
     public String getUri(String caso) throws ErrorServiceException {
         return "http://localhost:9000/api/v1/planilla-horaria";
     }
+
+    public void registrar(PlanillaHorariaDTO planilla) throws ErrorServiceException {
+        try {
+            String uri = "http://localhost:9000/api/v1/planilla-horaria/crear";
+            restTemplate.postForEntity(uri, planilla, PlanillaHorariaDTO.class);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ErrorServiceException("Error de Sistemas");
+        }
+    }
 }

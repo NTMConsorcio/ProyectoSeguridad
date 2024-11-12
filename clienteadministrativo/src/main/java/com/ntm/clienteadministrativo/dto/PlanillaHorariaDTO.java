@@ -16,5 +16,5 @@ public class PlanillaHorariaDTO extends BaseDTO {
     private Date entrada;
     private Date salida;
     private EstadoAsistencia estadoAsistencia;
-    private String idEmpleado;
+    private EmpleadoDTO empleado;
 }

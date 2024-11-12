@@ -113,7 +113,6 @@ public class ContactoTelefonicoController {
                 } else {
                     service.modificar(dto.getId(), dto.getObservacion(), dto.getTipoContacto(), dto.getTelefono(), dto.getTipoTelefono());
                 }
-
                 return "redirect:/contactoTelefonico/list";
             }
         } catch (ErrorServiceException ex) {

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class EmpleadoController extends BaseControllerImpl<Empleado, EmpleadoServiceImpl>{
     public EmpleadoController(EmpleadoServiceImpl service) {super(service);}
     @PostMapping("/crear")
-    public ResponseEntity<?> crearContactoTelefonico (@RequestBody EmpleadoDTO empleadoDto){
+    public ResponseEntity<?> crear (@RequestBody EmpleadoDTO empleadoDto){
         try{
             EmpleadoDTO empleadoNuevo = service.Crear(empleadoDto);
             return ResponseEntity.status(HttpStatus.OK).body(empleadoNuevo);

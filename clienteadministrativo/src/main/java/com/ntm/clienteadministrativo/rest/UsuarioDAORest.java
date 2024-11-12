@@ -38,4 +38,19 @@ public class UsuarioDAORest  extends BaseDAORestImpl<UsuarioDTO, String> {
             throw new ErrorServiceException("Error de Sistemas");
         }
     }
+
+    public UsuarioDTO buscarPorIdUsuario(String idPersona) throws ErrorServiceException {
+        try {
+            String uriAux = getUri("BUSCAR");
+            String uri = "http://localhost:9000/api/v1/usuario/buscar/per/" + idPersona;
+
+            ResponseEntity<UsuarioDTO> response = restTemplate.getForEntity(uri, UsuarioDTO.class, idPersona);
+            UsuarioDTO entity = response.getBody();
+
+            return entity;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ErrorServiceException("Error de Sistemas");
+        }
+    }
 }

@@ -2,10 +2,15 @@ package com.ntm.appseguridad.services;
 
 
 
+import com.ntm.appseguridad.dto.HabitanteDTO;
+import com.ntm.appseguridad.dto.PlanillaHorariaDTO;
 import com.ntm.appseguridad.entities.Empleado;
+import com.ntm.appseguridad.entities.Habitante;
 import com.ntm.appseguridad.entities.PlanillaHoraria;
 import com.ntm.appseguridad.entities.Usuario;
 import com.ntm.appseguridad.entities.enums.EstadoAsistencia;
+import com.ntm.appseguridad.mappers.ContactoCorreoElectronicoMapper;
+import com.ntm.appseguridad.mappers.PlanillaHorariaMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.PlanillaHorariaRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
@@ -20,8 +25,23 @@ public class PlanillaHorariaServiceImpl extends BaseServiceImpl<PlanillaHoraria,
 
     private final PlanillaHorariaRepository planillaHorariaRepository;
 
-    public PlanillaHorariaServiceImpl(BaseRepository<PlanillaHoraria, String> baserepository, PlanillaHorariaRepository planillaHorariaRepository) {super(baserepository);
+    private final PlanillaHorariaMapper planillaHorariaMapper;
+    public PlanillaHorariaServiceImpl(BaseRepository<PlanillaHoraria, String> baserepository, PlanillaHorariaRepository planillaHorariaRepository, PlanillaHorariaMapper planillaHorariaMapper) {super(baserepository);
         this.planillaHorariaRepository = planillaHorariaRepository;
+        this.planillaHorariaMapper = planillaHorariaMapper;
+    }
+
+    public PlanillaHorariaDTO Crear(PlanillaHorariaDTO planillaDTO) throws ErrorServiceException {
+        try {
+
+            PlanillaHoraria planillaHoraria = planillaHorariaMapper.toEntity(planillaDTO);
+            PlanillaHoraria planillaHorariaGuardado = repository.save(planillaHoraria);
+            return planillaHorariaMapper.toDTO(planillaHorariaGuardado);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ErrorServiceException("Error al persistir el habitante");
+        }
+
     }
 
 

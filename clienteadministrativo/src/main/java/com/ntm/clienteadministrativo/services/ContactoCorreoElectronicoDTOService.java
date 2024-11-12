@@ -33,7 +33,7 @@ public class ContactoCorreoElectronicoDTOService {
         }
     }
 
-    public void modificar(String id, String observacion, TipoContactos tipoContacto, String correo) throws ErrorServiceException {
+    public ContactoCorreoElectronicoDTO modificar(String id, String observacion, TipoContactos tipoContacto, String correo) throws ErrorServiceException {
 
         try {
 
@@ -44,7 +44,7 @@ public class ContactoCorreoElectronicoDTOService {
             contactoCorreo.setObservacion(observacion);
             contactoCorreo.setEliminado(false);
             dao.actualizar(contactoCorreo);
-
+            return contactoCorreo;
         } catch (ErrorServiceException e) {
             throw e;
         } catch (Exception ex) {

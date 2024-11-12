@@ -1,9 +1,11 @@
 package com.ntm.appseguridad.services;
 
 
-import com.ntm.appseguridad.entities.Empleado;
+import com.ntm.appseguridad.dto.HabitanteDTO;
+import com.ntm.appseguridad.entities.CacheLegajoSingleton;
 import com.ntm.appseguridad.entities.Habitante;
 import com.ntm.appseguridad.entities.Inmueble;
+import com.ntm.appseguridad.mappers.HabitanteMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.HabitanteRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
@@ -15,10 +17,26 @@ import java.util.Optional;
 @Service
 public class HabitanteServiceImpl extends BaseServiceImpl<Habitante,String> implements HabitanteService {
 
-    private final HabitanteRepository habitanteRepository;
 
-    public HabitanteServiceImpl(BaseRepository<Habitante, String> baserepository, HabitanteRepository habitanteRepository) {super(baserepository);
+    private final HabitanteRepository habitanteRepository;
+    private final HabitanteMapper habitanteMapper;
+
+    public HabitanteServiceImpl(BaseRepository<Habitante, String> baserepository, HabitanteRepository habitanteRepository, HabitanteMapper habitanteMapper) {super(baserepository);
         this.habitanteRepository = habitanteRepository;
+        this.habitanteMapper = habitanteMapper;
+    }
+
+
+    public HabitanteDTO Crear(HabitanteDTO habitanteDto) throws ErrorServiceException {
+        try {
+            Habitante habitante = habitanteMapper.toEntity(habitanteDto);
+            Habitante habitanteGuardado = repository.save(habitante);
+            return habitanteMapper.toDTO(habitanteGuardado);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ErrorServiceException("Error al persistir el habitante");
+        }
+
     }
 
     @Override

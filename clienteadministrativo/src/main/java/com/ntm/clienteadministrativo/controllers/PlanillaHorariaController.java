@@ -1,14 +1,11 @@
 package com.ntm.clienteadministrativo.controllers;
 
 
-import com.ntm.clienteadministrativo.dto.ContactoCorreoElectronicoDTO;
-import com.ntm.clienteadministrativo.dto.ContactoTelefonicoDTO;
-import com.ntm.clienteadministrativo.dto.EmpleadoDTO;
-import com.ntm.clienteadministrativo.dto.UnidadDeNegocioDTO;
-import com.ntm.clienteadministrativo.dto.enums.TipoContactos;
+import com.ntm.clienteadministrativo.dto.*;
+import com.ntm.clienteadministrativo.dto.enums.EstadoAsistencia;
 import com.ntm.clienteadministrativo.dto.enums.TipoEmpleado;
-import com.ntm.clienteadministrativo.dto.enums.TipoTelefono;
 import com.ntm.clienteadministrativo.services.EmpleadoDTOService;
+import com.ntm.clienteadministrativo.services.PlanillaHorariaDTOService;
 import com.ntm.clienteadministrativo.services.UnidadDeNegocioDTOService;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,28 +16,27 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/empleado")
-public class EmpleadoController {
-    private String viewEdit = "view/empleado/editEmpleado";
-    private String viewList = "view/empleado/listEmpleado";
+@RequestMapping("/planillaHoraria")
+public class PlanillaHorariaController {
+    private String viewEdit = "view/planillaHoraria/editEmpleado";
+    private String viewList = "view/planillaHoraria/listEmpleado";
 
     @Autowired
-    EmpleadoDTOService empleadoService;
+    PlanillaHorariaDTOService planillaHorariaService;
 
     @Autowired
-    UnidadDeNegocioDTOService unidadServicio;
+    EmpleadoDTOService empleadoServicio;
 
 
     @GetMapping("/list")
     public String listar(Model model) {
         try {
-            List<EmpleadoDTO> lista = empleadoService.listar();
-            model.addAttribute("empleados", lista);
+            List<PlanillaHorariaDTO> lista = planillaHorariaService.listar();
+            model.addAttribute("planillasHorarias", lista);
 
         } catch (ErrorServiceException e) {
             model.addAttribute("mensajeError", e.getMessage());
@@ -53,7 +49,7 @@ public class EmpleadoController {
     @GetMapping("/baja")
     public String baja(@RequestParam(value = "id") String id, Model model) {
         try {
-            empleadoService.eliminar(id);
+            planillaHorariaService.eliminar(id);
             return "redirect:/empleado/list";
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
@@ -64,21 +60,20 @@ public class EmpleadoController {
     }
 
     @GetMapping("/nuevo")
-    public String editEmpleado(Model model) throws ErrorServiceException {
+    public String editPlanillaHoraria(Model model) throws ErrorServiceException {
         cargarCombos(model);
-        model.addAttribute("empleado", new EmpleadoDTO());
+        model.addAttribute("planillaHoraria", new PlanillaHorariaDTO());
         model.addAttribute("isEditMode", false);
         return viewEdit;
     }
 
     @PostMapping("/aceptarEdit")
-    public String edit(ModelMap modelo, EmpleadoDTO dto, @RequestParam String numero, @RequestParam String correo, @RequestParam String idUnidadDeNegocio, @RequestParam(required = false) String idtel, @RequestParam(required = false) String idcorreo) throws ErrorServiceException {
+    public String edit(ModelMap modelo, PlanillaHorariaDTO dto, @RequestParam String idEmpleado) throws ErrorServiceException {
         try {
             if (dto.getId() == null || dto.getId().isEmpty()) {
-                empleadoService.crear(String.valueOf(dto.getDocumento()), dto.getNombre(), dto.getApellido(), numero, correo, dto.getTipoEmpleado(), idUnidadDeNegocio);
+                planillaHorariaService.crear(dto.getEntrada(),dto.getSalida(),dto.getEstadoAsistencia(),dto.getEmpleado().getId());
             } else {
-                System.out.println(dto.getContactos());
-                empleadoService.modificar(dto.getId(), String.valueOf(dto.getDocumento()), dto.getNombre(), dto.getApellido(), idtel, idcorreo, numero, correo, dto.getLegajo(), dto.getTipoEmpleado(), idUnidadDeNegocio);
+                planillaHorariaService.modificar(dto.getId(), dto.getEntrada(),dto.getSalida(),dto.getEstadoAsistencia(),idEmpleado);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -89,13 +84,9 @@ public class EmpleadoController {
     @GetMapping("/modificar")
     public String modificar(Model model, @RequestParam("id") String id) {
         try {
-            EmpleadoDTO obj = empleadoService.buscar(id);
-            ContactoTelefonicoDTO tel = (ContactoTelefonicoDTO) obj.getContactos().get(0);
-            ContactoCorreoElectronicoDTO correo = (ContactoCorreoElectronicoDTO) obj.getContactos().get(1);
-            model.addAttribute("empleado", obj);
-            model.addAttribute("numero", tel.getTelefono());
-            System.out.println(tel.getTelefono());
-            model.addAttribute("correo", correo.getEmail());
+            PlanillaHorariaDTO obj = planillaHorariaService.buscar(id);
+            model.addAttribute("entrada", obj.getEntrada());
+            model.addAttribute("salida", obj.getSalida());
             model.addAttribute("isDisabled", false);
             cargarCombos(model);
             model.addAttribute("isEditMode", true);
@@ -112,9 +103,9 @@ public class EmpleadoController {
     }
 
     public void cargarCombos(Model model) throws ErrorServiceException {
-        List<UnidadDeNegocioDTO> unidades = unidadServicio.getActivos();
-        model.addAttribute("tiposEmpleado", TipoEmpleado.values()); // Agrega los valores del enum al modelo
-        model.addAttribute("unidades", unidades);
+        List<EmpleadoDTO> empleados = empleadoServicio.listar();
+        model.addAttribute("estadosAsistencia", EstadoAsistencia.values()); // Agrega los valores del enum al modelo
+        model.addAttribute("empleados", empleados);
     }
 
 }

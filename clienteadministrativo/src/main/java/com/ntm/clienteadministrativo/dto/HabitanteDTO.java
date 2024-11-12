@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper=false)
 public class HabitanteDTO extends PersonaDTO{
-    private String idInmueble;
+    private InmuebleDTO inmueble;
 }

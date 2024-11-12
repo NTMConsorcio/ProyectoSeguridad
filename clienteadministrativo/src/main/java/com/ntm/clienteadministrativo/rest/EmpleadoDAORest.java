@@ -22,4 +22,6 @@ public class EmpleadoDAORest  extends BaseDAORestImpl<EmpleadoDTO, String> {
             throw new ErrorServiceException("Error de Sistemas");
         }
     }
+
+
 }

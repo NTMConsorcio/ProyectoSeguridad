@@ -58,15 +58,26 @@ public class UsuarioDTOService implements UserDetailsService {
     }
 
     public UsuarioDTO buscarCuenta (String cuenta) throws ErrorServiceException {
-
         try {
-
             if (cuenta == null) {
                 throw new ErrorServiceException("Debe indicar la cuenta");
             }
-
             UsuarioDTO obj = dao.buscarCuenta(cuenta);
+            return obj;
+        } catch (ErrorServiceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ErrorServiceException("Error de sistema");
+        }
+    }
 
+    public UsuarioDTO buscarPorIdPersona (String idPersona) throws ErrorServiceException {
+        try {
+            if (idPersona == null) {
+                throw new ErrorServiceException("Debe indicar la persona");
+            }
+            UsuarioDTO obj = dao.buscarPorIdUsuario(idPersona);
             return obj;
         } catch (ErrorServiceException ex) {
             throw ex;
