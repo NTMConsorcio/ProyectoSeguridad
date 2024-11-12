@@ -21,7 +21,7 @@ public interface PlanillaHorariaMapper {
     PlanillaHorariaDTO toDTO(PlanillaHoraria planillaHoraria);
 
     // Mapeo inverso: Convertir PlanillaHorariaDTO a PlanillaHoraria
-    @Mapping(source = "unidadDeNegocio", target = "unidadDeNegocio")
+
     @Mapping(source = "empleado", target = "empleado")
     PlanillaHoraria toEntity(PlanillaHorariaDTO planillaHorariaDTO);
 

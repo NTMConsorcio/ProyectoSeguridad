@@ -68,7 +68,7 @@ public class HabitanteController {
     }
 
     @PostMapping("/aceptarEdit")
-    public String edit(ModelMap modelo, HabitanteDTO dto, @RequestParam String numero, @RequestParam String correo, @RequestParam String idInmueble, @RequestParam String idtel, @RequestParam String idcorreo) throws ErrorServiceException {
+    public String edit(ModelMap modelo, HabitanteDTO dto, @RequestParam String numero, @RequestParam String correo, @RequestParam String idInmueble, @RequestParam(required = false) String idtel, @RequestParam(required = false) String idcorreo) throws ErrorServiceException {
         try {
             if (dto.getId() == null || dto.getId().isEmpty()) {
                 habitanteService.crear(String.valueOf(dto.getDocumento()), dto.getNombre(), dto.getApellido(), numero, correo, idInmueble);

@@ -73,6 +73,7 @@ public class EmpleadoDTOService {
             empleado.setNombre(nombre);
             empleado.setApellido(apellido);
             empleado.setTipoEmpleado(tipoEmpleado);
+            System.out.println("--------------------------------------------");
             Rol rol = Rol.PERSONAL;
             if (tipoEmpleado.equals(TipoEmpleado.SUPERVISOR)){
                 rol = Rol.ADMIN;

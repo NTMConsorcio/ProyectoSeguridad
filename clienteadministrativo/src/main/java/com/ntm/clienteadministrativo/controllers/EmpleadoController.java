@@ -72,7 +72,7 @@ public class EmpleadoController {
     }
 
     @PostMapping("/aceptarEdit")
-    public String edit(ModelMap modelo, EmpleadoDTO dto, @RequestParam String numero, @RequestParam String correo, @RequestParam String idUnidadDeNegocio, @RequestParam String idtel, @RequestParam String idcorreo) throws ErrorServiceException {
+    public String edit(ModelMap modelo, EmpleadoDTO dto, @RequestParam String numero, @RequestParam String correo, @RequestParam String idUnidadDeNegocio, @RequestParam(required = false) String idtel, @RequestParam(required = false) String idcorreo) throws ErrorServiceException {
         try {
             if (dto.getId() == null || dto.getId().isEmpty()) {
                 empleadoService.crear(String.valueOf(dto.getDocumento()), dto.getNombre(), dto.getApellido(), numero, correo, dto.getTipoEmpleado(), idUnidadDeNegocio);
