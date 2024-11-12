@@ -19,8 +19,64 @@
                              role='alert'></div>
                     </div>
                 </div>
+                <div class="mb-4">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#presente">
+                        Marcar Entrada
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#salida">
+                        Marcar Salida
+                    </button>
+                    <a th:href="@{/planillaHoraria/nuevo}" type="button" class="btn btn-danger"> Agregar inasistencia</a>
+                </div>
+                <form th:action="@{/planillaHoraria/presente}" method="post">
+                    <input type="hidden" name="id" th:value="${#authentication.name}">
+                    <div class="modal fade" id="presente" tabindex="-1" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="presenteModalLabel">Aviso Importante</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿Estás seguro de que deseas realizar esta acción?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">Aceptar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
 
-                <a th:href="@{/planillaHoraria/nuevo}" type="button" class="btn btn-success mb-4"> Nuevo</a>
+                <form th:action="@{/planillaHoraria/salida}" method="post">
+                    <input type="hidden" name="id" th:value="${#authentication.name}">
+                    <div class="modal fade" id="salida" tabindex="-1" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="salidaModalLabel">Aviso Importante</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿Estás seguro de que deseas realizar esta acción?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">Aceptar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
@@ -47,7 +103,7 @@
                             </tr>
                             </tfoot>
                             <tbody>
-                            <tr th:each="planillaHoraria : ${planillasHoraria}">
+                            <tr th:each="planillaHoraria : ${planillasHorarias}">
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn btn-primary dropdown-toggle btn-sm"
@@ -55,15 +111,17 @@
                                                 class="bi bi-three-dots-vertical"></i></button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item"
-                                                   th:href="@{planillaHoraria/consultar?id=} + ${planillaHoraria.id}">Consultar</a></li>
+                                                   th:href="@{consultar?id=} + ${planillaHoraria.id}">Consultar</a>
+                                            </li>
                                             <li><a class="dropdown-item"
-                                                   th:href="@{/planillaHoraria/modificar?id=} + ${planillaHoraria.id}">Modificar</a></li>
+                                                   th:href="@{modificar?id=} + ${planillaHoraria.id}">Modificar</a>
+                                            </li>
                                             <li><a class="dropdown-item" th:href="@{baja?id=} + ${planillaHoraria.id}">Eliminar</a>
                                             </li>
                                         </ul>
                                     </div>
                                 </td>
-                                <td th:text="${planillaHoraria.empleado.nombre}"></td>
+                                <td th:text="${planillaHoraria.empleado.nombre} + ' ' + ${planillaHoraria.empleado.apellido}"></td>
                                 <td th:text="${planillaHoraria.entrada}"></td>
                                 <td th:text="${planillaHoraria.salida}"></td>
                                 <td th:text="${planillaHoraria.estadoAsistencia}"></td>

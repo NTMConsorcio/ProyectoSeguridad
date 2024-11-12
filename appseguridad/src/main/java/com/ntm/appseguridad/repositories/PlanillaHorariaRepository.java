@@ -9,4 +9,5 @@ import java.util.List;
 public interface PlanillaHorariaRepository extends BaseRepository<PlanillaHoraria, String>{
     List<PlanillaHoraria> findByEmpleadoAndEliminadoFalse(Empleado empleado);
     List<PlanillaHoraria> findByEstadoAsistenciaAndEmpleadoAndEliminadoFalse(EstadoAsistencia estadoAsistencia, Empleado empleado);
+    PlanillaHoraria findFirstByEmpleadoAndEliminadoFalseOrderByEntradaDesc(Empleado empleado);
 }
