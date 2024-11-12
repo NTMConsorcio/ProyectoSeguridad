@@ -34,6 +34,17 @@
                         <div id="pisoHelp" class="form-text">Ingrese el piso del inmueble.</div>
                     </div>
                     <div class="mb-3">
+                        <label for="unidadDeNegocio" class="form-label">Unidad de negocio</label>
+                        <select id="unidadDeNegocio" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar unidad de negocio" th:field="*{unidadDeNegocio.id}">
+                            <option value="" th:text="'Seleccione opción...'" selected></option>
+                            <option th:each="unidadDeNegocio : ${unidadesDeNegocio}"
+                                    th:value="${unidadDeNegocio.id}"
+                                    th:text="${unidadDeNegocio.nombre}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="dpto" class="form-label">Departamento</label>
                         <input type="text" class="form-control" id="dpto" th:field="*{dpto}"
                                th:disabled="${isDisabled}" aria-describedby="dptoHelp">
@@ -45,16 +56,6 @@
                         <input type="text" class="form-control" id="estadoInmueble" th:field="*{estadoInmueble}"
                                th:disabled="${isDisabled}" aria-describedby="estadoInmuebleHelp">
                         <div id="estadoInmuebleHelp" class="form-text">Ingrese el estado del inmueble.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="unidadDeNegocioIn" class="form-label">Unidad de Negocio</label>
-                        <select class="form-select" id="unidadDeNegocioIn" th:name="idUnidadDeNegocio">
-                            <option value="" disabled selected>Seleccione una unidad</option>
-                            <option th:each="unidad : ${unidadesIn}"
-                                    th:value="${unidad.id}"
-                                    th:text="${unidad.nombre}">
-                            </option>
-                        </select>
                     </div>
                     <button type="submit" th:disabled="${isDisabled}" class="btn btn-success">Aceptar</button>
                     <a th:href="@{list}" class="btn btn-danger" role="button">Cancelar</a>

@@ -62,16 +62,24 @@
                         <label for="visitante" class="form-label">Visitante</label>
                         <select id="visitante" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar visitante" th:field="*{visitante.id}">
                             <option value="" th:text="'Seleccione opción...'" selected></option>
-                            <option th:each="visitante : ${visitantees}" th:value="${visitante.id}" th:text="${visitante.numeroDeDocumento}">Option</option>
+                            <option th:each="visitante : ${visitantes}"
+                                    th:value="${visitante.id}"
+                                    th:text="${visitante.numeroDeDocumento}">
+                            </option>
                         </select>
                     </div>
+
                     <div class="mb-3">
                         <label for="Inmueble" class="form-label">Inmueble</label>
                         <select id="Inmueble" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar inmueble" th:field="*{inmueble.id}">
                             <option value="" th:text="'Seleccione opción...'" selected></option>
-                            <option th:each="inmueble : ${inmuebles}" th:text="${inmueble.unidadDeNegocio.nombre} + ' ' + ${inmueble.numeracion} + ' ' + ${inmueble.piso} + ' ' + ${inmueble.dpto}">Option</option>
+                            <option th:each="inmueble : ${inmuebles}"
+                                    th:value="${inmueble.id}"
+                                    th:text="${inmueble.unidadDeNegocio.nombre} + ' ' + ${inmueble.numeracion} + ' ' + ${inmueble.piso} + ' ' + ${inmueble.dpto}">
+                            </option>
                         </select>
                     </div>
+
                     <button type="submit" th:disabled="${isDisabled}" class="btn btn-success">Aceptar</button>
                     <a th:href="@{list}" class="btn btn-danger" role="button">Cancelar</a>
                 </form>
