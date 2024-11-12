@@ -26,7 +26,7 @@ public class VisitanteServiceImpl extends BaseServiceImpl<Visitante,String> impl
 
     @Override
     public <D> D convertToDto(Visitante entity) {
-        return null;
+        return (D) visitanteMapper.toDto(entity);
     }
 
     @Override

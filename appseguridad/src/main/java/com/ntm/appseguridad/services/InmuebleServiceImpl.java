@@ -16,7 +16,7 @@ public class InmuebleServiceImpl extends BaseServiceImpl<Inmueble,String> implem
     private final InmuebleRepository inmuebleRepository;
     private final InmuebleMapper inmuebleMapper;
 
-    public InmuebleServiceImpl(BaseRepository<Inmueble, String> baseRepository, InmuebleRepository inmuebleRepository, InmuebleMapper inmuebleMapper) {
+    public InmuebleServiceImpl(BaseRepository<Inmueble, String> baseRepository,InmuebleRepository inmuebleRepository, InmuebleMapper inmuebleMapper) {
         super(baseRepository);
         this.inmuebleRepository = inmuebleRepository;
         this.inmuebleMapper = inmuebleMapper;
@@ -30,7 +30,7 @@ public class InmuebleServiceImpl extends BaseServiceImpl<Inmueble,String> implem
 
     @Override
     public <D> List<D> convertToDtoList(List<Inmueble> entities) {
-        return List.of();
+        return (List<D>) inmuebleMapper.toDtoList(entities);
     }
 
     @Override

@@ -83,13 +83,14 @@ public class UnidadDeNegocioDTOService {
 
     }
 
-    public List<UnidadDeNegocioDTO> getActivos() throws ErrorServiceException{
+    public List<UnidadDeNegocioDTO> getActivos() throws ErrorServiceException {
         try {
-            List<UnidadDeNegocioDTO> unidades = dao.getActivos();
-            return unidades;
+            return dao.listar(UnidadDeNegocioDTO[].class);
+        } catch (ErrorServiceException ex) {
+            throw ex;
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new ErrorServiceException("Error de Sistemas");
+            throw new ErrorServiceException("Error de sistema");
         }
     }
 

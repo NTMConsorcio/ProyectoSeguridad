@@ -52,16 +52,13 @@
               <tr th:each="inmueble : ${inmuebles}">
                 <td>
                   <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle btn-sm"
-                            data-bs-toggle="dropdown" aria-expanded="false"><i
-                            class="bi bi-three-dots-vertical"></i></button>
+                    <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-three-dots-vertical"></i>
+                    </button>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item"
-                             th:href="@{consultar?id=} + ${departamento.id}">Consultar</a></li>
-                      <li><a class="dropdown-item"
-                             th:href="@{modificar?id=} + ${departamento.id}">Modificar</a></li>
-                      <li><a class="dropdown-item" th:href="@{baja?id=} + ${inmueble.id}">Eliminar</a>
-                      </li>
+                      <li><a class="dropdown-item" th:href="@{consultar(id=${inmueble.id})}">Consultar</a></li>
+                      <li><a class="dropdown-item" th:href="@{modificar(id=${inmueble.id})}">Modificar</a></li>
+                      <li><a class="dropdown-item" th:href="@{baja(id=${inmueble.id})}">Eliminar</a></li>
                     </ul>
                   </div>
                 </td>
@@ -69,7 +66,7 @@
                 <td th:text="${inmueble.piso}"></td>
                 <td th:text="${inmueble.dpto}"></td>
                 <td th:text="${inmueble.estadoInmueble}"></td>
-                <td th:text="${inmuble.unidadDeNegocio.nombre}"></td>
+                <td th:text="${inmueble.unidadDeNegocio.nombre}"></td>
               </tr>
 
               </tbody>
