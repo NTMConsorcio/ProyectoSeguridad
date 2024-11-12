@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head th:insert="~{fragments/header :: header}"></head>
+<body class="sb-nav-fixed">
+<nav th:insert="~{fragments/upperNavbar :: upperNavbar}"></nav>
+<div id="layoutSidenav">
+    <div th:insert="~{fragments/sideNavbar :: sideNavbar}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-5">
+                <h1 class="mt-4">Inasistencias</h1>
+                <ol class="breadcrumb mb-4 mt-4">
+                    <li class="breadcrumb-item"><a th:href="@{/inicio}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Actual</li>
+                </ol>
+                <div th:if="${mensajeError != null}" class="card mb-4">
+                    <div class="card-body">
+                        <div th:if="${mensajeError != null}" class='alert alert-danger' th:text="${mensajeError}"
+                             role='alert'></div>
+                    </div>
+                </div>
+                <form th:action="@{/planillaHoraria/aceptarEdicion}" method="post" th:object="${planilla}">
+                    <input type="hidden" name="id" th:value="${planilla.id}">
+                    <div class="mb-3">
+                        <label for="empleadoIn" class="form-label">Empleado</label>
+                        <select id="empleadoIn" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar empleado" th:field="*{empleado.id}">
+                            <option value="" th:text="'Seleccione opción...'" selected></option>
+                            <option th:each="empleado : ${empleados}" th:value="${empleado.id}" th:text="${empleado.nombre} + ${empleado.apellido}">Option</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fechaHora" class="form-label">Fecha Desde: </label>
+                        <input type="datetime-local" class="form-control" th:disabled="${isDisabled}" id="fechaHora" name="fechaHora" th:field="*{entrada}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="fechaHora2" class="form-label">Fecha Hasta: </label>
+                        <input type="datetime-local" class="form-control" th:disabled="${isDisabled}" id="fechaHora2" name="fechaHora" th:field="*{salida}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipoInasistenciaIn" class="form-label">Tipo de Inasistencia</label>
+                        <select id="tipoInasistenciaIn" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar tipo de inasistencia" th:field="*{estadoAsistencia}">
+                            <option th:each="tipoInasistencia : ${estadosAsistencia}" th:value="${tipoInasistencia}" th:text="${tipoInasistencia}" th:if="${tipoInasistencia.name()} != 'PRESENTE'">Option</option>
+                        </select>
+                    </div>
+                    <button type="submit" th:disabled="${isDisabled}" class="btn btn-success">Aceptar</button>
+                    <a th:href="@{list}" class="btn btn-danger" role="button">Cancelar</a>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script th:src="@{js/scripts.js}"></script>
+</body>
+</html>

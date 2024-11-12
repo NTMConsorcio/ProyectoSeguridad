@@ -19,13 +19,14 @@
                              role='alert'></div>
                     </div>
                 </div>
+
                 <form th:action="@{/planillaHoraria/aceptarEdit}" method="post" th:object="${planilla}">
                     <input type="hidden" name="id" th:value="${planilla.id}">
                     <div class="mb-3">
                         <label for="empleado" class="form-label">Empleado</label>
                         <select class="form-select" id="empleado" th:name="idEmpleado">
                             <option value="" disabled selected>Seleccione un empleado</option>
-                            <option th:each="empleado : ${empleado}"
+                            <option th:each="empleado : ${empleados}"
                                     th:value="${empleado.id}"
                                     th:text="${empleado.nombre}">
                             </option>
