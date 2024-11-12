@@ -53,10 +53,10 @@
                                                 class="bi bi-three-dots-vertical"></i></button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item"
-                                                   th:href="@{/consultar?id=} + ${visitante.id}">Consultar</a></li>
+                                                   th:href="@{consultar?id=} + ${visitante.id}">Consultar</a></li>
                                             <li><a class="dropdown-item"
-                                                   th:href="@{/modificar?id=} + ${visitante.id}">Modificar</a></li>
-                                            <li><a class="dropdown-item" th:href="@{/baja?id=} + ${visitante.id}">Eliminar</a>
+                                                   th:href="@{modificar?id=} + ${visitante.id}">Modificar</a></li>
+                                            <li><a class="dropdown-item" th:href="@{baja?id=} + ${visitante.id}">Eliminar</a>
                                             </li>
                                         </ul>
                                     </div>
