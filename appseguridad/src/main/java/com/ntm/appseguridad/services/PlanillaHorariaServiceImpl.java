@@ -14,9 +14,11 @@ import com.ntm.appseguridad.mappers.PlanillaHorariaMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.PlanillaHorariaRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +28,10 @@ public class PlanillaHorariaServiceImpl extends BaseServiceImpl<PlanillaHoraria,
     private final PlanillaHorariaRepository planillaHorariaRepository;
 
     private final PlanillaHorariaMapper planillaHorariaMapper;
+
+    @Autowired
+    private EmpleadoServiceImpl empleadoService;
+
     public PlanillaHorariaServiceImpl(BaseRepository<PlanillaHoraria, String> baserepository, PlanillaHorariaRepository planillaHorariaRepository, PlanillaHorariaMapper planillaHorariaMapper) {super(baserepository);
         this.planillaHorariaRepository = planillaHorariaRepository;
         this.planillaHorariaMapper = planillaHorariaMapper;
@@ -66,12 +72,12 @@ public class PlanillaHorariaServiceImpl extends BaseServiceImpl<PlanillaHoraria,
 
     @Override
     public <D> D convertToDto(PlanillaHoraria entity) {
-        return null;
+        return (D) planillaHorariaMapper.toDTO(entity);
     }
 
     @Override
     public <D> List<D> convertToDtoList(List<PlanillaHoraria> entities) {
-        return List.of();
+        return (List<D>) planillaHorariaMapper.toDtoList(entities);
     }
 
     @Override
@@ -107,6 +113,54 @@ public class PlanillaHorariaServiceImpl extends BaseServiceImpl<PlanillaHoraria,
             throw ex;
         } catch (Exception ex) {
             throw new ErrorServiceException("Error de sistemas");
+        }
+    }
+
+    public PlanillaHorariaDTO darPresente(String correo) throws ErrorServiceException {
+        try {
+            Empleado empleado = empleadoService.findByCorreo(correo);
+            if (empleado == null) {
+                throw new ErrorServiceException("Error, el usuario no es empleado");
+            }
+            PlanillaHoraria aux = planillaHorariaRepository.findFirstByEmpleadoAndEliminadoFalseOrderByEntradaDesc(empleado);
+            if (aux != null) {
+                if (aux.getSalida() == null) {
+                    throw new ErrorServiceException("La última salida nunca se completó, completela y vuelva a intentar");
+                }
+            }
+            PlanillaHoraria plan = new PlanillaHoraria();
+            plan.setEmpleado(empleado);
+            plan.setEstadoAsistencia(EstadoAsistencia.PRESENTE);
+            plan.setEliminado(false);
+            plan.setEntrada(new Date());
+            repository.save(plan);
+            return planillaHorariaMapper.toDTO(plan);
+        } catch (ErrorServiceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new ErrorServiceException("Error. Posiblemente el usuario no es un empleado");
+        }
+    }
+
+    public PlanillaHorariaDTO darSalida(String correo) throws ErrorServiceException {
+        try {
+            Empleado empleado = empleadoService.findByCorreo(correo);
+            if (empleado == null) {
+                throw new ErrorServiceException("Error, el usuario no es empleado");
+            }
+            PlanillaHoraria aux = planillaHorariaRepository.findFirstByEmpleadoAndEliminadoFalseOrderByEntradaDesc(empleado);
+            if (aux != null) {
+                if (aux.getSalida() != null) {
+                    throw new ErrorServiceException("No se encontró una entrada incompleta.");
+                }
+            }
+            aux.setSalida(new Date());
+            repository.save(aux);
+            return planillaHorariaMapper.toDTO(aux);
+        } catch (ErrorServiceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new ErrorServiceException("Error. Posiblemente el usuario no es un empleado");
         }
     }
 }
