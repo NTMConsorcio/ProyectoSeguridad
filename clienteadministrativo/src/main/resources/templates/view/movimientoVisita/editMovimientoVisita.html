@@ -21,6 +21,10 @@
                 </div>
                 <form th:action="@{/movimientoVisita/aceptarEdit}" method="post" th:object="${movimientoVisita}">
                     <input type="hidden" th:field="*{id}">
+                    <div class="mb-3">
+                        <label for="fechaMovimiento" class="form-label">Fecha de movimiento: </label>
+                        <input type="datetime-local" class="form-control" th:disabled="${isDisabled}" id="fechaMovimiento" name="fechaMovimiento" th:field="*{fechaMovimiento}">
+                    </div>
 
                     <div class="mb-3">
                         <label for="tipoMovimiento" class="form-label">tipo de movimiento</label>
