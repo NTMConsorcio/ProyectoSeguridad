@@ -1,6 +1,9 @@
 package com.ntm.clienteadministrativo.controllers;
 
 import com.ntm.clienteadministrativo.dto.*;
+import com.ntm.clienteadministrativo.dto.enums.EstadoMovimiento;
+import com.ntm.clienteadministrativo.dto.enums.TipoMovilidad;
+import com.ntm.clienteadministrativo.dto.enums.TipoMovimiento;
 import com.ntm.clienteadministrativo.services.InmuebleDTOService;
 import com.ntm.clienteadministrativo.services.MovimientoVisitaDTOService;
 import com.ntm.clienteadministrativo.services.VisitanteDTOService;
@@ -132,7 +135,9 @@ public class MovimientoVisitaController {
     public void cargarListas(Model model) throws ErrorServiceException {
         List<InmuebleDTO> inmuebleDTOS = inmuebleService.listar();
         List<VisitanteDTO> visitanteDTOS = visitanteService.listar();
-
+        model.addAttribute("tipoMovimiento", TipoMovimiento.values());
+        model.addAttribute("estadoMovimiento", EstadoMovimiento.values());
+        model.addAttribute("tipoMovilidad", TipoMovilidad.values());
         model.addAttribute("inmuebles", inmuebleDTOS);
         model.addAttribute("visitantes", visitanteDTOS);
     }
