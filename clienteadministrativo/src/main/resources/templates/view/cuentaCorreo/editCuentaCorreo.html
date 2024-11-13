@@ -22,7 +22,7 @@
                 <form th:action="@{/cuentaCorreo/aceptarEdit}" method="post" th:object="${cuentaCorreo}">
                     <input type="hidden" name="id" th:value="${cuentaCorreo.id}">
                     <div class="mb-3">
-                        <label for="correo" class="form-label">Nombre</label>
+                        <label for="correo" class="form-label">Correo</label>
                         <input type="text" class="form-control" id="correo" th:field="*{correo}"
                                th:disabled="${isDisabled}" aria-describedby="correoHelp">
                         <div id="correoHelp" class="form-text">Ingrese el correo de la cuenta de correo.</div>

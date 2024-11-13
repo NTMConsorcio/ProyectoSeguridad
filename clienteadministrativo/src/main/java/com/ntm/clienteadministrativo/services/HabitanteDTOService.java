@@ -73,23 +73,21 @@ public class HabitanteDTOService {
             habitante.setInmueble(inmueble);
             UsuarioDTO usuario = serviceUsuario.buscarPorIdPersona(id);
             habitante.setUsuario(usuario);
-
             ContactoTelefonicoDTO tel = telService.buscar(idTelAnt);
             if (!tel.getTelefono().equals(numero)) {
                 tel = telService.modificar(idTelAnt, "", TipoContactos.PERSONAL ,numero, TipoTelefono.CELULAR);
+                tel = telService.buscar(idTelAnt);
             }
-
             ContactoCorreoElectronicoDTO contacCorreo = correoService.buscar(idCorrAnt);
             if (!contacCorreo.getEmail().equals(correo)) {
                 contacCorreo = correoService.modificar(idCorrAnt, "", TipoContactos.PERSONAL, correo);
+                contacCorreo = correoService.buscar(idCorrAnt);
             }
             List<ContactoDTO> contactos = new ArrayList<>();
             contactos.add(tel);
             contactos.add(contacCorreo);
             habitante.setContactos(contactos);
-
             dao.actualizar(habitante);
-
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new ErrorServiceException("Error de Sistemas");
