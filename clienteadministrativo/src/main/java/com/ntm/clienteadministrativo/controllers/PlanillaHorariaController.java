@@ -36,12 +36,17 @@ public class PlanillaHorariaController {
     EmpleadoDTOService empleadoServicio;
 
     @PostMapping("/presente")
-    public String presente(@RequestParam("id") String correo, Model model) {
+    public String presente(@RequestParam("id") String correo, Model model,  @RequestParam("origen") String origen) {
         try {
             planillaHorariaService.darPresenteYSalida(correo, "presente");
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
             return viewList;
+        }
+        if ("listPlanilla".equals(origen)){
+            return "redirect:/planillaHoraria/list";
+        }else if ("inicio".equals(origen)){
+            return "redirect:/index";
         }
         return "redirect:/planillaHoraria/list";
     }
