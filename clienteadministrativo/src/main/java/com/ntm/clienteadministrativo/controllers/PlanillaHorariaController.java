@@ -9,6 +9,7 @@ import com.ntm.clienteadministrativo.services.PlanillaHorariaDTOService;
 import com.ntm.clienteadministrativo.services.UnidadDeNegocioDTOService;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -81,9 +82,6 @@ public class PlanillaHorariaController {
     public String editAceptar(Model model, PlanillaHorariaDTO dto, BindingResult result, RedirectAttributes attributes, Authentication authentication) throws ErrorServiceException {
         try {
             if (result.hasErrors()) {
-                for (ObjectError error : result.getAllErrors()) {
-                    System.out.println("Error: " + error.getDefaultMessage());
-                }
                 model.addAttribute("mensajeError", "Error en el formulario");
             } else {
 
@@ -105,6 +103,7 @@ public class PlanillaHorariaController {
         return viewEdit;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERADMIN')")
     @GetMapping("/baja")
     public String baja(@RequestParam(value = "id") String id, Model model) {
         try {
@@ -144,6 +143,7 @@ public class PlanillaHorariaController {
 
 
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERADMIN')")
     @GetMapping("/modificar")
     public String modificar(Model model, @RequestParam("id") String id, Authentication authentication) {
         try {

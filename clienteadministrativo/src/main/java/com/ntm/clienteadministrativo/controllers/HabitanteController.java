@@ -9,6 +9,7 @@ import com.ntm.clienteadministrativo.services.HabitanteDTOService;
 import com.ntm.clienteadministrativo.services.InmuebleDTOService;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -46,6 +47,8 @@ public class HabitanteController {
         }
         return viewList;
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERADMIN')")
     @GetMapping("/baja")
     public String baja(@RequestParam(value = "id") String id, Model model) {
         try {
@@ -111,11 +114,11 @@ public class HabitanteController {
         return viewEdit;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERADMIN')")
     @GetMapping("/modificar")
     public String modificar(Model model, @RequestParam("id") String id) {
         try {
             HabitanteDTO obj = habitanteService.buscar(id);
-            System.out.println(obj.getId());
             ContactoTelefonicoDTO tel = (ContactoTelefonicoDTO) obj.getContactos().get(0);
             ContactoCorreoElectronicoDTO correo = (ContactoCorreoElectronicoDTO) obj.getContactos().get(1);
             model.addAttribute("habitante", obj);

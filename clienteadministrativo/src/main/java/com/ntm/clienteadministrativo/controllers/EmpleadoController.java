@@ -77,7 +77,6 @@ public class EmpleadoController {
             if (dto.getId() == null || dto.getId().isEmpty()) {
                 empleadoService.crear(String.valueOf(dto.getDocumento()), dto.getNombre(), dto.getApellido(), numero, correo, dto.getTipoEmpleado(), idUnidadDeNegocio);
             } else {
-                System.out.println(dto.getContactos());
                 empleadoService.modificar(dto.getId(), String.valueOf(dto.getDocumento()), dto.getNombre(), dto.getApellido(), idtel, idcorreo, numero, correo, dto.getLegajo(), dto.getTipoEmpleado(), idUnidadDeNegocio);
             }
         } catch (Exception e) {
@@ -98,6 +97,30 @@ public class EmpleadoController {
             model.addAttribute("isDisabled", false);
             cargarCombos(model);
             model.addAttribute("isEditMode", true);
+            return viewEdit;
+        } catch (ErrorServiceException ex) {
+            ex.printStackTrace();
+            model.addAttribute("mensajeError", ex.getMessage());
+            return viewList;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            model.addAttribute("mensajeError", "Error en el sistema");
+            return viewList;
+        }
+    }
+
+    @GetMapping("/consultar")
+    public String consultar(Model model, @RequestParam("id") String id) {
+        try {
+            EmpleadoDTO obj = empleadoService.buscar(id);
+            ContactoTelefonicoDTO tel = (ContactoTelefonicoDTO) obj.getContactos().get(0);
+            ContactoCorreoElectronicoDTO correo = (ContactoCorreoElectronicoDTO) obj.getContactos().get(1);
+            model.addAttribute("empleado", obj);
+            model.addAttribute("numero", tel.getTelefono());
+            model.addAttribute("correo", correo.getEmail());
+            model.addAttribute("isDisabled", true);
+            cargarCombos(model);
+            model.addAttribute("isEditMode", false);
             return viewEdit;
         } catch (ErrorServiceException ex) {
             ex.printStackTrace();

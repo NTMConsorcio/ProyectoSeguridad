@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:insert="~{fragments/header :: header}"></head>
 <body class="sb-nav-fixed">
 <nav th:insert="~{fragments/upperNavbar :: upperNavbar}"></nav>
@@ -20,7 +20,7 @@
                     </div>
                 </div>
 
-                <a th:href="@{/habitante/nuevo}" type="button" class="btn btn-success mb-4"> Nuevo</a>
+                <a sec:authorize="hasAnyRole('ADMIN', 'SUPERADMIN', 'PERSONAL')" th:href="@{/habitante/nuevo}" type="button" class="btn btn-success mb-4"> Nuevo</a>
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
@@ -56,9 +56,9 @@
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item"
                                                    th:href="@{consultar?id=} + ${habitante.id}">Consultar</a></li>
-                                            <li><a class="dropdown-item"
+                                            <li sec:authorize="hasAnyRole('ADMIN', 'SUPERADMIN', 'PERSONAL')"><a class="dropdown-item"
                                                    th:href="@{modificar?id=} + ${habitante.id}">Modificar</a></li>
-                                            <li><a class="dropdown-item" th:href="@{baja?id=} + ${habitante.id}">Eliminar</a>
+                                            <li sec:authorize="hasAnyRole('ADMIN', 'SUPERADMIN', 'PERSONAL')"><a class="dropdown-item" th:href="@{baja?id=} + ${habitante.id}">Eliminar</a>
                                             </li>
                                         </ul>
                                     </div>
