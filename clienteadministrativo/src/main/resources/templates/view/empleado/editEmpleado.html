@@ -38,7 +38,7 @@
                         <div id="apellidoHelp" class="form-text">Ingrese el apellido del empleado.</div>
                     </div>
                     <div class="mb-3">
-                        <label for="dni" class="form-label">DNI</label>
+                        <label for="documento" class="form-label">DNI</label>
                         <input type="text" class="form-control" id="documento" th:field="*{documento}"
                                th:disabled="${isDisabled}" aria-describedby="documentoHelp">
                         <div id="documentoHelp" class="form-text">Ingrese el documento del empleado.</div>
@@ -47,19 +47,19 @@
                     <div class="mb-3">
                         <label for="numero" class="form-label">Numero</label>
                         <input type="text" class="form-control" id="numero" name="numero"
-                               th:value="${numero}" aria-describedby="numeroHelp">
+                               th:value="${numero}" th:disabled="${isDisabled}" aria-describedby="numeroHelp">
                         <div id="numeroHelp" class="form-text">Ingrese el numero laboral del empleado.</div>
                     </div>
                     <div class="mb-3">
                         <label for="correo" class="form-label">Correo</label>
                         <input type="text" class="form-control" id="correo" name="correo"
-                               th:value="${correo}" aria-describedby="correoHelp"¿>
+                               th:value="${correo}" th:disabled="${isDisabled}" aria-describedby="correoHelp"¿>
                         <div id="correoHelp" class="form-text">Ingrese el correo laboral del empleado.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="unidadDeNegocio" class="form-label">Unidad de Negocio</label>
-                        <select class="form-select" id="unidadDeNegocio" th:name="idUnidadDeNegocio">
+                        <select class="form-select" th:disabled="${isDisabled}" id="unidadDeNegocio" th:name="idUnidadDeNegocio">
                             <option value="" disabled selected>Seleccione una unidad</option>
                             <option th:each="unidad : ${unidades}"
                                     th:value="${unidad.id}"
@@ -69,7 +69,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="tipoEmpleado" class="form-label">Tipo de Empleado</label>
-                        <select class="form-select" id="tipoEmpleado" th:field="*{tipoEmpleado}">
+                        <select class="form-select" th:disabled="${isDisabled}" id="tipoEmpleado" th:field="*{tipoEmpleado}">
                             <option value="" disabled selected>Seleccione un tipo de empleado</option>
                             <option th:each="tipo : ${tiposEmpleado}"
                                     th:value="${tipo.name()}"

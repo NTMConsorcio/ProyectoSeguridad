@@ -11,6 +11,7 @@ import com.ntm.clienteadministrativo.services.InmuebleDTOService;
 import com.ntm.clienteadministrativo.services.UnidadDeNegocioDTOService;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -64,6 +65,7 @@ public class InmuebleController {
         return viewList;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERADMIN')")
     @GetMapping("/baja")
     public String baja(@RequestParam(value="id") String id, Model model) {
         try {
@@ -77,6 +79,7 @@ public class InmuebleController {
         return viewList;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERADMIN')")
     @GetMapping("/modificar")
     public String modificar(Model model, @RequestParam("id") String id) {
         try {

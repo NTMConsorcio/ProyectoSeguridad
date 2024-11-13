@@ -42,7 +42,7 @@
 
                     <div class="mb-3">
                         <label for="estadoInmueble" class="form-label">Estado del inmueble</label>
-                        <select class="form-select" id="estadoInmueble" th:field="*{estadoInmueble}">
+                        <select th:disabled="${isDisabled}" class="form-select" id="estadoInmueble" th:field="*{estadoInmueble}">
                             <option value="" th:text="'Seleccione opción...'" selected>Seleccione el estado del inmueble</option>
                             <option th:each="estado : ${estadosInmueble}"
                                     th:value="${estado.name()}"
