@@ -113,7 +113,8 @@ public class MovimientoVisitaServiceImpl extends BaseServiceImpl<MovimientoVisit
 
              */
             return entity;
-        }catch (Exception e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             throw new Exception("Error al guardar la entidad");
         }
     }

@@ -37,7 +37,6 @@ public class ContactoTelefonicoDTOService {
     public ContactoTelefonicoDTO modificar(String id, String observacion, TipoContactos tipoContacto, String telefono, TipoTelefono tipoTelefono) throws ErrorServiceException {
 
         try {
-
             ContactoTelefonicoDTO contacto = new ContactoTelefonicoDTO();
             contacto.setId(id);
             contacto.setObservacion(observacion);
