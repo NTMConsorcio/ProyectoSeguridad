@@ -46,12 +46,6 @@ public class HabitanteController {
         }
         return viewList;
     }
-
-    @GetMapping("/inicio")
-    public String inicio(Model model) {
-        return "view/indexHabitante";
-    }
-
     @GetMapping("/baja")
     public String baja(@RequestParam(value = "id") String id, Model model) {
         try {
