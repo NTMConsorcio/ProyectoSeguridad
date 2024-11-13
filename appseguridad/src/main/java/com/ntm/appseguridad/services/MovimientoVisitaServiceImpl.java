@@ -39,7 +39,7 @@ public class MovimientoVisitaServiceImpl extends BaseServiceImpl<MovimientoVisit
     @Override
     public boolean validar(MovimientoVisita entity, String caso) throws Exception {
         try {
-            if (entity.getFechaMovimiento() == null || entity.getFechaMovimiento().before(new Date())) {
+            if (entity.getFechaMovimiento() == null) {
                 throw new ErrorServiceException("Debe indicar la fecha del movimiento");
             }
             if (entity.getDescripcionMovilidad() == null || entity.getDescripcionMovilidad().equals("")) {
