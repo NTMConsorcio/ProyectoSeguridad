@@ -47,7 +47,7 @@
                             </tr>
                             </tfoot>
                             <tbody>
-                            <tr th:each="inmueble : ${inmuebles}">
+                            <tr th:each="habitante : ${habitantes}">
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn btn-primary dropdown-toggle btn-sm"
@@ -55,9 +55,9 @@
                                                 class="bi bi-three-dots-vertical"></i></button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item"
-                                                   th:href="@{habitante/consultar?id=} + ${habitante.id}">Consultar</a></li>
+                                                   th:href="@{consultar?id=} + ${habitante.id}">Consultar</a></li>
                                             <li><a class="dropdown-item"
-                                                   th:href="@{/habitante/modificar?id=} + ${habitante.id}">Modificar</a></li>
+                                                   th:href="@{modificar?id=} + ${habitante.id}">Modificar</a></li>
                                             <li><a class="dropdown-item" th:href="@{baja?id=} + ${habitante.id}">Eliminar</a>
                                             </li>
                                         </ul>
@@ -66,7 +66,7 @@
                                 <td th:text="${habitante.nombre}"></td>
                                 <td th:text="${habitante.apellido}"></td>
                                 <td th:text="${habitante.documento}"></td>
-                                <td th:text="'Dpto: ' + habitante.inmueble.dpto + ' - Piso: ' + habitante.inmueble.piso + ' - Numero: ' + habitante.inmueble.numeracion"></td>
+                                <td th:text="'Dpto: ' + ${habitante.inmueble.dpto} + ' - Piso: ' + ${habitante.inmueble.piso} + ' - Numero: ' + ${habitante.inmueble.numeracion} + ' - Barrio: ' + ${habitante.inmueble.unidadDeNegocio.nombre}"></td>
                             </tr>
 
                             </tbody>

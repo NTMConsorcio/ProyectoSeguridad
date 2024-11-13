@@ -51,12 +51,12 @@ public class HabitanteServiceImpl extends BaseServiceImpl<Habitante,String> impl
 
     @Override
     public <D> D convertToDto(Habitante entity) {
-        return null;
+        return (D) habitanteMapper.toDTO(entity);
     }
 
     @Override
     public <D> List<D> convertToDtoList(List<Habitante> entities) {
-        return List.of();
+        return (List<D>) habitanteMapper.toDtoList(entities);
     }
 
     @Override
@@ -77,9 +77,11 @@ public class HabitanteServiceImpl extends BaseServiceImpl<Habitante,String> impl
             if (entity.getInmueble() == null) {
                 throw new ErrorServiceException("Debe indicar el inmueble");
             }
-
-            if (habitanteRepository.searchByInmuebleAndEliminadoFalse(entity.getInmueble()) != null) {
-                throw new ErrorServiceException("El inmueble ya tiene un habitante asociado");
+            Habitante hab = habitanteRepository.searchByInmuebleAndEliminadoFalse(entity.getInmueble());
+            if (hab != null) {
+                if (!hab.getId().equals(entity.getId())) {
+                    throw new ErrorServiceException("El inmueble ya tiene un habitante asociado");
+                }
             }
 
             if (caso.equals("SAVE")) {

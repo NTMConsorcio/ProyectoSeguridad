@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,30 +73,59 @@ public class HabitanteController {
         return viewEdit;
     }
 
-    @PostMapping("/aceptarEdit")
-    public String edit(ModelMap modelo, HabitanteDTO dto, @RequestParam String numero, @RequestParam String correo, @RequestParam String idInmueble, @RequestParam(required = false) String idtel, @RequestParam(required = false) String idcorreo) throws ErrorServiceException {
-        try {
-            if (dto.getId() == null || dto.getId().isEmpty()) {
-                habitanteService.crear(String.valueOf(dto.getDocumento()), dto.getNombre(), dto.getApellido(), numero, correo, idInmueble);
-            } else {
-                System.out.println(dto.getContactos());
-                habitanteService.modificar(dto.getId(), String.valueOf(dto.getDocumento()), dto.getNombre(), dto.getApellido(), idtel, idcorreo, numero, correo, idInmueble);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return "view/index";
-    }
-
-    @GetMapping("/modificar")
-    public String modificar(Model model, @RequestParam("id") String id) {
+    @GetMapping("/consultar")
+    public String consultar(Model model, @RequestParam("id") String id) {
         try {
             HabitanteDTO obj = habitanteService.buscar(id);
             ContactoTelefonicoDTO tel = (ContactoTelefonicoDTO) obj.getContactos().get(0);
             ContactoCorreoElectronicoDTO correo = (ContactoCorreoElectronicoDTO) obj.getContactos().get(1);
             model.addAttribute("habitante", obj);
             model.addAttribute("numero", tel.getTelefono());
-            System.out.println(tel.getTelefono());
+            model.addAttribute("correo", correo.getEmail());
+            model.addAttribute("isDisabled", true);
+            cargarCombos(model);
+            model.addAttribute("isEditMode", false);
+            return viewEdit;
+        } catch (ErrorServiceException ex) {
+            ex.printStackTrace();
+            model.addAttribute("mensajeError", ex.getMessage());
+            return viewList;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            model.addAttribute("mensajeError", "Error en el sistema");
+            return viewList;
+        }
+    }
+
+    @PostMapping("/aceptarEdit")
+    public String edit(ModelMap modelo, HabitanteDTO dto, @RequestParam("numero") String numero, @RequestParam("correo") String correo, @RequestParam("idInmueble") String idInmueble, @RequestParam(name="idtel", required = false) String idtel, @RequestParam(name="idcorreo", required = false) String idcorreo, BindingResult result) throws ErrorServiceException {
+        try {
+            if (dto.getId() == null || dto.getId().isEmpty()) {
+                habitanteService.crear(String.valueOf(dto.getDocumento()), dto.getNombre(), dto.getApellido(), numero, correo, idInmueble);
+            } else {
+                habitanteService.modificar(dto.getId(), String.valueOf(dto.getDocumento()), dto.getNombre(), dto.getApellido(), idtel, idcorreo, numero, correo, idInmueble);
+            }
+            return "redirect:/habitante/list";
+        } catch (ErrorServiceException ex) {
+            modelo.addAttribute("mensajeError", ex.getMessage());
+        } catch (Exception e) {
+            modelo.addAttribute("mensajeError", "Error con el envío");
+        }
+        List<InmuebleDTO> inmuebles = unidadInmueble.listar();
+        modelo.addAttribute("inmuebles", inmuebles);
+        modelo.addAttribute("habitante, dto");
+        return viewEdit;
+    }
+
+    @GetMapping("/modificar")
+    public String modificar(Model model, @RequestParam("id") String id) {
+        try {
+            HabitanteDTO obj = habitanteService.buscar(id);
+            System.out.println(obj.getId());
+            ContactoTelefonicoDTO tel = (ContactoTelefonicoDTO) obj.getContactos().get(0);
+            ContactoCorreoElectronicoDTO correo = (ContactoCorreoElectronicoDTO) obj.getContactos().get(1);
+            model.addAttribute("habitante", obj);
+            model.addAttribute("numero", tel.getTelefono());
             model.addAttribute("correo", correo.getEmail());
             model.addAttribute("isDisabled", false);
             cargarCombos(model);
@@ -114,7 +144,6 @@ public class HabitanteController {
 
     public void cargarCombos(Model model) throws ErrorServiceException {
         List<InmuebleDTO> inmuebles = unidadInmueble.listar();
-        System.out.println(inmuebles);
         model.addAttribute("inmuebles", inmuebles);
     }
 

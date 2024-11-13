@@ -1,20 +1,16 @@
 package com.ntm.appseguridad.services;
 
 import com.ntm.appseguridad.entities.CuentaCorreo;
-import com.ntm.appseguridad.entities.Provincia;
 import com.ntm.appseguridad.mappers.CuentaCorreoMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.CuentaCorreoRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
-import jakarta.activation.DataHandler;
-import jakarta.activation.DataSource;
-import jakarta.activation.FileDataSource;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
-import jakarta.transaction.Transactional;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,6 +44,9 @@ public class CuentaCorreoServiceImpl extends BaseServiceImpl<CuentaCorreo,String
                 throw new ErrorServiceException("Debe indicar el correo");
             }
             if (caso.equals("SAVE")) {
+                if (cuentacorreoRepository.existsByEliminadoFalse()) {
+                    throw new ErrorServiceException("Ya existe un correo en el sistema");
+                }
                 if (cuentacorreoRepository.existsByCorreoAndEliminadoFalse(entity.getCorreo())) {
                     throw new ErrorServiceException("El correo ya existe en el sistema");
                 }
@@ -69,7 +68,7 @@ public class CuentaCorreoServiceImpl extends BaseServiceImpl<CuentaCorreo,String
             if (entity.getPuerto() == null || entity.getPuerto().isEmpty()) {
                 throw new ErrorServiceException("Debe indicar el puerto");
             }
-            if (entity.getEmpresa() != null) {
+            if (entity.getEmpresa() == null) {
                 throw new ErrorServiceException("Debe indicar la empresa");
             }
             return true;
@@ -81,11 +80,15 @@ public class CuentaCorreoServiceImpl extends BaseServiceImpl<CuentaCorreo,String
 
     }
 
-
+    @Async
     public void sendEmail(String destino, String asunto, String cuerpo) throws ErrorServiceException {
         try {
             //recupera la cuenta de correo del consorcio
-            CuentaCorreo cuentaCorreo = cuentacorreoRepository.findByCorreoAndEliminadoFalse(destino);
+            List<CuentaCorreo> cuentas = cuentacorreoRepository.findByEliminadoFalse();
+            if (cuentas == null) {
+                throw new ErrorServiceException("No existe un mail asociado a la empresa.");
+            }
+            CuentaCorreo cuentaCorreo = cuentas.getFirst();
             //Recuperamos la direccion origen
             final String direccionDesde = cuentaCorreo.getCorreo();
             //Recuperamos la clave
