@@ -1,27 +1,33 @@
 package com.ntm.appseguridad.services;
 
 import com.ntm.appseguridad.entities.*;
+import com.ntm.appseguridad.entities.enums.EstadoMovimiento;
 import com.ntm.appseguridad.mappers.MovimientoVisitaMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.MovimientoVisitaRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MovimientoVisitaServiceImpl extends BaseServiceImpl<MovimientoVisita,String> implements MovimientoVisitaService {
+public class MovimientoVisitaServiceImpl extends BaseServiceImpl<MovimientoVisita, String> implements MovimientoVisitaService {
     private final MovimientoVisitaRepository movimientoVisitaRepository;
     private final MovimientoVisitaMapper movimientoVisitaMapper;
 
     @Autowired
     private HabitanteServiceImpl habitanteService;
 
-    public MovimientoVisitaServiceImpl(BaseRepository<MovimientoVisita,String> baseRepository, MovimientoVisitaRepository movimientoVisitaRepository, MovimientoVisitaMapper mapper) {
+    @Autowired
+    private CuentaCorreoServiceImpl correoService;
+
+    public MovimientoVisitaServiceImpl(BaseRepository<MovimientoVisita, String> baseRepository, MovimientoVisitaRepository movimientoVisitaRepository, MovimientoVisitaMapper mapper) {
         super(baseRepository);
         this.movimientoVisitaRepository = movimientoVisitaRepository;
         this.movimientoVisitaMapper = mapper;
@@ -47,7 +53,7 @@ public class MovimientoVisitaServiceImpl extends BaseServiceImpl<MovimientoVisit
             if (entity.getDescripcionMovilidad() == null || entity.getDescripcionMovilidad().equals("")) {
                 throw new ErrorServiceException("Debe indicar la descripicion del movimiento");
             }
-            if (entity.getTipoMovimiento() == null ) {
+            if (entity.getTipoMovimiento() == null) {
                 throw new ErrorServiceException("Debe indicar el tipo de movimiento");
             }
             if (entity.getTipoMovilidad() == null) {
@@ -68,7 +74,7 @@ public class MovimientoVisitaServiceImpl extends BaseServiceImpl<MovimientoVisit
                 if (repository.findByIdAndEliminadoFalse(entity.getId()).isPresent()) {
                     throw new ErrorServiceException("El Inmueble ya existe en el sistema");
                 }
-                if (movimientoVisitaRepository.findByFechaMovimientoAndInmuebleAndVisitanteAndEliminadoIsFalse(entity.getFechaMovimiento(),entity.getInmueble(),entity.getVisitante()) != null) {
+                if (movimientoVisitaRepository.findByFechaMovimientoAndInmuebleAndVisitanteAndEliminadoIsFalse(entity.getFechaMovimiento(), entity.getInmueble(), entity.getVisitante()) != null) {
                     throw new ErrorServiceException("El Inmueble ya existe en el sistema");
                 }
             } else {
@@ -91,9 +97,9 @@ public class MovimientoVisitaServiceImpl extends BaseServiceImpl<MovimientoVisit
     @Override
     public MovimientoVisita findByFechaMovimientoAndInmuebleAndVisitanteAndEliminadoIsFalse(Date fechaDeMoviiento, Inmueble inmueble, Visitante visitante) throws Exception {
         try {
-            MovimientoVisita movimientoVisita = movimientoVisitaRepository.findByFechaMovimientoAndInmuebleAndVisitanteAndEliminadoIsFalse(fechaDeMoviiento,inmueble,visitante);
+            MovimientoVisita movimientoVisita = movimientoVisitaRepository.findByFechaMovimientoAndInmuebleAndVisitanteAndEliminadoIsFalse(fechaDeMoviiento, inmueble, visitante);
             return movimientoVisita;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
@@ -102,20 +108,38 @@ public class MovimientoVisitaServiceImpl extends BaseServiceImpl<MovimientoVisit
     @Transactional
     public MovimientoVisita save(MovimientoVisita entity) throws Exception {
         try {
-
-            Habitante habitante = habitanteService.getHabitanteByInmueble(entity.getInmueble());
-
-            System.out.println(habitante.getContactos());
-            /*
             validar(entity, "SAVE");
             entity = repository.save(entity);
+            if (entity.getEstadoMovimiento().equals(EstadoMovimiento.REALIZADO)) {
+                darAvisoMovimiento(entity);
+            }
             return entity;
+        } catch (ErrorServiceException ex) {
+            throw ex;
+        } catch (Exception e) {
+            throw new Exception("Error al guardar la entidad");
+        }
+    }
 
-             */
-            return entity;
+    @Override
+    @Transactional
+    public MovimientoVisita update(String id, MovimientoVisita entity) throws Exception {
+        try {
+            validar(entity, "UPDATE");
+            Optional<MovimientoVisita> entityOptional = repository.findByIdAndEliminadoFalse(id);
+            MovimientoVisita entityUpdate = entityOptional.get();
+            if (entityUpdate.getEstadoMovimiento() != entity.getEstadoMovimiento()) {
+                if (entity.getEstadoMovimiento().equals(EstadoMovimiento.REALIZADO)) {
+                    darAvisoMovimiento(entity);
+                }
+            }
+            entityUpdate = repository.save(entity);
+            return entityUpdate;
+        } catch (ErrorServiceException ex) {
+            throw ex;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("Error al guardar la entidad");
+            throw new Exception("La entidad con el id ingresado no existe");
         }
     }
 
@@ -123,7 +147,21 @@ public class MovimientoVisitaServiceImpl extends BaseServiceImpl<MovimientoVisit
         try {
             Habitante habitante = habitanteService.getHabitanteByInmueble(visita.getInmueble());
 
-            System.out.println(habitante.getContactos());
+            if (habitante == null) {
+                throw new ErrorServiceException("Se registró el movimiento, pero no se pudo enviar el mail porque el inmueble no tiene habitante asociado");
+            }
+
+            ContactoCorreoElectronico correo = (ContactoCorreoElectronico) habitante.getContactos().get(1);
+            if (correo == null) {
+                throw new ErrorServiceException("No se encontró correo asociado al habitante");
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String fechaFormateada = sdf.format(visita.getFechaMovimiento());
+            UnidadDeNegocio unidadDeNegocio = visita.getInmueble().getUnidadDeNegocio();
+            Visitante visitante = visita.getVisitante();
+            String mensaje = "Buenas tardes. Se le informa que se produjo un ingreso al barrio/unidad " + unidadDeNegocio.getNombre() + " en la fecha y hora indicadas a continuación: " + fechaFormateada + ". La persona en cuestión es: " + visitante.getNombre() + " " + visitante.getApellido() + " con DNI " + visitante.getNumeroDeDocumento() + ". Saludos.";
+            correoService.sendEmail(correo.getEmail(), "AVISO DE INGRESO AL BARRIO", mensaje);
+
         } catch (ErrorServiceException ex) {
             throw ex;
         } catch (Exception ex) {
