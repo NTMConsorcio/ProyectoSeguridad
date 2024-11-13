@@ -6,6 +6,7 @@ import com.ntm.clienteadministrativo.dto.InmuebleDTO;
 import com.ntm.clienteadministrativo.dto.ProvinciaDTO;
 import com.ntm.clienteadministrativo.dto.UnidadDeNegocioDTO;
 import com.ntm.clienteadministrativo.dto.enums.EstadoInmueble;
+import com.ntm.clienteadministrativo.dto.enums.TipoEmpleado;
 import com.ntm.clienteadministrativo.services.InmuebleDTOService;
 import com.ntm.clienteadministrativo.services.UnidadDeNegocioDTOService;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
@@ -52,10 +53,8 @@ public class InmuebleController {
         try {
             model.addAttribute("isDisabled", false);
             model.addAttribute("inmueble", dto);
-            List<UnidadDeNegocioDTO> unList = unService.getActivos();
+            cargarCombos(model);
 
-            /////////////////////////////////////////
-            model.addAttribute("unidadesIn", unList);
             return viewEdit;
         } catch (ErrorServiceException e) {
             model.addAttribute("mensajeError", e.getMessage());
@@ -84,10 +83,7 @@ public class InmuebleController {
             InmuebleDTO obj = service.buscar(id);
             model.addAttribute("inmueble", obj);
             model.addAttribute("isDisabled", false);
-            List<UnidadDeNegocioDTO> unList = unService.getActivos();
-            ///////////////////
-
-            model.addAttribute("unidades_de_negocios", unList);
+            cargarCombos(model);
             return viewEdit;
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
@@ -97,6 +93,8 @@ public class InmuebleController {
             return viewList;
         }
     }
+
+
 
     @GetMapping("/consultar")
     public String consultar(Model model, @RequestParam("id") String id) {
@@ -139,5 +137,11 @@ public class InmuebleController {
             return viewEdit;
         }
     }
+    public void cargarCombos(Model model) throws ErrorServiceException {
+        List<UnidadDeNegocioDTO> unidades = unService.getActivos();
+        model.addAttribute("estadosInmueble", EstadoInmueble.values()); // Agrega los valores del enum al modelo
+        model.addAttribute("unidadesDeNegocio", unidades);
+    }
+
 
 }

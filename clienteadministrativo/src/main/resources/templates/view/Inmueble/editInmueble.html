@@ -34,17 +34,6 @@
                         <div id="pisoHelp" class="form-text">Ingrese el piso del inmueble.</div>
                     </div>
                     <div class="mb-3">
-                        <label for="unidadDeNegocio" class="form-label">Unidad de negocio</label>
-                        <select id="unidadDeNegocio" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar unidad de negocio" th:field="*{unidadDeNegocio.id}">
-                            <option value="" th:text="'Seleccione opción...'" selected></option>
-                            <option th:each="unidadDeNegocio : ${unidadesDeNegocio}"
-                                    th:value="${unidadDeNegocio.id}"
-                                    th:text="${unidadDeNegocio.nombre}">
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
                         <label for="dpto" class="form-label">Departamento</label>
                         <input type="text" class="form-control" id="dpto" th:field="*{dpto}"
                                th:disabled="${isDisabled}" aria-describedby="dptoHelp">
@@ -53,9 +42,24 @@
 
                     <div class="mb-3">
                         <label for="estadoInmueble" class="form-label">Estado del inmueble</label>
-                        <input type="text" class="form-control" id="estadoInmueble" th:field="*{estadoInmueble}"
-                               th:disabled="${isDisabled}" aria-describedby="estadoInmuebleHelp">
-                        <div id="estadoInmuebleHelp" class="form-text">Ingrese el estado del inmueble.</div>
+                        <select class="form-select" id="estadoInmueble" th:field="*{estadoInmueble}">
+                            <option value="" th:text="'Seleccione opción...'" selected>Seleccione el estado del inmueble</option>
+                            <option th:each="estado : ${estadosInmueble}"
+                                    th:value="${estado.name()}"
+                                    th:text="${#strings.capitalize(estado.name().toLowerCase())}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="unidadDeNegocio" class="form-label">Unidad de negocio</label>
+                        <select id="unidadDeNegocio" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar unidad de negocio" th:field="*{unidadDeNegocio.id}">
+                            <option value="" th:text="'Seleccione opción...'" selected></option>
+                            <option th:each="unidadDeNegocio : ${unidadesDeNegocio}"
+                                    th:value="${unidadDeNegocio.id}"
+                                    th:text="${unidadDeNegocio.nombre}">
+                            </option>
+                        </select>
                     </div>
                     <button type="submit" th:disabled="${isDisabled}" class="btn btn-success">Aceptar</button>
                     <a th:href="@{list}" class="btn btn-danger" role="button">Cancelar</a>

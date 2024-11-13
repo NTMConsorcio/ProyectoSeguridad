@@ -83,7 +83,7 @@ public class EmpleadoController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return "view/index";
+        return "redirect:/empleado/list";
     }
 
     @GetMapping("/modificar")
@@ -94,7 +94,6 @@ public class EmpleadoController {
             ContactoCorreoElectronicoDTO correo = (ContactoCorreoElectronicoDTO) obj.getContactos().get(1);
             model.addAttribute("empleado", obj);
             model.addAttribute("numero", tel.getTelefono());
-            System.out.println(tel.getTelefono());
             model.addAttribute("correo", correo.getEmail());
             model.addAttribute("isDisabled", false);
             cargarCombos(model);

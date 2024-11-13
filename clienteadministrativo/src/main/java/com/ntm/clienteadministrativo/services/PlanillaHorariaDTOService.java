@@ -44,8 +44,9 @@ public class PlanillaHorariaDTOService {
             EmpleadoDTO empleado = serviceEmpleado.buscar(idEmpleado);
             planilla.setEmpleado(empleado);
 
-            dao.registrar(planilla);
+            dao.crear(PlanillaHorariaDTO.class, planilla);
         } catch (ErrorServiceException e) {
+            e.printStackTrace();
             throw e;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -117,6 +118,14 @@ public class PlanillaHorariaDTOService {
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new ErrorServiceException("Error de sistema");
+        }
+    }
+
+    public void darPresenteYSalida(String email, String caso) throws ErrorServiceException {
+        try {
+            dao.presenteYSalida(email, caso);
+        } catch (ErrorServiceException ex) {
+            throw ex;
         }
     }
 }

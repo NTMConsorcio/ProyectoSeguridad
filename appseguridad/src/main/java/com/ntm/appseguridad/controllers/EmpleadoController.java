@@ -2,6 +2,7 @@ package com.ntm.appseguridad.controllers;
 import com.ntm.appseguridad.dto.EmpleadoDTO;
 import com.ntm.appseguridad.entities.Empleado;
 import com.ntm.appseguridad.services.EmpleadoServiceImpl;
+import com.ntm.appseguridad.services.error.ErrorServiceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,5 +21,6 @@ public class EmpleadoController extends BaseControllerImpl<Empleado, EmpleadoSer
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\""+e.getMessage()+"\"}");
         }
     }
+
 }
 

@@ -111,12 +111,13 @@ public class UnidadDeNegocioController {
             if (result.hasErrors()) {
                 model.addAttribute("mensajeError", "Error en el formulario");
             } else {
+                System.out.println(dto.getId());
                 if (dto.getId() == null || dto.getId().isEmpty()) {
+                    System.out.println("+++++++++++++++++++++++");
                     service.crear(dto.getServicio().getId(),dto.getDireccion().getId(),dto.getNombre());
                 } else {
                     service.modificar(dto.getId(),dto.getServicio().getId(),dto.getDireccion().getId(),dto.getNombre());
                 }
-
                 return "redirect:/unidadDeNegocio/list";
             }
         } catch (ErrorServiceException ex) {

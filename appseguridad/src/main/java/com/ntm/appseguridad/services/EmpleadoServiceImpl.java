@@ -128,4 +128,13 @@ public class EmpleadoServiceImpl extends BaseServiceImpl<Empleado,String> implem
             throw new ErrorServiceException("Error de sistemas");
         }
     }
+
+    public Empleado findByCorreo(String correo) throws ErrorServiceException {
+        try {
+            Empleado empleado = empleadoRepository.findEmpleadoByContacto(correo);
+            return empleado;
+        } catch (Exception ex) {
+            throw new ErrorServiceException("Error encontrando el usuario con el correo solicitado");
+        }
+    }
 }
