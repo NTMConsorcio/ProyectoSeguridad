@@ -70,15 +70,13 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
         }
     }
 
-
-
     @Override
     @Transactional
     public E save(E entity) throws Exception {
         try {
             validar(entity, "SAVE");
             entity = repository.save(entity);
-            return convertToDto(entity);
+            return entity;
         }catch (Exception e) {
             e.printStackTrace();
             throw new Exception("Error al guardar la entidad");

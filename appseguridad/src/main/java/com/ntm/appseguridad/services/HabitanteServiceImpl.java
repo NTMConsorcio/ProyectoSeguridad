@@ -102,4 +102,12 @@ public class HabitanteServiceImpl extends BaseServiceImpl<Habitante,String> impl
             throw new ErrorServiceException("Error de sistemas");
         }
     }
+
+    public Habitante getHabitanteByInmueble(Inmueble inmueble) throws ErrorServiceException {
+        try {
+            return habitanteRepository.searchByInmuebleAndEliminadoFalse(inmueble);
+        } catch (Exception ex) {
+            throw new ErrorServiceException("Error encontrando el habitante");
+        }
+    }
 }

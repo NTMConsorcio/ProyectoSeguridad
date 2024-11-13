@@ -6,11 +6,13 @@ import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.envers.Audited;
 
 @Entity
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper=false)
+@Audited
 public class Inmueble extends Base{
     private String numeracion;
     private String piso;

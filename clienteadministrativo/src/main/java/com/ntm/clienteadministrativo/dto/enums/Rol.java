@@ -1,5 +1,5 @@
 package com.ntm.clienteadministrativo.dto.enums;
 
 public enum Rol {
-    ADMIN, PERSONAL, HABITANTE
+    SUPERADMIN, ADMIN, PERSONAL, HABITANTE
 }

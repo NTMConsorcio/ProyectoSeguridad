@@ -9,6 +9,7 @@ import com.ntm.clienteadministrativo.services.PlanillaHorariaDTOService;
 import com.ntm.clienteadministrativo.services.UnidadDeNegocioDTOService;
 import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -72,7 +73,7 @@ public class PlanillaHorariaController {
     }
 
     @PostMapping("/aceptarEdicion")
-    public String editAceptar(Model model, PlanillaHorariaDTO dto, BindingResult result, RedirectAttributes attributes) throws ErrorServiceException {
+    public String editAceptar(Model model, PlanillaHorariaDTO dto, BindingResult result, RedirectAttributes attributes, Authentication authentication) throws ErrorServiceException {
         try {
             if (result.hasErrors()) {
                 for (ObjectError error : result.getAllErrors()) {
@@ -95,7 +96,7 @@ public class PlanillaHorariaController {
             model.addAttribute("mensajeError", "Error en el formulario");
         }
         model.addAttribute("planilla", dto);
-        cargarCombos(model);
+        cargarCombos(model, authentication);
         return viewEdit;
     }
 
@@ -113,8 +114,8 @@ public class PlanillaHorariaController {
     }
 
     @GetMapping("/nuevo")
-    public String editPlanillaHoraria(Model model) throws ErrorServiceException {
-        cargarCombos(model);
+    public String editPlanillaHoraria(Model model, Authentication authentication) throws ErrorServiceException {
+        cargarCombos(model, authentication);
         PlanillaHorariaDTO planilla = new PlanillaHorariaDTO();
         model.addAttribute("planilla", new PlanillaHorariaDTO());
         // model.addAttribute("isEditMode", false);
@@ -139,14 +140,14 @@ public class PlanillaHorariaController {
 
      */
     @GetMapping("/modificar")
-    public String modificar(Model model, @RequestParam("id") String id) {
+    public String modificar(Model model, @RequestParam("id") String id, Authentication authentication) {
         try {
             PlanillaHorariaDTO obj = planillaHorariaService.buscar(id);
             //model.addAttribute("entrada", obj.getEntrada());
             //model.addAttribute("salida", obj.getSalida());
             model.addAttribute("planilla", obj);
             model.addAttribute("isDisabled", false);
-            cargarCombos(model);
+            cargarCombos(model, authentication);
             // model.addAttribute("isEditMode", true);
             return viewEdit;
         } catch (ErrorServiceException ex) {
@@ -161,12 +162,12 @@ public class PlanillaHorariaController {
     }
 
     @GetMapping("/consultar")
-    public String consultar(Model model, @RequestParam("id") String id) {
+    public String consultar(Model model, @RequestParam("id") String id, Authentication authentication) {
         try {
             PlanillaHorariaDTO obj = planillaHorariaService.buscar(id);
             model.addAttribute("planilla", obj);
             model.addAttribute("isDisabled", true);
-            cargarCombos(model);
+            cargarCombos(model, authentication);
             return viewEdit;
         } catch (ErrorServiceException ex) {
             ex.printStackTrace();
@@ -179,10 +180,13 @@ public class PlanillaHorariaController {
         }
     }
 
-    public void cargarCombos(Model model) throws ErrorServiceException {
+    public void cargarCombos(Model model, Authentication authentication) throws ErrorServiceException {
         List<EmpleadoDTO> empleados = empleadoServicio.listar();
         model.addAttribute("estadosAsistencia", EstadoAsistencia.values()); // Agrega los valores del enum al modelo
         model.addAttribute("empleados", empleados);
+        boolean esAdmin = authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+        model.addAttribute("esAdmin", esAdmin);
     }
 
 }
