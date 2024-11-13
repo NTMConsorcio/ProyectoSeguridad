@@ -27,8 +27,8 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="tipoMovimiento" class="form-label">tipo de movimiento</label>
-                        <select class="form-select" id="tipoMovimiento" th:field="*{tipoMovimiento}">
+                        <label for="tipoMovimiento" class="form-label">Tipo de movimiento</label>
+                        <select class="form-select" th:disabled="${isDisabled}" id="tipoMovimiento" th:field="*{tipoMovimiento}">
                             <option value="" th:text="'Seleccione opción...'" selected>Seleccione un tipo de Movimiento</option>
                             <option th:each="tipoMovimiento : ${tiposMovimiento}"
                                     th:value="${tipoMovimiento.name()}"
@@ -47,7 +47,7 @@
 
                     <div class="mb-3">
                         <label for="estadoMovimiento" class="form-label">Estado del movimiento</label>
-                        <select class="form-select" id="estadoMovimiento" th:field="*{estadoMovimiento}">
+                        <select class="form-select" id="estadoMovimiento" th:disabled="${isDisabled}" th:field="*{estadoMovimiento}">
                             <option value="" th:text="'Seleccione opción...'" selected>Seleccione un estado de Movimiento</option>
                             <option th:each="estadoMovimiento : ${estadosMovimiento}"
                                     th:value="${estadoMovimiento.name()}"
@@ -58,7 +58,7 @@
 
                     <div class="mb-3">
                         <label for="tipoMovilidad" class="form-label">Tipo de movilidad</label>
-                        <select class="form-select" id="tipoMovilidad" th:field="*{tipoMovilidad}">
+                        <select class="form-select" th:disabled="${isDisabled}" id="tipoMovilidad" th:field="*{tipoMovilidad}">
                             <option value="" th:text="'Seleccione opción...'" selected>Seleccione un tipo de movilidad</option>
                             <option th:each="tipoMovilidad : ${tiposMovilidad}"
                                     th:value="${tipoMovilidad.name()}"

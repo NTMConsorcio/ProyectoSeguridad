@@ -78,10 +78,6 @@ public class VisitanteController {
     public String consultar(Model model, @RequestParam("id") String id) {
         try {
             VisitanteDTO obj = service.buscar(id);
-            System.out.println("tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt");
-            System.out.println(id);
-            System.out.println(obj);
-            System.out.println("tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt");
 
             model.addAttribute("visitante", obj);
             model.addAttribute("isDisabled", true);

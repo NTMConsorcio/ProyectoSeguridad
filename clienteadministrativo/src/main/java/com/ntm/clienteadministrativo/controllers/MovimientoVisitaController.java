@@ -37,7 +37,6 @@ public class MovimientoVisitaController {
     public String listar(Model model) {
         try {
             List<MovimientoVisitaDTO> lista = service.listar();
-            System.out.println("Lista de Movimientos de visitantes: " + lista);
             model.addAttribute("movimientoVisita", lista);
 
         } catch (ErrorServiceException e) {
