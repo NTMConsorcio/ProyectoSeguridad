@@ -26,4 +26,7 @@ public class Revision implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @RevisionTimestamp
     private Date date;
+
+    @Column(name="USUARIO")
+    private String user;
 }

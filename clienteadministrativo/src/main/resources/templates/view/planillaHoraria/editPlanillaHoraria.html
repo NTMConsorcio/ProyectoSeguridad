@@ -39,7 +39,7 @@
                     <div class="mb-3">
                         <label for="tipoInasistenciaIn" class="form-label">Tipo de Inasistencia</label>
                         <select id="tipoInasistenciaIn" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar tipo de inasistencia" th:field="*{estadoAsistencia}">
-                            <option th:each="tipoInasistencia : ${estadosAsistencia}" th:value="${tipoInasistencia}" th:text="${tipoInasistencia}" th:if="${tipoInasistencia.name()} != 'PRESENTE'">Option</option>
+                            <option th:each="tipoInasistencia : ${estadosAsistencia}" th:value="${tipoInasistencia}" th:text="${tipoInasistencia}" th:if="${esAdmin or tipoInasistencia.name() != 'PRESENTE'}">Option</option>
                         </select>
                     </div>
                     <button type="submit" th:disabled="${isDisabled}" class="btn btn-success">Aceptar</button>

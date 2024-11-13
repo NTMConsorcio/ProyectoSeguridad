@@ -6,11 +6,19 @@ import com.ntm.appseguridad.mappers.CuentaCorreoMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.CuentaCorreoRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.activation.FileDataSource;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import java.util.Properties;
 
 @Service
 public class CuentaCorreoServiceImpl extends BaseServiceImpl<CuentaCorreo,String> implements CuentaCorreoService {
@@ -71,5 +79,63 @@ public class CuentaCorreoServiceImpl extends BaseServiceImpl<CuentaCorreo,String
             throw new ErrorServiceException("Error de sistemas");
         }
 
+    }
+
+
+    public void sendEmail(String destino, String asunto, String cuerpo) throws ErrorServiceException {
+        try {
+            //recupera la cuenta de correo del consorcio
+            CuentaCorreo cuentaCorreo = cuentacorreoRepository.findByCorreoAndEliminadoFalse(destino);
+            //Recuperamos la direccion origen
+            final String direccionDesde = cuentaCorreo.getCorreo();
+            //Recuperamos la clave
+            final String contrasenia = cuentaCorreo.getClave();
+
+            //Se crea un properties que almacena la configuracion (almacenada en cuentaCorreo)
+            Properties propiedades = new Properties();
+            propiedades.put("mail.smtp.host", cuentaCorreo.getSmtp());
+            propiedades.put("mail.smtp.port", cuentaCorreo.getPuerto());
+            propiedades.put("mail.smtp.auth", "true");
+            propiedades.put("mail.smtp.starttls.enable", cuentaCorreo.isTls());
+
+            //Crea una sesión del correo con autenticación
+            Session session = Session.getInstance(propiedades, new Authenticator() {
+                //Obtener credenciales de autenticación
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(direccionDesde, contrasenia);
+                }
+            });
+
+            // Creamos el mensaje
+            Message mensaje = new MimeMessage(session);
+            // Seteamos la dirección de origen
+            mensaje.setFrom(new InternetAddress(direccionDesde));
+            // Seteamos la dirección de destino
+            mensaje.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destino));
+            // Seteamos el asunto
+            mensaje.setSubject(asunto);
+
+            // Creamos el cuerpo del mensaje o correo
+            MimeBodyPart cuerpoMensaje = new MimeBodyPart();
+            // Seteamos el cuerpo en el MimeBodyPart
+            cuerpoMensaje.setText(cuerpo);
+
+
+
+            // Se combinan las partes en una
+            Multipart multipart = new MimeMultipart();
+            //Agregamos el cuerpo del mensaje
+            multipart.addBodyPart(cuerpoMensaje);
+
+            //Agregamos el multipart al mensaje
+            mensaje.setContent(multipart);
+
+            // Enviamos el correo
+            Transport.send(mensaje);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            throw new ErrorServiceException("Error generando el mail");
+        }
     }
 }
