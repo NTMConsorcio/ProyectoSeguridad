@@ -9,6 +9,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.envers.Audited;
 
 import java.util.Date;
 
@@ -16,6 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper=false)
+@Audited
 public class MovimientoVisita extends Base {
     private Date fechaMovimiento;
     private String observacion;

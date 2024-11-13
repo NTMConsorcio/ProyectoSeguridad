@@ -1,13 +1,12 @@
 package com.ntm.appseguridad.services;
 
-import com.ntm.appseguridad.entities.Inmueble;
-import com.ntm.appseguridad.entities.MovimientoVisita;
-import com.ntm.appseguridad.entities.Usuario;
-import com.ntm.appseguridad.entities.Visitante;
+import com.ntm.appseguridad.entities.*;
 import com.ntm.appseguridad.mappers.MovimientoVisitaMapper;
 import com.ntm.appseguridad.repositories.BaseRepository;
 import com.ntm.appseguridad.repositories.MovimientoVisitaRepository;
 import com.ntm.appseguridad.services.error.ErrorServiceException;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -18,6 +17,9 @@ import java.util.Optional;
 public class MovimientoVisitaServiceImpl extends BaseServiceImpl<MovimientoVisita,String> implements MovimientoVisitaService {
     private final MovimientoVisitaRepository movimientoVisitaRepository;
     private final MovimientoVisitaMapper movimientoVisitaMapper;
+
+    @Autowired
+    private HabitanteServiceImpl habitanteService;
 
     public MovimientoVisitaServiceImpl(BaseRepository<MovimientoVisita,String> baseRepository, MovimientoVisitaRepository movimientoVisitaRepository, MovimientoVisitaMapper mapper) {
         super(baseRepository);
@@ -93,6 +95,38 @@ public class MovimientoVisitaServiceImpl extends BaseServiceImpl<MovimientoVisit
             return movimientoVisita;
         }catch (Exception e){
             throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    @Transactional
+    public MovimientoVisita save(MovimientoVisita entity) throws Exception {
+        try {
+
+            Habitante habitante = habitanteService.getHabitanteByInmueble(entity.getInmueble());
+
+            System.out.println(habitante.getContactos());
+            /*
+            validar(entity, "SAVE");
+            entity = repository.save(entity);
+            return entity;
+
+             */
+            return entity;
+        }catch (Exception e) {
+            throw new Exception("Error al guardar la entidad");
+        }
+    }
+
+    public void darAvisoMovimiento(MovimientoVisita visita) throws ErrorServiceException {
+        try {
+            Habitante habitante = habitanteService.getHabitanteByInmueble(visita.getInmueble());
+
+            System.out.println(habitante.getContactos());
+        } catch (ErrorServiceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new ErrorServiceException("Error enviando el mail");
         }
     }
 }
