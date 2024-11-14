@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.ntm</groupId>
 	<artifactId>clienteadministrativo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>clienteadministrativo</name>
 	<description>Aplicación cliente administrativo del proyecto de seguridad de la materia &quot;Ingeniería del software II&quot; del año 2024.</description>
 	<url/>

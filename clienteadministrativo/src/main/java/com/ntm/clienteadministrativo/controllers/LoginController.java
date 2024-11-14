@@ -15,7 +15,7 @@ public class LoginController {
     public String login(@RequestParam(required = false) String error, ModelMap modelo) {
 
         if (error != null) {
-            modelo.put("mensajeError", "Usuario o Contraseña invalidos!");
+            modelo.put("mensajeError", "Usuario o contraseña inválidos!");
         }
         return viewLogin;
     }

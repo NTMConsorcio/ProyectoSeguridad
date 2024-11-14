@@ -2,6 +2,7 @@ package com.ntm.appseguridad.services;
 
 import com.ntm.appseguridad.entities.Base;
 import com.ntm.appseguridad.repositories.BaseRepository;
+import com.ntm.appseguridad.services.error.ErrorServiceException;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,8 +25,8 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
         try {
             List<E> entities = repository.findByEliminadoFalse();
             return entities;
-        }catch (Exception e) {
-            throw new Exception("Error al obtener la lista de elementos");
+        } catch (Exception e) {
+            throw new ErrorServiceException("Error al obtener la lista de elementos");
         }
     }
 
@@ -44,8 +45,8 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
         try {
             Page<E> entities = repository.findByEliminadoFalse(pageable);
             return entities;
-        }catch (Exception e) {
-            throw new Exception("Error al buscar los resultados");
+        } catch (Exception e) {
+            throw new ErrorServiceException("Error al buscar los resultados");
         }
     }
 
@@ -55,8 +56,8 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
         try {
             Optional<E> entity = repository.findByIdAndEliminadoFalse(id);
             return entity.get();
-        }catch (Exception e) {
-            throw new Exception("La entidad con el id no existe");
+        } catch (Exception e) {
+            throw new ErrorServiceException("La entidad con el id indicado no existe");
         }
     }
 
@@ -65,8 +66,10 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
         try {
             E entity = findById(id);
             return convertToDto(entity);
-        }catch (Exception e) {
-            throw new Exception("La entidad con el id no existe");
+        } catch (ErrorServiceException ex) {
+            throw ex;
+        } catch (Exception e) {
+            throw new ErrorServiceException("La entidad con el id no existe");
         }
     }
 
@@ -77,9 +80,10 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
             validar(entity, "SAVE");
             entity = repository.save(entity);
             return entity;
-        }catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("Error al guardar la entidad");
+        } catch (ErrorServiceException ex) {
+            throw ex;
+        } catch (Exception e) {
+            throw new ErrorServiceException("Error al guardar la entidad");
         }
     }
 
@@ -92,9 +96,10 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
             E entityUpdate= entityOptional.get();
             entityUpdate = repository.save(entity);
             return entityUpdate;
+        } catch (ErrorServiceException ex) {
+            throw ex;
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("La entidad con el id ingresado no existe");
+            throw new ErrorServiceException("La entidad con el id ingresado no existe");
         }
     }
 
@@ -109,11 +114,12 @@ public abstract class BaseServiceImpl<E extends Base, ID extends Serializable> i
                 repository.save(entity);
                 return true;
             } else {
-                throw new Exception("El objeto ya fue eliminado o no existe");
+                throw new ErrorServiceException("El objeto ya fue eliminado o no existe");
             }
-
+        } catch (ErrorServiceException ex) {
+            throw ex;
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            throw new Exception("Hubo un problema eliminando el objeto");
         }
     }
 }

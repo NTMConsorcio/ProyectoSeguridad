@@ -6,6 +6,7 @@ import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,10 +26,15 @@ public abstract class BaseDAORestImpl<E extends BaseDTO, ID extends Serializable
 
             String uri = getUri("CREAR");
             restTemplate.postForEntity(uri, entity, clase);
+        } catch (HttpClientErrorException e) {
+            String error = e.getMessage();
+            error = error.replace("404 :", "").trim();
+            error = error.replace("{\"error\":\"", "").replace("\"}", "");
+            error = error.replace("\"", "");
+            throw new ErrorServiceException(error);
         } catch (RestClientException ex) {
             //
         } catch (Exception ex){
-            ex.printStackTrace();
             throw new ErrorServiceException("Error de Sistemas");
         }
     }
@@ -40,8 +46,13 @@ public abstract class BaseDAORestImpl<E extends BaseDTO, ID extends Serializable
             String uri = uriAux + "/" + entity.getId();
             restTemplate.put(uri, entity);
 
+        } catch (HttpClientErrorException e) {
+            String error = e.getMessage();
+            error = error.replace("404 :", "").trim();
+            error = error.replace("{\"error\":\"", "").replace("\"}", "");
+            error = error.replace("\"", "");
+            throw new ErrorServiceException(error);
         } catch (Exception ex){
-            ex.printStackTrace();
             throw new ErrorServiceException("Error de Sistemas");
         }
     }
@@ -53,8 +64,13 @@ public abstract class BaseDAORestImpl<E extends BaseDTO, ID extends Serializable
             String uri = uriAux + "/" + id;
             restTemplate.delete(uri);
 
+        } catch (HttpClientErrorException e) {
+            String error = e.getMessage();
+            error = error.replace("404 :", "").trim();
+            error = error.replace("{\"error\":\"", "").replace("\"}", "");
+            error = error.replace("\"", "");
+            throw new ErrorServiceException(error);
         } catch (Exception ex){
-            ex.printStackTrace();
             throw new ErrorServiceException("Error de Sistemas");
         }
     }
@@ -70,9 +86,14 @@ public abstract class BaseDAORestImpl<E extends BaseDTO, ID extends Serializable
 
             return entity;
 
-        } catch (Exception ex){
-            ex.printStackTrace();
-            throw new ErrorServiceException("Error de Sistemas");
+        } catch (HttpClientErrorException e) {
+            String error = e.getMessage();
+            error = error.replace("404 :", "").trim();
+            error = error.replace("{\"error\":\"", "").replace("\"}", "");
+            error = error.replace("\"", "");
+            throw new ErrorServiceException(error);
+        } catch (Exception e) {
+            throw new ErrorServiceException("Error inesperado");
         }
     }
 
@@ -88,8 +109,13 @@ public abstract class BaseDAORestImpl<E extends BaseDTO, ID extends Serializable
 
             return  m;
 
+        } catch (HttpClientErrorException e) {
+            String error = e.getMessage();
+            error = error.replace("404 :", "").trim();
+            error = error.replace("{\"error\":\"", "").replace("\"}", "");
+            error = error.replace("\"", "");
+            throw new ErrorServiceException(error);
         } catch (Exception ex){
-            ex.printStackTrace();
             throw new ErrorServiceException("Error de Sistemas");
         }
     }
