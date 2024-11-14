@@ -23,8 +23,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/movimientoVisita")
 public class MovimientoVisitaController {
-    private String viewList = "view/movimientoVisita/listmovimientoVisita";
-    private String viewEdit = "view/movimientoVisita/editmovimientoVisita";
+    private String viewList = "view/movimientoVisita/listMovimientoVisita";
+    private String viewEdit = "view/movimientoVisita/editMovimientoVisita";
 
     @Autowired
     private MovimientoVisitaDTOService service;
