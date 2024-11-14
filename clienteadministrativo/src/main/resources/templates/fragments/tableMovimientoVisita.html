@@ -1,12 +1,12 @@
-<div th:fragment="tableMovimiento">
-    <a th:href="@{/movimientoVisita/alta}" type="button" class="btn btn-success mb-4"> Nuevo </a>
-    <<div class="card mb-4">
+<div th:fragment="tableMovimiento" >
+    <a th:href="@{/movimientoVisita/alta}" type="button" class="btn btn-success mb-4"> Cargar visita </a>
+    <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
             Movimiento Visitas
         </div>
         <div class="card-body">
-            <table id="datatablesSimple" class="table-hover">
+            <table id="datatablesSimple2" class="table-hover">
                 <thead>
                 <tr>
                     <th>Opciones</th>
@@ -42,22 +42,22 @@
                                     class="bi bi-three-dots-vertical"></i></button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item"
-                                       th:href="@{consultar?id=} + ${movimientoVisita.id}">Consultar</a></li>
+                                       th:href="@{/movimientoVisita/consultar?id=} + ${movimientoVisita.id}">Consultar</a></li>
                                 <li><a class="dropdown-item"
-                                       th:href="@{modificar?id=} + ${movimientoVisita.id}">Modificar</a></li>
-                                <li><a class="dropdown-item" th:href="@{baja?id=} + ${movimientoVisita.id}">Eliminar</a>
+                                       th:href="@{/movimientoVisita/modificar?id=} + ${movimientoVisita.id}">Modificar</a></li>
+                                <li><a class="dropdown-item" th:href="@{/movimientoVisita/baja?id=} + ${movimientoVisita.id}">Eliminar</a>
                                 </li>
                             </ul>
                         </div>
                     </td>
                     <td th:text="${movimientoVisita.tipoMovimiento}"></td>
-                    <td th:text="${movimientoVisita.fechaMovimiento}"></td>
+                    <td th:text="${#dates.format(movimientoVisita.fechaMovimiento, 'dd/MM/yyyy HH:mm:ss')}"></td>
                     <td th:text="${movimientoVisita.observacion}"></td>
                     <td th:text="${movimientoVisita.estadoMovimiento}"></td>
                     <td th:text="${movimientoVisita.tipoMovilidad}"></td>
                     <td th:text="${movimientoVisita.descripcionMovilidad}"></td>
                     <td th:text="${movimientoVisita.visitante.numeroDeDocumento}"></td>
-                    <td th:text="${movimientoVisita.Inmueble.unidadDeNegocio.nombre} + ' ' + ${movimientoVisita.inmueble.numeracion} + ' ' + ${movimientoVisita.inmueble.piso} + ' ' + ${movimientoVisita.inmueble.dpto}"></td>
+                    <td th:text="'Barrio: ' + ${movimientoVisita.Inmueble.unidadDeNegocio.nombre} + ' - Número: ' + ${movimientoVisita.inmueble.numeracion} + ' - Piso: ' + ${movimientoVisita.inmueble.piso} + ' - Departamento: ' + ${movimientoVisita.inmueble.dpto}"></td>
                 </tr>
 
                 </tbody>

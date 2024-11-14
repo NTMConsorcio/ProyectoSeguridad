@@ -1,0 +1,61 @@
+<div th:fragment="tableEmpleado">
+    <a th:href="@{/empleado/nuevo}" type="button" class="btn btn-success mb-4">Cargar nuevo empleado</a>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Empleados
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple" class="table-hover">
+                <thead>
+                <tr>
+                    <th>Opciones</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Documento</th>
+                    <th>Legajo</th>
+                    <th>Tipo de empleado</th>
+                    <th>Unidad de negocio</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>Opciones</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Documento</th>
+                    <th>Legajo</th>
+                    <th>Tipo de empleado</th>
+                    <th>Unidad de negocio</th>
+                </tr>
+                </tfoot>
+                <tbody>
+                <tr th:each="empleado : ${empleados}">
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-primary dropdown-toggle btn-sm"
+                                    data-bs-toggle="dropdown" aria-expanded="false"><i
+                                    class="bi bi-three-dots-vertical"></i></button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item"
+                                       th:href="@{/empleado/consultar?id=} + ${empleado.id}">Consultar</a></li>
+                                <li><a class="dropdown-item"
+                                       th:href="@{/empleado/modificar?id=} + ${empleado.id}">Modificar</a></li>
+                                <li><a class="dropdown-item" th:href="@{/empleado/baja?id=} + ${empleado.id}">Eliminar</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td th:text="${empleado.nombre}"></td>
+                    <td th:text="${empleado.apellido}"></td>
+                    <td th:text="${empleado.documento}"></td>
+                    <td th:text="${empleado.legajo}"></td>
+                    <td th:text="${empleado.tipoEmpleado}"></td>
+                    <td th:text="${empleado.unidadDeNegocio.nombre}"></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

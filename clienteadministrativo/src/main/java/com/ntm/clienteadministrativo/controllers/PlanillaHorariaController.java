@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -37,29 +40,44 @@ public class PlanillaHorariaController {
     EmpleadoDTOService empleadoServicio;
 
     @PostMapping("/presente")
-    public String presente(@RequestParam("id") String correo, Model model,  @RequestParam("origen") String origen) {
+    public String presente(@RequestParam("id") String correo, Model model, @RequestParam("origen") String origen) {
         try {
             planillaHorariaService.darPresenteYSalida(correo, "presente");
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
-            return viewList;
+            if ("listPlanilla".equals(origen)) {
+                return viewList;
+            } else if ("inicio".equals(origen)) {
+                String error = URLEncoder.encode(ex.getMessage(), StandardCharsets.UTF_8);
+                return "redirect:/inicio?error=" + error;
+            }
         }
-        if ("listPlanilla".equals(origen)){
+        if ("listPlanilla".equals(origen)) {
             return "redirect:/planillaHoraria/list";
-        }else if ("inicio".equals(origen)){
-            return "redirect:/index";
+        } else if ("inicio".equals(origen)) {
+            return "redirect:/inicio";
         }
         return "redirect:/planillaHoraria/list";
     }
 
     @PostMapping("/salida")
-    public String salida(@RequestParam("id") String correo, Model model) {
+    public String salida(@RequestParam("id") String correo, Model model, @RequestParam("origen") String origen) {
         try {
             planillaHorariaService.darPresenteYSalida(correo, "salida");
 
         } catch (ErrorServiceException ex) {
             model.addAttribute("mensajeError", ex.getMessage());
-            return viewList;
+            if ("listPlanilla".equals(origen)) {
+                return viewList;
+            } else if ("inicio".equals(origen)) {
+                String error = URLEncoder.encode(ex.getMessage(), StandardCharsets.UTF_8);
+                return "redirect:/inicio?error=" + error;
+            }
+        }
+        if ("listPlanilla".equals(origen)) {
+            return "redirect:/planillaHoraria/list";
+        } else if ("inicio".equals(origen)) {
+            return "redirect:/inicio";
         }
         return "redirect:/planillaHoraria/list";
     }
@@ -76,6 +94,17 @@ public class PlanillaHorariaController {
             model.addAttribute("mensajeError", "Error de Sistema");
         }
         return viewList;
+    }
+
+    public void cargarLista(Model model) throws ErrorServiceException {
+        try {
+            List<PlanillaHorariaDTO> lista = planillaHorariaService.listar();
+            lista.sort(Comparator.comparing(PlanillaHorariaDTO::getEntrada).reversed());
+            model.addAttribute("condicionEspecial", false);
+            model.addAttribute("planillasHorarias", lista);
+        } catch (ErrorServiceException ex) {
+            model.addAttribute("mensajeError", ex.getMessage());
+        }
     }
 
     @PostMapping("/aceptarEdicion")

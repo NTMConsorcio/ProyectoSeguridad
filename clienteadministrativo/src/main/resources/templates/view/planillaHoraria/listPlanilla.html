@@ -75,8 +75,8 @@
                                     </div>
                                 </td>
                                 <td th:text="${planillaHoraria.empleado.nombre} + ' ' + ${planillaHoraria.empleado.apellido}"></td>
-                                <td th:text="${planillaHoraria.entrada}"></td>
-                                <td th:text="${planillaHoraria.salida}"></td>
+                                <td th:text="${#dates.format(planillaHoraria.entrada, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                                <td th:text="${#dates.format(planillaHoraria.salida, 'dd/MM/yyyy HH:mm:ss')}"></td>
                                 <td th:text="${planillaHoraria.estadoAsistencia}"></td>
                             </tr>
 

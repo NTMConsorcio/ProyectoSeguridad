@@ -50,6 +50,15 @@ public class EmpleadoController {
         return viewList;
     }
 
+    public void cargarLista(Model model) throws ErrorServiceException {
+        try {
+            List<EmpleadoDTO> lista = empleadoService.listar();
+            model.addAttribute("empleados", lista);
+        } catch (ErrorServiceException ex) {
+            model.addAttribute("mensajeError", ex.getMessage());
+        }
+    }
+
     @GetMapping("/baja")
     public String baja(@RequestParam(value = "id") String id, Model model) {
         try {

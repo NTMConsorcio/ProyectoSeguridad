@@ -1,0 +1,44 @@
+<div th:fragment="tablaAsistencias (planillasHorarias, mostrarPrimeraFila)">
+    <div class="card-body">
+        <table id="datatablesSimple" th:class="${condicionEspecial} ? 'table-primary' : 'table-hover'">
+            <thead>
+            <tr>
+                <th>Opciones</th>
+                <th>Empleado</th>
+                <th>Fecha y hora de entrada</th>
+                <th>Fecha y hora de salida</th>
+                <th>Estado</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>Opciones</th>
+                <th>Empleado</th>
+                <th>Fecha y hora de entrada</th>
+                <th>Fecha y hora de salida</th>
+                <th>Estado</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            <tr th:each="planillaHoraria, iterStat : ${planillasHorarias}" th:if="${mostrarPrimeraFila} ? ${iterStat.index == 0} : true">
+                <td>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-primary dropdown-toggle btn-sm"
+                                data-bs-toggle="dropdown" aria-expanded="false"><i
+                                class="bi bi-three-dots-vertical"></i></button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" th:href="@{/planillaHoraria/consultar?id=} + ${planillaHoraria.id}">Consultar</a></li>
+                            <li><a class="dropdown-item" th:href="@{/planillaHoraria/modificar?id=} + ${planillaHoraria.id}">Modificar</a></li>
+                            <li><a class="dropdown-item" th:href="@{/planillaHoraria/baja?id=} + ${planillaHoraria.id}">Eliminar</a></li>
+                        </ul>
+                    </div>
+                </td>
+                <td th:text="${planillaHoraria.empleado.nombre} + ' ' + ${planillaHoraria.empleado.apellido}"></td>
+                <td th:text="${#dates.format(planillaHoraria.entrada, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                <td th:text="${#dates.format(planillaHoraria.salida, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                <td th:text="${planillaHoraria.estadoAsistencia}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -47,6 +47,15 @@ public class MovimientoVisitaController {
         return viewList;
     }
 
+    public void cargarLista(Model model) throws ErrorServiceException {
+        try {
+            List<MovimientoVisitaDTO> lista = service.listar();
+            model.addAttribute("movimientoVisita", lista);
+        } catch (ErrorServiceException e) {
+            model.addAttribute("mensajeError", e.getMessage());
+        }
+    }
+
     @GetMapping("/alta")
     public String alta(Model model, MovimientoVisitaDTO dto) {
         try {

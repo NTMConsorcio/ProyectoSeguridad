@@ -1,45 +1,64 @@
 package com.ntm.clienteadministrativo.controllers;
 
+import com.ntm.clienteadministrativo.services.error.ErrorServiceException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 @Controller
 public class InicioController {
     String inicioUrl = "view/index";
 
+    @Autowired
+    private MovimientoVisitaController movimientoVisitaController;
+
+    @Autowired
+    private PlanillaHorariaController planillaHorariaController;
+
+    @Autowired
+    private EmpleadoController empleadoController;
+
     @GetMapping("/inicio")
-    public String inicio(Model model, Authentication authentication) throws Exception {
+    public String inicio(Model model, Authentication authentication, @RequestParam(name="error", required = false) String error) throws Exception {
         try {
-            // Obtener los roles del usuario
-            if (authentication != null) {
-                // Obtener los roles del usuario logeado
-                boolean hasAdminRole = authentication.getAuthorities().stream()
-                        .anyMatch(authority -> authority.getAuthority().equals("ADMIN"));
-                boolean hasSuperAdminRole = authentication.getAuthorities().stream()
-                        .anyMatch(authority -> authority.getAuthority().equals("SUPERADMIN"));
-                boolean hasPersonalRole = authentication.getAuthorities().stream()
-                        .anyMatch(authority -> authority.getAuthority().equals("PERSONAL"));
-                boolean hasHabitanteRole = authentication.getAuthorities().stream()
-                        .anyMatch(authority -> authority.getAuthority().equals("HABITANTE"));
-
-                // Redirigir según el rol
-                if (hasPersonalRole) {
-                    return "redirect:view/empleado/indexEmpleado"; // Redirigir a la página de inicio del admin
-                } else if (hasHabitanteRole) {
-                    return "redirect:view/habitante/indexHabitante"; // Redirigir a la página de inicio del usuario normal
-                } else{
-                    return "redirect:view/admin/indexAdmin";
-                }
+            if (error != null) {
+                error = URLDecoder.decode(error, StandardCharsets.UTF_8);
+                model.addAttribute("mensajeError", error);
             }
+            if (authentication != null) {
 
-            // Si no tiene ningún rol, o algún otro tipo de usuario, puedes redirigir a una vista por defecto
-            return "redirect:/default/inicio"; // Redirigir a página de inicio por defecto
-
-        } catch (Exception ex) {
-            model.addAttribute("mensajeError", "Error en el sistema");
-            return "/view/categoria/categoriaList"; // Vista de error o lista por defecto
+                boolean hasAdminRole = authentication.getAuthorities().stream()
+                        .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+                boolean hasSuperAdminRole = authentication.getAuthorities().stream()
+                        .anyMatch(authority -> authority.getAuthority().equals("ROLE_SUPERADMIN"));
+                boolean hasPersonalRole = authentication.getAuthorities().stream()
+                        .anyMatch(authority -> authority.getAuthority().equals("ROLE_PERSONAL"));
+                boolean hasHabitanteRole = authentication.getAuthorities().stream()
+                        .anyMatch(authority -> authority.getAuthority().equals("ROLE_HABITANTE"));
+                if (hasPersonalRole) {
+                    movimientoVisitaController.cargarLista(model);
+                    planillaHorariaController.cargarLista(model);
+                    model.addAttribute("condicionEspecial", true);
+                    return "view/empleado/indexPersonal";
+                } else if (hasHabitanteRole) {
+                    movimientoVisitaController.cargarLista(model);
+                    return "view/habitante/indexHabitante";
+                } else {
+                    empleadoController.cargarLista(model);
+                    return "view/indexAdmin";
+                }
+            } else {
+                throw new ErrorServiceException("El usuario no se encuentra logueado");
+            }
+        } catch (ErrorServiceException ex) {
+            model.addAttribute("mensajeError", ex.getMessage());
+            return "view/movimientoVisita/list";
         }
     }
 
