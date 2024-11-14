@@ -1,4 +1,9 @@
-<div th:fragment="tableMovimiento" >
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+</head>
+<div th:fragment="tableMovimiento">
     <a th:href="@{/movimientoVisita/alta}" type="button" class="btn btn-success mb-4"> Cargar visita </a>
     <div class="card mb-4">
         <div class="card-header">
@@ -42,10 +47,13 @@
                                     class="bi bi-three-dots-vertical"></i></button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item"
-                                       th:href="@{/movimientoVisita/consultar?id=} + ${movimientoVisita.id}">Consultar</a></li>
-                                <li><a class="dropdown-item"
-                                       th:href="@{/movimientoVisita/modificar?id=} + ${movimientoVisita.id}">Modificar</a></li>
-                                <li><a class="dropdown-item" th:href="@{/movimientoVisita/baja?id=} + ${movimientoVisita.id}">Eliminar</a>
+                                       th:href="@{/movimientoVisita/consultar?id=} + ${movimientoVisita.id}">Consultar</a>
+                                </li>
+                                <li sec:authorize="hasAnyRole('SUPERADMIN', 'ADMIN', 'PERSONAL')"><a class="dropdown-item"
+                                                     th:href="@{/movimientoVisita/modificar?id=} + ${movimientoVisita.id}">Modificar</a>
+                                </li>
+                                <li sec:authorize="hasAnyRole('SUPERADMIN', 'ADMIN', 'PERSONAL')"><a class="dropdown-item"
+                                       th:href="@{/movimientoVisita/baja?id=} + ${movimientoVisita.id}">Eliminar</a>
                                 </li>
                             </ul>
                         </div>
@@ -65,3 +73,4 @@
         </div>
     </div>
 </div>
+</html>

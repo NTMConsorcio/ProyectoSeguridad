@@ -26,6 +26,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/planillaHoraria")
@@ -99,7 +100,10 @@ public class PlanillaHorariaController {
     public void cargarLista(Model model) throws ErrorServiceException {
         try {
             List<PlanillaHorariaDTO> lista = planillaHorariaService.listar();
-            lista.sort(Comparator.comparing(PlanillaHorariaDTO::getEntrada).reversed());
+            lista = lista.stream()
+                    .filter(planilla -> planilla.getEstadoAsistencia() == EstadoAsistencia.PRESENTE)
+                    .sorted(Comparator.comparing(PlanillaHorariaDTO::getEntrada).reversed())
+                    .collect(Collectors.toList());
             model.addAttribute("condicionEspecial", false);
             model.addAttribute("planillasHorarias", lista);
         } catch (ErrorServiceException ex) {

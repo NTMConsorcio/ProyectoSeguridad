@@ -58,9 +58,9 @@ public class InicioController {
     public String send(@RequestParam("emailAddress") String email, Model model) {
         try {
             serviceCorreo.crear(email);
-            return "redirect:/inicio";
+            return "redirect:https:///localhost:8081/inicio";
         } catch (Exception e) {
-            return "redirect:/inicio";
+            return "redirect:https://localhost:8081/inicio";
         }
     }
 }

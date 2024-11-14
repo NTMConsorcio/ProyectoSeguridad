@@ -33,9 +33,9 @@ public class SeguridadWeb{
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/empleado/**", "/pais/**", "/provincia/**", "/localidad/**", "/departamento/**", "/direccion/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                        .requestMatchers("/empleado/**", "/pais/**", "/provincia/**", "/localidad/**", "/departamento/**", "/direccion/**", "/planillaHoraria/list", "/planillaHoraria/baja", "/planillaHoraria/modificar").hasAnyRole("ADMIN", "SUPERADMIN")
                         .requestMatchers("/usuario/**", "/imagen/**", "/servicio/**", "/unidadDeNegocio/**", "/empresa/**", "/contactoCorreoElectronico/**", "/contactoTelefonico/**", "/cuentaCorreo/**").hasRole("SUPERADMIN")
-                        .requestMatchers("/habitante/**", "/inmueble/**", "/planillaHoraria/**").hasAnyRole("ADMIN", "SUPERADMIN", "PERSONAL")
+                        .requestMatchers("/habitante/**", "/inmueble/**", "/planillaHoraria/presente", "/planillaHoraria/salida", "/visitante/list", "/movimientoVisita/list", "/visitante/modificar", "/visitante/baja", "movimientoVisita/modificar", "movimientoVisita/baja").hasAnyRole("ADMIN", "SUPERADMIN", "PERSONAL")
                         .requestMatchers("/css/**", "/js/**", "/assets/**", "/login").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -53,7 +53,7 @@ public class SeguridadWeb{
                         .logoutSuccessUrl("/login")
                         .permitAll()
                 )
-                .exceptionHandling((exception)-> exception.accessDeniedPage("/inicio"))
+                .exceptionHandling((exception)-> exception.accessDeniedPage("/"))
                 .csrf(csrf -> csrf.disable());
 
         return http.build();

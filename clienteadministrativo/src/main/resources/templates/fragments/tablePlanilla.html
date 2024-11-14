@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+</head>
 <div th:fragment="tablaAsistencias (planillasHorarias, mostrarPrimeraFila)">
     <div class="card-body">
         <table id="datatablesSimple" th:class="${condicionEspecial} ? 'table-primary' : 'table-hover'">
@@ -28,8 +33,8 @@
                                 class="bi bi-three-dots-vertical"></i></button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" th:href="@{/planillaHoraria/consultar?id=} + ${planillaHoraria.id}">Consultar</a></li>
-                            <li><a class="dropdown-item" th:href="@{/planillaHoraria/modificar?id=} + ${planillaHoraria.id}">Modificar</a></li>
-                            <li><a class="dropdown-item" th:href="@{/planillaHoraria/baja?id=} + ${planillaHoraria.id}">Eliminar</a></li>
+                            <li sec:authorize="hasAnyRole('SUPERADMIN', 'ADMIN')"><a class="dropdown-item" th:href="@{/planillaHoraria/modificar?id=} + ${planillaHoraria.id}">Modificar</a></li>
+                            <li sec:authorize="hasAnyRole('SUPERADMIN', 'ADMIN')"><a class="dropdown-item" th:href="@{/planillaHoraria/baja?id=} + ${planillaHoraria.id}">Eliminar</a></li>
                         </ul>
                     </div>
                 </td>
@@ -42,3 +47,4 @@
         </table>
     </div>
 </div>
+</html>
