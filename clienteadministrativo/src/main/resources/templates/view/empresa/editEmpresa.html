@@ -36,13 +36,13 @@
                     </div>
                     <div class="mb-3">
                         <label for="contactoIn" class="form-label">Contacto</label>
-                        <select id="contactoIn" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar contacto" th:field="*{contacto.id}">
+                        <select id="contactoIn" class="form-select mb-3" th:disabled="${isDisabled}" aria-label="Seleccionar contacto" th:field="*{contacto.id}" onchange="document.getElementById('tipoContacto').value = this.options[this.selectedIndex].getAttribute('data-tipo')">
                             <option value="" th:text="'Seleccione opción...'" selected></option>
-                            <option th:each="contacto : ${contactos}" th:value="${contacto.id}" th:text="${contacto.tipo == 'telefono' ? 'Teléfono: ' + contacto.telefono : 'Correo: ' + contacto.email}">Option</option>
+                            <option th:each="contacto : ${contactos}" th:value="${contacto.id}" th:text="${contacto.tipo == 'telefono' ? 'Teléfono: ' + contacto.telefono : 'Correo: ' + contacto.email}" th:attr="data-tipo=${contacto.tipo}">Option</option>
                         </select>
                     </div>
 
-                    <input type="hidden" name="tipoContacto" id="tipoContacto" th:value="${empresa.contacto.tipo}">
+                    <input type="hidden" name="tipoContacto" id="tipoContacto" value="">
 
                     <button type="submit" th:disabled="${isDisabled}" class="btn btn-success">Aceptar</button>
                     <a th:href="@{list}" class="btn btn-danger" role="button">Cancelar</a>
