@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ntm</groupId>
-    <artifactId>paginaPublica</artifactId>
+    <artifactId>paginapublica</artifactId>
     <version>0.0.1</version>
     <name>PaginaPublica</name>
     <description>Página pública perteneciente al proyecto de seguridad de la materia &quot;Ingeniería del Software II&quot;
