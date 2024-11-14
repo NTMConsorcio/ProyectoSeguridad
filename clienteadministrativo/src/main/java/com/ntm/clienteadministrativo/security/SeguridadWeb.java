@@ -45,6 +45,7 @@ public class SeguridadWeb{
                         .usernameParameter("username")
                         .passwordParameter("password")
                         .defaultSuccessUrl("/inicio")
+                        .failureUrl("/login?error=true")
                         .permitAll()
                 )
                 .logout(logout -> logout

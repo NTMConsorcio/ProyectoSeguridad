@@ -45,7 +45,6 @@ public class MovimientoVisitaDTOService {
         } catch (ErrorServiceException e) {
             throw e;
         } catch (Exception ex) {
-            ex.printStackTrace();
             throw new ErrorServiceException("Error de Sistemas");
         }
     }
