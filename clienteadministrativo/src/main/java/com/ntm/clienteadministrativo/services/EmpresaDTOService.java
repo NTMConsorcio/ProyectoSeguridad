@@ -33,7 +33,7 @@ public class EmpresaDTOService {
             DireccionDTO direccion = serviceDireccion.buscar(idDireccion);
             empresa.setDireccion(direccion);
             ContactoDTO contacto;
-            if (tipoContacto.equals("TELEFONICO")) {
+            if (tipoContacto.equals("telefono")) {
                 contacto = serviceContactoTelefonico.buscar(idContacto);
             } else {
                 contacto = serviceContactoCorreo.buscar(idContacto);

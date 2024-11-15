@@ -18,7 +18,7 @@ public class AuthDAORest {
     public String authenticate(UsuarioDTO usuario) throws ErrorDAOException {
         try {
 
-            String uri = "http://localhost:9000/auth/login";
+            String uri = "http://appseguridad:9000/auth/login";
             HttpHeaders headers = new HttpHeaders();
             headers.add("No-Token", "true");
             headers.setContentType(MediaType.APPLICATION_JSON);

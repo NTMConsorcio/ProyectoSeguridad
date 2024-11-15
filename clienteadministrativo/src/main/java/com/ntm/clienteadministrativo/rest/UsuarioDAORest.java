@@ -10,12 +10,12 @@ public class UsuarioDAORest  extends BaseDAORestImpl<UsuarioDTO, String> {
 
     @Override
     public String getUri(String caso) throws ErrorServiceException {
-        return "http://localhost:9000/api/v1/usuario";
+        return "http://appseguridad:9000/api/v1/usuario";
     }
 
     public void registrar(UsuarioDTO usuario) throws ErrorServiceException {
         try {
-            String uri = "http://localhost:9000/api/v1/usuario/crear";
+            String uri = "http://appseguridad:9000/api/v1/usuario/crear";
             restTemplate.postForEntity(uri, usuario, UsuarioDTO.class);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -42,7 +42,7 @@ public class UsuarioDAORest  extends BaseDAORestImpl<UsuarioDTO, String> {
     public UsuarioDTO buscarPorIdUsuario(String idPersona) throws ErrorServiceException {
         try {
             String uriAux = getUri("BUSCAR");
-            String uri = "http://localhost:9000/api/v1/usuario/buscar/per/" + idPersona;
+            String uri = "http://appseguridad:9000/api/v1/usuario/buscar/per/" + idPersona;
 
             ResponseEntity<UsuarioDTO> response = restTemplate.getForEntity(uri, UsuarioDTO.class, idPersona);
             UsuarioDTO entity = response.getBody();

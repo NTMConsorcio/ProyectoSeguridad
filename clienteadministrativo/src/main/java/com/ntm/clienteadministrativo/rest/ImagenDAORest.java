@@ -10,6 +10,6 @@ public class ImagenDAORest extends BaseDAORestImpl<ImagenDTO, String> {
 
     @Override
     public String getUri(String caso) throws ErrorServiceException {
-        return "http://localhost:9000/api/v1/imagen";
+        return "http://appseguridad:9000/api/v1/imagen";
     }
 }

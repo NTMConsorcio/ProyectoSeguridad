@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 public class ImagenDAORest extends BaseDAORestImpl<ImagenDTO> {
     @Override
     public String getUri(String caso) throws ErrorDAOException {
-        return "http://localhost:9000/api/v1/imagen";
+        return "http://appseguridad:9000/api/v1/imagen";
     }
 }

@@ -10,12 +10,12 @@ public class EmpleadoDAORest  extends BaseDAORestImpl<EmpleadoDTO, String> {
 
     @Override
     public String getUri(String caso) throws ErrorServiceException {
-        return "http://localhost:9000/api/v1/empleado";
+        return "http://appseguridad:9000/api/v1/empleado";
     }
 
     public void registrar(EmpleadoDTO empleado) throws ErrorServiceException {
         try {
-            String uri = "http://localhost:9000/api/v1/empleado/crear";
+            String uri = "http://appseguridad:9000/api/v1/empleado/crear";
             restTemplate.postForEntity(uri, empleado, EmpleadoDTO.class);
         } catch (Exception ex) {
             ex.printStackTrace();

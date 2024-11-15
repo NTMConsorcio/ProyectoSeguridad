@@ -20,12 +20,12 @@ public class UnidadDeNegocioDAORest extends BaseDAORestImpl<UnidadDeNegocioDTO, 
 
     @Override
     public String getUri(String caso) throws ErrorServiceException{
-        return "http://localhost:9000/api/v1/unidadDeNegocio";
+        return "http://appseguridad:9000/api/v1/unidadDeNegocio";
     }
 
     public UnidadDeNegocioDTO buscar(String id) throws ErrorServiceException{
         try {
-            String uri = "http://localhost:9000/api/v1/unidadDeNegocio/find/" + id;
+            String uri = "http://appseguridad:9000/api/v1/unidadDeNegocio/find/" + id;
             ResponseEntity<UnidadDeNegocioDTO> response = restTemplate.getForEntity(uri,UnidadDeNegocioDTO.class);
             UnidadDeNegocioDTO unidad = response.getBody();
             return unidad;
@@ -37,7 +37,7 @@ public class UnidadDeNegocioDAORest extends BaseDAORestImpl<UnidadDeNegocioDTO, 
 
     public List<UnidadDeNegocioDTO> getActivos() throws ErrorServiceException {
         try {
-            String uri = "http://localhost:9000/api/v1/unidadDeNegocio/activos";
+            String uri = "http://appseguridad:9000/api/v1/unidadDeNegocio/activos";
             ResponseEntity<UnidadDeNegocioDTO[]> response = restTemplate.getForEntity(uri, UnidadDeNegocioDTO[].class);
 
             // Verifica si la respuesta es exitosa

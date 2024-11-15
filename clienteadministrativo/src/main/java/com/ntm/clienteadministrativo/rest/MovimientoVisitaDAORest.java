@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 public class MovimientoVisitaDAORest extends BaseDAORestImpl<MovimientoVisitaDTO,String> {
     @Override
     public String getUri(String caso) throws ErrorServiceException {
-        return "http://localhost:9000/api/v1/movimientoVisita";
+        return "http://appseguridad:9000/api/v1/movimientoVisita";
     }
 }
