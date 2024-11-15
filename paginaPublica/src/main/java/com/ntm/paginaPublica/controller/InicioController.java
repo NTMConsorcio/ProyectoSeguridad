@@ -1,11 +1,9 @@
 package com.ntm.paginaPublica.controller;
 
+import com.ntm.paginaPublica.dto.EmpresaDTO;
 import com.ntm.paginaPublica.dto.ServicioDTO;
 import com.ntm.paginaPublica.dto.UnidadDeNegocioDTO;
-import com.ntm.paginaPublica.services.AuthService;
-import com.ntm.paginaPublica.services.CuentaCorreoService;
-import com.ntm.paginaPublica.services.ServicioDTOService;
-import com.ntm.paginaPublica.services.UnidadDeNegocioDTOService;
+import com.ntm.paginaPublica.services.*;
 import com.ntm.paginaPublica.services.error.ErrorServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +31,9 @@ public class InicioController {
     @Autowired
     private CuentaCorreoService serviceCorreo;
 
+    @Autowired
+    private EmpresaDTOService serviceEmpresa;
+
     @GetMapping("/inicio")
     public String inicio(Model model) {
         try {
@@ -43,10 +44,13 @@ public class InicioController {
             List<UnidadDeNegocioDTO> lista2 = unidadDeNegocioDTOService.listar();
             HashMap<String, Integer> listaIndices = servicioDTOService.getMapIndices(lista1);
             HashMap<String, String> listaImagenes = servicioDTOService.obtenerImagenEnBase64(lista1);
+            List<EmpresaDTO> listaEmpresa = serviceEmpresa.listar();
+            EmpresaDTO empresa = listaEmpresa.getFirst();
             model.addAttribute("lista1", lista1);
             model.addAttribute("lista2", lista2);
             model.addAttribute("indices", listaIndices);
             model.addAttribute("imagenes", listaImagenes);
+            model.addAttribute("empresa", empresa);
             return "index";
         } catch (Exception ex) {
             model.addAttribute("error", ex.getMessage());

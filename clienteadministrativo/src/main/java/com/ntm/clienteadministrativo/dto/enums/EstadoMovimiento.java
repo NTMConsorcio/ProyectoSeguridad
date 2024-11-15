@@ -1,5 +1,5 @@
 package com.ntm.clienteadministrativo.dto.enums;
 
 public enum EstadoMovimiento {
-    PENDIENTE, REALIZADO, NO_AU
+    PENDIENTE, ENTRADA, NO_AUTORIZADO, SALIDA
 }

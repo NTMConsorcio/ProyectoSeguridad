@@ -110,7 +110,7 @@ public class MovimientoVisitaServiceImpl extends BaseServiceImpl<MovimientoVisit
         try {
             validar(entity, "SAVE");
             entity = repository.save(entity);
-            if (entity.getEstadoMovimiento().equals(EstadoMovimiento.REALIZADO)) {
+            if (entity.getEstadoMovimiento().equals(EstadoMovimiento.ENTRADA)) {
                 darAvisoMovimiento(entity);
             }
             return entity;
@@ -129,7 +129,7 @@ public class MovimientoVisitaServiceImpl extends BaseServiceImpl<MovimientoVisit
             Optional<MovimientoVisita> entityOptional = repository.findByIdAndEliminadoFalse(id);
             MovimientoVisita entityUpdate = entityOptional.get();
             if (entityUpdate.getEstadoMovimiento() != entity.getEstadoMovimiento()) {
-                if (entity.getEstadoMovimiento().equals(EstadoMovimiento.REALIZADO)) {
+                if (entity.getEstadoMovimiento().equals(EstadoMovimiento.ENTRADA)) {
                     darAvisoMovimiento(entity);
                 }
             }
