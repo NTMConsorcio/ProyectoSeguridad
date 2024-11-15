@@ -7,7 +7,7 @@ services:
     ports:
       - "9000:9000"
     environment:
-      DB_URL: jdbc:mysql://seguridadapp:3306/app_seguridad?createDatabaseIfNotExist=true&serverTimezone=America/Argentina/Buenos_Aires
+      DB_URL: jdbc:mysql://seguridadapp:3306/app_seguridad?createDatabaseIfNotExist=true&serverTimezone=America/Argentina/Buenos_Aires&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
       DB_USER: root
       DB_PASSWORD: 1234
       DB_DIALECT: org.hibernate.dialect.MySQL8Dialect

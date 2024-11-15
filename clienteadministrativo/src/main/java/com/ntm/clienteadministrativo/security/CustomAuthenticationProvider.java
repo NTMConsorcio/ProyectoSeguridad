@@ -36,8 +36,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             throw new AuthenticationServiceException("Usuario o contraseña faltante");
         }
 
-
-
         UsuarioDTO user = new UsuarioDTO();
         user.setClave(password);
         user.setCuenta(username);
