@@ -14,12 +14,12 @@ import java.util.List;
 public class VisitanteDAORest extends BaseDAORestImpl<VisitanteDTO,String> {
     @Override
     public String getUri(String caso) throws ErrorServiceException {
-        return "http://appseguridad:9000/api/v1/visitante";
+        return "http://localhost:9000/api/v1/visitante";
     }
 
     public List<VisitanteDTO> getActivos() throws ErrorServiceException {
         try {
-            String uri = "http://appseguridad:9000/api/v1/visitante/activos";
+            String uri = "http://localhost:9000/api/v1/visitante/activos";
             ResponseEntity<VisitanteDTO[]> response = restTemplate.getForEntity(uri, VisitanteDTO[].class);
 
             // Verifica si la respuesta es exitosa

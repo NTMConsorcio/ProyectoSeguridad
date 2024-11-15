@@ -10,6 +10,6 @@ public class DepartamentoDAORest extends BaseDAORestImpl<DepartamentoDTO, String
 
     @Override
     public String getUri(String caso) throws ErrorServiceException {
-        return "http://appseguridad:9000/api/v1/departamento";
+        return "http://localhost:9000/api/v1/departamento";
     }
 }

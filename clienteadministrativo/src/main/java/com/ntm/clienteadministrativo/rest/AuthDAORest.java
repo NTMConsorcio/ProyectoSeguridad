@@ -18,7 +18,7 @@ public class AuthDAORest {
     /*
     public String authenticate(UsuarioDTO usuario) throws ErrorServiceException {
         try {
-            String uri = "http://appseguridad:9000/auth/login";
+            String uri = "http://localhost:9000/auth/login";
             System.out.println(uri);
             ResponseEntity<String> response = restTemplate.postForEntity(uri, usuario, String.class);
             String token = response.getBody();
@@ -32,7 +32,7 @@ public class AuthDAORest {
     public String authenticate(UsuarioDTO usuario) throws ErrorServiceException {
         try {
 
-            String uri = "http://appseguridad:9000/auth/login";
+            String uri = "http://localhost:9000/auth/login";
             HttpHeaders headers = new HttpHeaders();
             headers.add("No-Token", "true");
             headers.setContentType(MediaType.APPLICATION_JSON); // Asumimos que la API espera JSON

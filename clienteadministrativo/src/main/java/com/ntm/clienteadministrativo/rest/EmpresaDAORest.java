@@ -10,6 +10,6 @@ public class EmpresaDAORest extends BaseDAORestImpl<EmpresaDTO, String> {
 
     @Override
     public String getUri(String caso) throws ErrorServiceException {
-        return "http://appseguridad:9000/api/v1/empresa";
+        return "http://localhost:9000/api/v1/empresa";
     }
 }

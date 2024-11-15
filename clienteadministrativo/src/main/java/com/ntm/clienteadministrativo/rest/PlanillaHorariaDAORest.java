@@ -12,12 +12,12 @@ public class PlanillaHorariaDAORest  extends BaseDAORestImpl<PlanillaHorariaDTO,
 
     @Override
     public String getUri(String caso) throws ErrorServiceException {
-        return "http://appseguridad:9000/api/v1/planilla";
+        return "http://localhost:9000/api/v1/planilla";
     }
 
     public void registrar(PlanillaHorariaDTO planilla) throws ErrorServiceException {
         try {
-            String uri = "http://appseguridad:9000/api/v1/planilla/crear";
+            String uri = "http://localhost:9000/api/v1/planilla/crear";
             restTemplate.postForEntity(uri, planilla, PlanillaHorariaDTO.class);
         } catch (Exception ex) {
             ex.printStackTrace();

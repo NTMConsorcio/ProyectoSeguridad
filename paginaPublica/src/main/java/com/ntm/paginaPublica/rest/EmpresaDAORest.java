@@ -9,6 +9,6 @@ import org.springframework.stereotype.Service;
 public class EmpresaDAORest extends BaseDAORestImpl<EmpresaDTO>{
     @Override
     public String getUri(String caso) throws ErrorDAOException {
-        return "http://appseguridad:9000/api/v1/empresa";
+        return "http://localhost:9000/api/v1/empresa";
     }
 }

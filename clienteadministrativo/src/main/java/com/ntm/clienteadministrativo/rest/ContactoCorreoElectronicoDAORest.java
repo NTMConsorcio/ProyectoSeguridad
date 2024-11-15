@@ -9,12 +9,12 @@ public class ContactoCorreoElectronicoDAORest extends BaseDAORestImpl<ContactoCo
 
     @Override
     public String getUri(String caso) throws ErrorServiceException {
-        return "http://appseguridad:9000/api/v1/contactoCorreoElectronico";
+        return "http://localhost:9000/api/v1/contactoCorreoElectronico";
     }
 
     public void crearC(ContactoCorreoElectronicoDTO contacto) throws ErrorServiceException {
         try {
-            String uri = "http://appseguridad:9000/api/v1/contactoCorreoElectronico/crear";
+            String uri = "http://localhost:9000/api/v1/contactoCorreoElectronico/crear";
             restTemplate.postForEntity(uri, contacto, ContactoCorreoElectronicoDTO.class);
         } catch (Exception ex) {
             ex.printStackTrace();

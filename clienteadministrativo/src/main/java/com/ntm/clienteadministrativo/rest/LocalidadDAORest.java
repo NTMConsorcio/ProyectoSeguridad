@@ -10,6 +10,6 @@ public class LocalidadDAORest extends BaseDAORestImpl<LocalidadDTO, String> {
 
     @Override
     public String getUri(String caso) throws ErrorServiceException {
-        return "http://appseguridad:9000/api/v1/localidad";
+        return "http://localhost:9000/api/v1/localidad";
     }
 }

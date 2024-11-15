@@ -62,14 +62,14 @@ public class InicioController {
     public String send(@RequestParam("emailAddress") String email, Model model) {
         try {
             serviceCorreo.crear(email);
-            return "redirect:https://sistemantm.site:8082/inicio";
+            return "redirect:/inicio";
         } catch (Exception e) {
-            return "redirect:https://sistemantm.site:8082/inicio";
+            return "redirect:/inicio";
         }
     }
 
     @GetMapping("/")
     public String ini2() {
-    return "redirect:https://sistemantm.site:8082/inicio";
+    return "redirect:/inicio";
     }
 }
