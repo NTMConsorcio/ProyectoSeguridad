@@ -17,7 +17,9 @@ Para el desarrollo de estos proyectos se utilizaron diferentes herramientas, ent
 - JWT
 - Postman
 - Docker  
-  
+- Hibernate Envers
+
+   
 Entre otras tecnologías. Posteriormente, para la presentación del proyecto, se hizo el deploy del mismo en un servidor cloud utilizando Docker y adicionalmente, se agregó un dominio personalizado junto a un certificado SSL.
 
 ##### Integrantes del equipo:
